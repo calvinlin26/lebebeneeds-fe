@@ -10,17 +10,15 @@ const ProtectedRoutes = () => {
   const tokenProtected = ["/"];
 
   if (tokenProtected.includes(pathname)) {
-    if (token) return <Navigate to="/" />;
     if (!token) {
-      const clientId = "oidc-client-id";
+      const url = import.meta.env.VITE_BASE_URL;
+      const clientId = "sample-client";
       const redirectUri = "http://localhost:5173/login/oauth2/code/oidc-client";
       const responseType = "code";
       const scope = "openid";
       const codeChallengeMethod = "S256";
       const codeChallenge = "ea3rEXbTCcvWGOL2m6J1lT2VWv-sLrnS2i-UeaNENbw";
-
-      const oauth2Url = `http://192.168.90.35:8080/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}&code_challenge_method=${codeChallengeMethod}&code_challenge=${codeChallenge}`;
-
+      const oauth2Url = `${url}oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}&code_challenge_method=${codeChallengeMethod}&code_challenge=${codeChallenge}`;
       window.location.href = oauth2Url;
       return null; // Don't render anything while redirecting
     }

@@ -1,3 +1,4 @@
+// useToken.tsx
 import {
   ReactNode,
   createContext,
@@ -9,9 +10,12 @@ import {
 } from "react";
 import axiosWithConfig, { setAxiosConfig } from "../lib/axiosWithConfig";
 
+import { getToken } from "../services/auth";
+
 interface Context {
   token: string;
-  changeToken: (id?: string, token?: string) => void;
+  refreshToken: string;
+  changeToken: (token?: string, refreshToken?: string) => void;
 }
 
 interface Props {
@@ -20,6 +24,7 @@ interface Props {
 
 const contextValue = {
   token: "",
+  refreshToken: "",
   changeToken: () => {},
 };
 
@@ -27,41 +32,67 @@ const TokenContext = createContext<Context>(contextValue);
 
 export function TokenProvider({ children }: Readonly<Props>) {
   const [token, setToken] = useState(localStorage.getItem("token") ?? "");
+  const [refreshToken, setRefreshToken] = useState(
+    localStorage.getItem("refreshToken") ?? ""
+  );
 
   useEffect(() => {
     setAxiosConfig(token);
   }, [token]);
 
+  const refreshAuthToken = async () => {
+    try {
+      const payload = {
+        grant_type: "refresh_token",
+        refreshToken,
+      };
+      const response = await getToken(payload);
+
+      const { access_token, refresh_token } = response as tokenResponse;
+      changeToken(access_token, refresh_token);
+    } catch (error) {
+      console.error("Error refreshing the token:", error);
+      changeToken("", "");
+    }
+  };
+
   axiosWithConfig.interceptors.response.use(
     (response) => response,
-    (error) => {
+    async (error) => {
       if (error.response.status === 401) {
-        changeToken("");
+        await refreshAuthToken();
+        return axiosWithConfig(error.config);
       }
-
       return Promise.reject(error);
     }
   );
 
-  const changeToken = useCallback(
-    (token?: string) => {
-      const newToken = token ?? "";
-      setToken(newToken);
-      if (token) {
-        localStorage.setItem("token", newToken);
-      } else {
-        localStorage.removeItem("token");
-      }
-    },
-    [token]
-  );
+  const changeToken = useCallback((token?: string, refreshToken?: string) => {
+    const newToken = token ?? "";
+    const newRefreshToken = refreshToken ?? "";
+    setToken(newToken);
+    setRefreshToken(newRefreshToken);
+
+    if (newToken) {
+      localStorage.setItem("token", newToken);
+    } else {
+      localStorage.removeItem("token");
+    }
+
+    if (newRefreshToken) {
+      localStorage.setItem("refreshToken", newRefreshToken);
+    } else {
+      localStorage.removeItem("refreshToken");
+    }
+  }, []);
 
   const tokenContextValue = useMemo(
     () => ({
       token,
+      refreshToken,
       changeToken,
     }),
-    [token, changeToken]
+    [token, refreshToken, changeToken]
   );
 
   return (
