@@ -7,13 +7,14 @@ export default defineConfig({
   plugins: [
     react(),
     federation({
-      name: "main-app",
-      filename: "mainApp.js",
-      remotes: {
-        userManagement: "http://localhost:5001/assets/userManagment.js",
+      name: "user-management",
+      filename: "userManagment.js",
+      // Modules to expose
+      exposes: {
+        "./App": "./src/App",
       },
-      // exposes: {
-      //   "./store": "./src/store",
+      // remotes: {
+      //   app: "http://localhost:5000/assets/app.js",
       // },
       shared: ["react", "react-dom"],
     }),

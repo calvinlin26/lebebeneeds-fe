@@ -1,12 +1,11 @@
-import React from "react";
+import { Suspense, lazy } from "react";
+const UserManagementApp = lazy(() => import("userManagement/App"));
 
 const UserManagement = () => {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline text-red-500">
-        Hello world!
-      </h1>
-    </div>
+    <Suspense fallback={<div>Loading User Management App...</div>}>
+      <UserManagementApp />
+    </Suspense>
   );
 };
 

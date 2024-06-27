@@ -1,8 +1,8 @@
+import Dashboard from "../features/dashboard";
 import Layout from "../components/layout";
 import OAuth2Callback from "../features/authentication/auth-callback";
 import ProtectedRoutes from "./protectedRoutes";
 import UserManagement from "../features/user-management";
-//General Routes
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -19,6 +19,10 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
+            element: <Dashboard />,
+          },
+          {
+            path: "/user-management",
             element: <UserManagement />,
           },
         ],

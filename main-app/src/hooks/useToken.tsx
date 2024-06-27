@@ -8,9 +8,10 @@ import {
   useMemo,
   useState,
 } from "react";
-import axiosWithConfig, { setAxiosConfig } from "../lib/axiosWithConfig";
 
+import { API } from "../services";
 import { getToken } from "../services/auth";
+import { setAxiosConfig } from "../services/api";
 
 interface Context {
   token: string;
@@ -56,12 +57,12 @@ export function TokenProvider({ children }: Readonly<Props>) {
     }
   };
 
-  axiosWithConfig.interceptors.response.use(
+  API.interceptors.response.use(
     (response) => response,
     async (error) => {
       if (error.response.status === 401) {
         await refreshAuthToken();
-        return axiosWithConfig(error.config);
+        return API(error.config);
       }
       return Promise.reject(error);
     }

@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import axios from "axios";
 import { getToken } from "../../services/auth";
+import { useEffect } from "react";
 import { useToken } from "../../hooks/useToken";
 
 const OAuth2Callback = () => {
