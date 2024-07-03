@@ -9,8 +9,6 @@ export const textInputVariants = cva(
           "bg-primary rounded-md text-primary-foreground border border-solid border-input font-normal disabled:cursor-not-allowed focus-visible:ring-1 focus-visible:ring-ring",
         underlined:
           "bg-primary text-primary-foreground border-b-[1px] border-solid border-input font-normal disabled:cursor-not-allowed",
-        file:
-          "bg-primary rounded-md text-primary-foreground font-normal disabled:cursor-not-allowed focus-visible:ring-1 focus-visible:ring-ring",
       },
       fieldSize: {
         default: "h-9 px-4 py-2",
