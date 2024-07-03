@@ -1,1 +1,1 @@
-declare module "userManagement/App";
+declare module "userManagement/user-management";

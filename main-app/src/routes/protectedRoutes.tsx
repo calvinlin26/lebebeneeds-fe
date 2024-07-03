@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 import { useToken } from "../hooks/useToken";
 
@@ -7,7 +7,7 @@ const ProtectedRoutes = () => {
 
   const { token } = useToken();
 
-  const tokenProtected = ["/"];
+  const tokenProtected = ["/", "/user-management"];
 
   if (tokenProtected.includes(pathname)) {
     if (!token) {

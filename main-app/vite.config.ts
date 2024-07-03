@@ -12,10 +12,12 @@ export default defineConfig({
       remotes: {
         userManagement: "http://localhost:5001/assets/userManagment.js",
       },
-      // exposes: {
-      //   "./store": "./src/store",
-      // },
-      shared: ["react", "react-dom"],
+      exposes: {
+        "./button": "./src/components/button",
+        "./table": "./src/components/table",
+        "./services": "./src/services",
+      },
+      shared: ["react", "react-dom", "axios", "react-router-dom"],
     }),
   ],
   build: {

@@ -45,7 +45,7 @@ export function TokenProvider({ children }: Readonly<Props>) {
     try {
       const payload = {
         grant_type: "refresh_token",
-        refreshToken,
+        refresh_token: refreshToken,
       };
       const response = await getToken(payload);
 
