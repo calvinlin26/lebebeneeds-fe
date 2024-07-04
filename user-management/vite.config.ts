@@ -11,12 +11,12 @@ export default defineConfig({
       filename: "userManagment.js",
       // Modules to expose
       exposes: {
-        "./App": "./src/App",
+        "./user-management": "./src/features/user-management",
       },
-      // remotes: {
-      //   app: "http://localhost:5000/assets/app.js",
-      // },
-      shared: ["react", "react-dom"],
+      remotes: {
+        mainApp: "http://localhost:5173/assets/mainApp.js",
+      },
+      shared: ["react", "react-dom", "react-router-dom"],
     }),
   ],
   build: {

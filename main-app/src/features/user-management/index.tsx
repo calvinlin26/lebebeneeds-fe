@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-const UserManagementApp = lazy(() => import("userManagement/App"));
+const UserManagementApp = lazy(() => import("userManagement/user-management"));
 
 const UserManagement = () => {
   return (

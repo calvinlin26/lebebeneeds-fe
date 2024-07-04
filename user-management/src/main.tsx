@@ -1,10 +1,11 @@
-import App from "./App.tsx";
+import "./styles/index.css";
+
 import React from "react";
 import ReactDOM from "react-dom/client";
-// import './index.css'
+import UserManagement from "./features/user-management/detail";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <UserManagement />
   </React.StrictMode>
 );
