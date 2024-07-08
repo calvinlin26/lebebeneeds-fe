@@ -1,4 +1,4 @@
-import { Button } from "../../components/button";
+// import { Button } from "../../components/button";
 import CustomPagination from "../../components/pagination";
 import CustomTable from "../../components/table";
 import { useState } from "react";
@@ -34,11 +34,11 @@ const Dashboard = () => {
   };
   return (
     <div>
-      <Button>Primary</Button>
+      {/* <Button>Primary</Button>
       <Button variant="secondary" size={"sm"}>
         Secondary
       </Button>
-      <Button variant="destructive">Destructive</Button>
+      <Button variant="destructive">Destructive</Button> */}
       <CustomTable
         columns={columns}
         data={data}
