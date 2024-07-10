@@ -17,6 +17,9 @@ interface SelectProps {
   data?: GroupOrItem[];
   onOpenChange?: (isOpen: boolean) => void;
   onChange?: (event: { target: { value: any; name: string } }) => void;
+  value?: string;
+  defaultValue?: string;
+  className?: string;
 }
 
 interface Item {
@@ -82,6 +85,9 @@ const DropdownSelect = (props: SelectProps) => {
     data = [],
     onOpenChange = () => {},
     onChange = () => {},
+    value,
+    defaultValue,
+    className,
   } = props;
 
   const onValueChange = (value: any) => {
@@ -93,8 +99,10 @@ const DropdownSelect = (props: SelectProps) => {
       name={name}
       onValueChange={onValueChange}
       onOpenChange={onOpenChange}
+      value={value}
+      defaultValue={defaultValue}
     >
-      <SelectTrigger>
+      <SelectTrigger className={className}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent position={position}>
