@@ -43,6 +43,11 @@ const Index: React.FC = () => {
     <div className="flex flex-col">
       <h1 className="text-2xl font-bold">Bussiness Param Service</h1>
       
+      <div className="flex items-center my-4 gap-x-4">
+        {`{{ placeholder dropdown filter }}`}
+        <h3> Filter based on bussiness param type </h3>
+      </div>
+
       <CustomTable 
         columns={columns}
         data={data}

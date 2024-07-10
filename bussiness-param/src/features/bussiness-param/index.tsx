@@ -1,7 +1,8 @@
+import React from "react"
 import BussinessParamListPage from "./list"
 
-function BussinessParam() {
-  return <BussinessParamListPage />
-}
+const Index: React.FC = () => {
+  return <BussinessParamListPage/>;
+};
 
-export default BussinessParam
+export default Index;

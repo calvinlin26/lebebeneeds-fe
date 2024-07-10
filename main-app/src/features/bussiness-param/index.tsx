@@ -3,7 +3,7 @@ const BussinessParamApp = lazy(() => import("bussinessParam/bussiness-param"));
 
 const BussinessParam = () => {
   return (
-    <Suspense fallback={<div>Loading User Management App...</div>}>
+    <Suspense fallback={<div>Loading BussinessParam App...</div>}>
       <BussinessParamApp />
     </Suspense>
   );
