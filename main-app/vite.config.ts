@@ -11,6 +11,7 @@ export default defineConfig({
       filename: "mainApp.js",
       remotes: {
         userManagement: "http://localhost:5001/assets/userManagment.js",
+        bussinessParam: "http://localhost:5003/assets/bussinessParam.js",
       },
       exposes: {
         "./button": "./src/components/button",

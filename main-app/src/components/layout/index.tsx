@@ -23,6 +23,10 @@ const Layout = () => {
               },
             ],
           },
+          {
+            label: "Bussiness Parameter",
+            path: "/bussiness-param"
+          },
           // Add more items as needed
         ]}
       />
