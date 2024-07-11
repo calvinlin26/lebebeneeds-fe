@@ -15,6 +15,18 @@ type tokenResponse = {
   expires_in: number;
 };
 
+type SearchParamQuery = {
+  page: number,
+  pageSize: number,
+}
+
+type AdminParamPagination = {
+  page: number,
+  pageSize: number,
+  totalDataCount: number,
+  totalPages: number;
+}
+
 type AdminParamResponse = {
   page: number;
   pageSize: number;
@@ -41,4 +53,9 @@ type ParamTxtItem = {
   langCode: string;
   text: string;
   description: string;
+}
+
+type SearchFilter = {
+  label: string;
+  value: string;
 }

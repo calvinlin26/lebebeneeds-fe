@@ -1,18 +1,86 @@
-import React from "react";
-import { Button } from "mainApp/button"
+import { Button } from "mainApp/button";
+import CustomPagination from "mainApp/pagination";
 import { useBussinessParamData } from "../hooks/useBussinessParamData";
-import CustomTable from "mainApp/table"
+import CustomTable from "mainApp/table";
+import DropdownSelect from "mainApp/select";
+import { Input } from "mainApp/input";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Index: React.FC = () => {
 
+  const [keyword, setKeyword] = useState<string>("");
+  const [selectedFilter, setSelectedFilter] = useState<SearchFilter>({
+    value: "",
+    label: "",
+  })
+
+  const navigate = useNavigate();
+
   //use custom hooks
-  const bussinessParamData = useBussinessParamData();
+  const { 
+    bussinessParamData,
+    searchParam,
+    setSearchParam,
+    paginationInfo
+  } = useBussinessParamData();
+
+  //dummy category
+  const dummyCategory = [
+    {
+      value: "option1",
+      label: "Option 1",
+    },
+    {
+      value: "option2",
+      label: "Option 2",
+    },
+    {
+      value: "option3",
+      label: "Option 3",
+    },
+  ]
 
   // Columns definition
   const columns = [
     {
-      header: "Name",
-      accessor: "name",
+      header: "Category",
+      accessor: "category",
+      headerClassName: "text-left font-bold",
+    },
+    {
+      header: "ID",
+      accessor: "id",
+      headerClassName: "text-left font-bold",
+    },
+    {
+      header: "Order No",
+      accessor: "orderNo",
+      headerClassName: "text-left font-bold",
+    },
+    {
+      header: "Type",
+      accessor: "valueType",
+      headerClassName: "text-left font-bold",
+    },
+    {
+      header: "UI",
+      accessor: "frontEnd",
+      headerClassName: "text-left font-bold",
+    },
+    {
+      header: "Description",
+      accessor: "description",
+      headerClassName: "text-left font-bold",
+    },
+    {
+      header: "Language Code",
+      accessor: "langCode",
+      headerClassName: "text-left font-bold",
+    },
+    {
+      header: "Text",
+      accessor: "text",
       headerClassName: "text-left font-bold",
     },
     {
@@ -28,26 +96,73 @@ const Index: React.FC = () => {
 
   const data = bussinessParamData.map((item: AdminParamListItem) => {
     return {
-      ...item,
+      category: item?.param?.category,
+      frontEnd: item?.param?.frontEnd === true ? "True" : "False",
+      id: item?.param?.id,
+      orderNo: item?.param?.orderNo,
+      valueType: item?.param?.valueType ? item?.param?.valueType : "-",
+      description: item?.paramTxt?.description ? item?.paramTxt?.description : "-",
+      langCode: item?.paramTxt?.langCode ? item?.paramTxt?.langCode : "-",
+      text: item?.paramTxt?.text ? item?.paramTxt?.text : "-",
       active: item?.param?.active === true ? "Active" : item?.param?.active === false ? "Inactive" : "-",
       action: (
         <div className="flex flex-row gap-3">
-          <Button>Edit</Button>
-          <Button variant="destructive">Delete</Button>
+          <Button onClick={() => navigate(`/bussiness-param?id=12&type=edit`)}>Edit</Button>
         </div>
       )
     }
   })
 
-  return (
-    <div className="flex flex-col">
-      <h1 className="text-2xl font-bold">Bussiness Param Service</h1>
-      
-      <div className="flex items-center my-4 gap-x-4">
-        {`{{ placeholder dropdown filter }}`}
-        <h3> Filter based on bussiness param type </h3>
-      </div>
+  const handlePageChange = (page: number) => {
+    setSearchParam({
+      ...searchParam,
+      page: page,
+    })
+  }
 
+  const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value)
+  }
+
+  const handleFilterChange = (event: {target: {value: string; name: string}}) => {
+    setSelectedFilter({
+      label: event.target.name,
+      value: event.target.value
+    })
+  }
+
+  const handleSearch = () => {
+    console.log(keyword)
+    console.log(selectedFilter)
+  }
+
+  useEffect(() => {
+    document.getElementById('bussinessParamTitle')?.scrollIntoView({behavior: 'smooth'})
+  }, [bussinessParamData]) 
+
+  return (
+    <div className="flex flex-col" id="bussinessParamTitle">
+      <h1 className="text-2xl font-bold">Bussiness Param Service</h1>
+      <div className="flex w-full justify-between items-center mt-5">
+        <div className="flex gap-x-4 items-center">
+          <Input 
+            variant={'default'}
+            fieldSize={'default'}
+            type={'text'}
+            placeholder={'Enter keyword'}
+            onChange={handleChangeKeyword}
+          />
+          <DropdownSelect 
+            name="category_filter"
+            placeholder="Select Category"
+            emptyState="No data"
+            data={dummyCategory}
+            onChange={handleFilterChange}
+          />
+          <Button onClick={handleSearch}>Search</Button>
+        </div>
+        <Button className="bg-primary">Add New Parameter</Button>
+      </div>
       <CustomTable 
         columns={columns}
         data={data}
@@ -56,6 +171,15 @@ const Index: React.FC = () => {
         headerClassName="bg-gray-100 text-gray-700"
         bodyClassName="bg-white"
       />
+      {
+        paginationInfo.totalPages > 0 && (
+          <CustomPagination 
+            currentPage={paginationInfo.page}
+            totalPageCount={paginationInfo.totalPages}
+            onPageChange={handlePageChange}
+          />
+        )
+      }
     </div>
   )
 }

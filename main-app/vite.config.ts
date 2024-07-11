@@ -21,6 +21,8 @@ export default defineConfig({
         "./label": "./src/components/label",
         "./input": "./src/components/input",
         "./checkbox": "./src/components/checkbox",
+        "./pagination": "./src/components/pagination",
+        "./select" : "./src/components/select",
       },
       shared: ["react", "react-dom", "axios", "react-router-dom"],
     }),
