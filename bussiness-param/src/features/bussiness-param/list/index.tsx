@@ -25,22 +25,6 @@ const Index: React.FC = () => {
     paginationInfo
   } = useBussinessParamData();
 
-  //dummy category
-  const dummyCategory = [
-    {
-      value: "option1",
-      label: "Option 1",
-    },
-    {
-      value: "option2",
-      label: "Option 2",
-    },
-    {
-      value: "option3",
-      label: "Option 3",
-    },
-  ]
-
   // Columns definition
   const columns = [
     {
@@ -156,7 +140,6 @@ const Index: React.FC = () => {
             name="category_filter"
             placeholder="Select Category"
             emptyState="No data"
-            data={dummyCategory}
             onChange={handleFilterChange}
           />
           <Button onClick={handleSearch}>Search</Button>
