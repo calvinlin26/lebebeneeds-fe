@@ -1,2 +1,2 @@
-import { getUser } from "./api";
-export { getUser };
+import { getRole, getUser } from "./api";
+export { getUser, getRole };
