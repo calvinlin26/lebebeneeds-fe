@@ -86,7 +86,7 @@ const Index: React.FC = () => {
       active: item?.param?.active === true ? "Active" : item?.param?.active === false ? "Inactive" : "-",
       action: (
         <div className="flex flex-row gap-3">
-          <Button onClick={() => navigate(`/bussiness-param?id=12&type=edit`)}>Edit</Button>
+          <Button onClick={() => navigate(`/bussiness-param?action=1`)}>Edit</Button>
         </div>
       )
     }
@@ -128,7 +128,7 @@ const Index: React.FC = () => {
           />
           <Button onClick={handleSearch}>Search</Button>
         </div>
-        <Button className="bg-primary">Add New Parameter</Button>
+        <Button className="bg-primary" onClick={() => navigate(`/bussiness-param?action=1`)}>Add New Parameter</Button>
       </div>
       <CustomTable 
         columns={columns}
