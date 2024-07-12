@@ -3,9 +3,6 @@ import { CustomFormField, Form } from "mainApp/form";
 import { Input } from "mainApp/input";
 
 const Index: React.FC<{id?: string | null}> = ({ id }) => {
-
-  console.log(id);
-
   return (
     <div className="flex flex-col gap-5">
       <h1 className="text-2xl font-bold">{id ? `Edit` : `Create`} Bussiness Param</h1>
