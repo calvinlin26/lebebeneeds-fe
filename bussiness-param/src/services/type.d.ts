@@ -18,6 +18,7 @@ type tokenResponse = {
 type SearchParamQuery = {
   page: number,
   pageSize: number,
+  search: string,
 }
 
 type AdminParamPagination = {

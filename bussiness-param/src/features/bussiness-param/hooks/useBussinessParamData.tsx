@@ -6,6 +6,7 @@ export const useBussinessParamData = () => {
   const [searchParam, setSearchParam] = useState<SearchParamQuery>({
     page: 1,
     pageSize: 10,
+    search: "",
   });
   const [paginationInfo, setPaginationInfo] = useState<AdminParamPagination>({
     page: 1,
@@ -19,6 +20,7 @@ export const useBussinessParamData = () => {
       let listParam = [];
       listParam.push(`page=${searchParam.page}`)
       listParam.push(`pageSize=${searchParam.pageSize}`)
+      searchParam.search.length > 0 && listParam.push(`search=description:${searchParam.search}`)
       const finalQueryParameter = `?${listParam.join('&')}`
       try {
         const response: AdminParamResponse = await getBussinessParam(finalQueryParameter);
