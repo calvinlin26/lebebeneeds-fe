@@ -10,6 +10,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 
+import CustomFormField from "./custom-form-field";
 import { Label } from "../label";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "../../lib/utils";
@@ -175,4 +176,5 @@ export {
   FormDescription,
   FormMessage,
   FormField,
+  CustomFormField,
 };
