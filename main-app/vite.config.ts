@@ -20,8 +20,11 @@ export default defineConfig({
         "./label": "./src/components/label",
         "./input": "./src/components/input",
         "./checkbox": "./src/components/checkbox",
+        "./select": "./src/components/select",
+        "./toast": "./src/components/toast",
+        "./useQuery": "./src/hooks/useQuery",
       },
-      shared: ["react", "react-dom", "axios", "react-router-dom"],
+      shared: ["react", "react-dom", "axios", "react-router-dom", "sonner"],
     }),
   ],
   build: {

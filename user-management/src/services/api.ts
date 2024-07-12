@@ -1,20 +1,92 @@
 import { API } from "mainApp/services";
-// import axios from "axios";
+import { UserSchema } from "./form";
 
 export const getUser = async () => {
   try {
     const response = await API.get(
       "http://192.168.90.35:8081/users?page=0&sort=username&search=username:test"
-      // {
-      //   headers: {
-      //     Authorization:
-      //       "Bearer eyJraWQiOiI4NjhhYTUyZi0zY2QyLTQxMzktYjU1MC1lNGNiOWZlMDY2OTYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImF1ZCI6InNhbXBsZS1jbGllbnQiLCJuYmYiOjE3MTk4MzcwODgsInNjb3BlIjpbIm9wZW5pZCJdLCJpc3MiOiJodHRwOi8vMTkyLjE2OC45MC4zNTo5MDAwIiwiZXhwIjoxNzE5ODM3OTg4LCJpYXQiOjE3MTk4MzcwODgsImp0aSI6IjNmYjI2NTZlLWMyMDgtNDQzMC1hYTg5LTFhMmRkZmQyNGFiMCJ9.SfH89btxWbd2hGqjypaOgHscEbJyIFffvdoQceJODfc0o1J_5SHGwcXp4FvdcnMHxNbdyEJ9gtpRG2QO-1O92oaY58jwRRjJEh8-QyRibgoyS8Hhq9NIGKXFsvDE7DxuMZW21NK9bS_Mbgvg-UwXvrUY4wVFIy1BnvzAxgutykGSUxNROVi2Fz6POCrbxhN0LQVmT1cDZT7iTEL1v8nkIh-TsyFKZykkjQDTqpToC6GABFWR70IdKK4VpB-jppkN_1HdY3ddM4FFnTEO_CB2jmd3S4MViycJpx4Ewm7jvcTiH0VCudQHTk_9kbiCpdB30OUk4ju2JRNzHLQ8M6uCRQ",
-      //   },
-      // }
     );
 
     return response.data.data;
   } catch (error) {
     console.error("Error fetching the access token:", error);
+  }
+};
+
+export const getUserDetail = async (username: string) => {
+  try {
+    const response = await API.get(
+      `http://192.168.90.35:8081/users/${username}`
+    );
+
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching the access token:", error);
+  }
+};
+
+export const getRole = async () => {
+  try {
+    const response = await API.get(
+      "http://192.168.90.35:8081/roles?sort=roleCode"
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching the access token:", error);
+  }
+};
+
+export const getMenus = async () => {
+  try {
+    const response = await API.get(
+      "http://192.168.90.35:8081/menus?code=ADMIN"
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching the access token:", error);
+  }
+};
+
+export const postUser = async (data: UserSchema) => {
+  try {
+    const payload = {
+      ...data,
+      active: data.active === "true",
+      locked: data.locked === "true",
+    };
+
+    const response = await API.post("http://192.168.90.35:8081/users", payload);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching the access token:", error);
+  }
+};
+
+export const editUser = async (data: UserSchema) => {
+  try {
+    const payload = {
+      ...data,
+      active: data.active === "true",
+      locked: data.locked === "true",
+    };
+
+    const response = await API.put("http://192.168.90.35:8081/users", payload);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error in editUser API call:", error);
+  }
+};
+
+export const deleteUser = async (username: string) => {
+  try {
+    const response = await API.delete(
+      `http://192.168.90.35:8081/users/${username}`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error in editUser API call:", error);
   }
 };

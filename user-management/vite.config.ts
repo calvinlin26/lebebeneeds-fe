@@ -16,7 +16,7 @@ export default defineConfig({
       remotes: {
         mainApp: "http://localhost:5173/assets/mainApp.js",
       },
-      shared: ["react", "react-dom", "react-router-dom"],
+      shared: ["react", "react-dom", "react-router-dom", "sonner"],
     }),
   ],
   build: {

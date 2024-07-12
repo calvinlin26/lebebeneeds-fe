@@ -9,8 +9,8 @@ import {
   useState,
 } from "react";
 
-import { API } from "../services";
-import { getToken } from "../services/auth";
+// import { API } from "../services";
+// import { getToken } from "../services/auth";
 import { setAxiosConfig } from "../services/api";
 
 interface Context {
@@ -41,32 +41,32 @@ export function TokenProvider({ children }: Readonly<Props>) {
     setAxiosConfig(token);
   }, [token]);
 
-  const refreshAuthToken = async () => {
-    try {
-      const payload = {
-        grant_type: "refresh_token",
-        refresh_token: refreshToken,
-      };
-      const response = await getToken(payload);
+  // const refreshAuthToken = async () => {
+  //   try {
+  //     const payload = {
+  //       grant_type: "refresh_token",
+  //       refresh_token: refreshToken,
+  //     };
+  //     const response = await getToken(payload);
 
-      const { access_token, refresh_token } = response as tokenResponse;
-      changeToken(access_token, refresh_token);
-    } catch (error) {
-      console.error("Error refreshing the token:", error);
-      changeToken("", "");
-    }
-  };
+  //     const { access_token, refresh_token } = response as tokenResponse;
+  //     changeToken(access_token, refresh_token);
+  //   } catch (error) {
+  //     console.error("Error refreshing the token:", error);
+  //     changeToken("", "");
+  //   }
+  // };
 
-  API.interceptors.response.use(
-    (response) => response,
-    async (error) => {
-      if (error.response.status === 401) {
-        await refreshAuthToken();
-        return API(error.config);
-      }
-      return Promise.reject(error);
-    }
-  );
+  // API.interceptors.response.use(
+  //   (response) => response,
+  //   async (error) => {
+  //     if (error.response.status === 401) {
+  //       await refreshAuthToken();
+  //       return API(error.config);
+  //     }
+  //     return Promise.reject(error);
+  //   }
+  // );
 
   const changeToken = useCallback((token?: string, refreshToken?: string) => {
     const newToken = token ?? "";
