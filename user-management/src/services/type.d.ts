@@ -61,7 +61,7 @@ type RoleListResponse = {
 };
 
 type RoleListItem = {
-  active: boolean;
+  active: string;
   createdBy: string;
   createdDate: string;
   modifiedBy: string;
@@ -112,10 +112,35 @@ type MenuListResponse = {
   content: MenuList[];
 };
 
+type ServicesListResponse = {
+  page: number;
+  pageSize: number;
+  totalDataCount: number;
+  totalPages: number;
+  content: RoleListServices[];
+};
+
+type MenuListResponse = {
+  page: number;
+  pageSize: number;
+  totalDataCount: number;
+  totalPages: number;
+  content: RoleListServices[];
+};
+
 type RoleData = {
   roleCode: string;
   action: JSX.Element;
 };
+
+type RoleDetail = {
+  active: true,
+  roleCode: string;
+  roleName: string;
+  description: string;
+  menus: RoleListMenus[];
+  services: RoleListServices[];
+}
 
 type StatusOption = {
   value: string;
