@@ -37,11 +37,16 @@ const Index: React.FC = () => {
       action: (
         <div className="flex flex-row gap-3">
           <Button onClick={() => handleDetailRole(item.roleCode)}>Edit</Button>
-          <Button onClick={() => handleDeleteRole(item.roleCode)} variant="destructive">Delete</Button>
+          <Button
+            onClick={() => handleDeleteRole(item.roleCode)}
+            variant="destructive"
+          >
+            Deactivate
+          </Button>
         </div>
       ),
     };
-  }); 
+  });
 
   const handleDetailRole = (roleCode: string) => {
     navigate(`/role-management?rolecode=${roleCode}${Hash.DETAIL}`);
@@ -65,9 +70,7 @@ const Index: React.FC = () => {
     <div className="flex flex-col">
       <h1 className="text-2xl font-bold">Role Data</h1>
       <div className="flex justify-end items-center mb-4">
-        <Button onClick={handleAddRole}>
-          Add Role
-        </Button>
+        <Button onClick={handleAddRole}>Add Role</Button>
       </div>
 
       <CustomTable

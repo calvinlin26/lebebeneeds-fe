@@ -41,7 +41,7 @@ const Index: React.FC = () => {
             onClick={() => handleDeleteUser(item.username)}
             variant="destructive"
           >
-            Delete
+            Deactivate
           </Button>
         </div>
       ),
