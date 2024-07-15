@@ -1,5 +1,5 @@
 import { API } from "mainApp/services";
-import { UserSchema } from "./form";
+import { PostRoleSchema, UserSchema } from "./form";
 
 export const getUser = async () => {
   try {
@@ -25,6 +25,18 @@ export const getUserDetail = async (username: string) => {
   }
 };
 
+export const getRoleDetail = async (roleCode: string) => {
+  try {
+    const response = await API.get(
+      `http://192.168.90.35:8081/roles/${roleCode}`
+    );
+
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching the access token:", error);
+  }
+};
+
 export const getRole = async () => {
   try {
     const response = await API.get(
@@ -39,7 +51,18 @@ export const getRole = async () => {
 export const getMenus = async () => {
   try {
     const response = await API.get(
-      "http://192.168.90.35:8081/menus?code=ADMIN"
+      "http://192.168.90.35:8081/menus"
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching the access token:", error);
+  }
+};
+
+export const getServices = async () => {
+  try {
+    const response = await API.get(
+      "http://192.168.90.35:8081/services"
     );
     return response.data.data;
   } catch (error) {
@@ -90,3 +113,46 @@ export const deleteUser = async (username: string) => {
     console.error("Error in editUser API call:", error);
   }
 };
+
+export const deleteRole = async (roleCode: string) => {
+  try {
+    const response = await API.delete(
+      `http://192.168.90.35:8081/roles/${roleCode}`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error in editUser API call:", error);
+  }
+};
+
+export const postRole = async (data: PostRoleSchema) => {
+  try {
+    const payload = {
+      ...data,
+      active: data.active === "true",
+    };
+
+    const response = await API.post("http://192.168.90.35:8081/roles", payload);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching the access token:", error);
+  }
+};
+
+export const editRole = async (data: PostRoleSchema) => {
+  try {
+    const payload = {
+      ...data,
+      active: data.active === "true",
+    };
+
+    const response = await API.put("http://192.168.90.35:8081/roles", payload);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error in editUser API call:", error);
+  }
+};
+

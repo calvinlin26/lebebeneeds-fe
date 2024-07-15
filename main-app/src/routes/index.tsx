@@ -3,6 +3,7 @@ import Layout from "../components/layout";
 import OAuth2Callback from "../features/authentication/auth-callback";
 import ProtectedRoutes from "./protectedRoutes";
 import UserManagement from "../features/user-management";
+import RoleManagement from "../features/role-management"
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
           {
             path: "/user-management",
             element: <UserManagement />,
+          },
+          {
+            path: "/role-management",
+            element: <RoleManagement />,
           },
         ],
       },
