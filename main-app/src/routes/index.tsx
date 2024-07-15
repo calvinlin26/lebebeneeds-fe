@@ -3,7 +3,8 @@ import Layout from "../components/layout";
 import OAuth2Callback from "../features/authentication/auth-callback";
 import ProtectedRoutes from "./protectedRoutes";
 import UserManagement from "../features/user-management";
-import RoleManagement from "../features/role-management"
+import RoleManagement from "../features/role-management";
+import BussinessParam from "../features/bussiness-param";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
           {
             path: "/role-management",
             element: <RoleManagement />,
+          },
+          {
+            path: "/bussiness-param",
+            element: <BussinessParam />,
           },
         ],
       },

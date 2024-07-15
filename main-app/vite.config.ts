@@ -11,6 +11,7 @@ export default defineConfig({
       filename: "mainApp.js",
       remotes: {
         userManagement: "http://localhost:5001/assets/userManagment.js",
+        bussinessParam: "http://localhost:5003/assets/bussinessParam.js",
       },
       exposes: {
         "./button": "./src/components/button",
@@ -23,6 +24,7 @@ export default defineConfig({
         "./select": "./src/components/select",
         "./toast": "./src/components/toast",
         "./useQuery": "./src/hooks/useQuery",
+        "./pagination": "./src/components/pagination",
       },
       shared: ["react", "react-dom", "axios", "react-router-dom", "sonner"],
     }),

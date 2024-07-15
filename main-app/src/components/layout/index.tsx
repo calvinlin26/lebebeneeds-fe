@@ -20,6 +20,10 @@ const Layout = () => {
               { path: "/role-management", label: "Role"},
             ],
           },
+          {
+            label: "Bussiness Parameter",
+            path: "/bussiness-param"
+          },
           // Add more items as needed
         ]}
       />
