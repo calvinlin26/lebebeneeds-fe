@@ -1,5 +1,9 @@
+// import API from "mainApp/services";
 import axios from "axios";
 import { ParamSchema } from "./form";
+
+const token =
+  "eyJraWQiOiI4NjhhYTUyZi0zY2QyLTQxMzktYjU1MC1lNGNiOWZlMDY2OTYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJpbnRlcm5hbC1jbGllbnQiLCJhdWQiOiJpbnRlcm5hbC1jbGllbnQiLCJuYmYiOjE3MjExMTM2MTEsInNjb3BlIjpbIm9wZW5pZCIsIklOVEVSTkFMIl0sImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjkwLjM1OjkwMDAiLCJleHAiOjE3MjExMTcyMTEsImlhdCI6MTcyMTExMzYxMSwianRpIjoiODE3ZTM1OWMtZmJkMC00YjFlLTg3NGEtMTA0MzE0NjI3NGQ0In0.Z0K2BzM1rQm4mS87pzBoj8TPpeS-lsOeyiZTJYgF5Gs7PpEjSm-emDzFRpJd4aCZOGcbJNUWsVR6F7A4d-lVl2SVFYzNED73kArxO8ALCwkhot0-0isokegtgLpbm90Oyj39dPx7CsAqnZQ7RnfjnRBtjVmjSiGq_Yyto0ucXz-hyRE_t1V2rauZrTLUDp0nHQfqv0P-Q2sllWZbbhVnNy28GYweyxqCsMYhxU6HafSb7-w1LzXgn4hXw91cYDzAND820r5IroHiovAfkvEHJtkNXCEW1jtk6JRb0bB_C1H4azPbTfdMQWpzgwm-Dx0F48JRAVSln_5MgrjnIEhLcQ";
 
 export const getBussinessParam = async (param: string) => {
   try {
@@ -7,8 +11,7 @@ export const getBussinessParam = async (param: string) => {
       `http://192.168.90.35:8082/admin/params${param}`,
       {
         headers: {
-          Authorization:
-            "Bearer eyJraWQiOiI4NjhhYTUyZi0zY2QyLTQxMzktYjU1MC1lNGNiOWZlMDY2OTYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJpbnRlcm5hbC1jbGllbnQiLCJhdWQiOiJpbnRlcm5hbC1jbGllbnQiLCJuYmYiOjE3MjExMDIxNTYsInNjb3BlIjpbIm9wZW5pZCIsIklOVEVSTkFMIl0sImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjkwLjM1OjkwMDAiLCJleHAiOjE3MjExMDU3NTYsImlhdCI6MTcyMTEwMjE1NiwianRpIjoiYzc0MTNiMjctNmJmMy00MWY3LWFmMGMtYjY3OTExNThkZjk1In0.LSZkyji9sKvZBaxmysFzFxvsEuErxX85Y1Zl6ZOpYSiycpVlsjhlswU3WldgUI3wKjpOa_2BH6Dnh8U2mdb0XknkKRkAWSf1de_Ue1_tRURj4urOcJIbd1nbhncoDkn8Grfm7qOMky4GfMvoNRRBSE-NpV-OitQ_mI_YoAagBY_xoZTvfmqQhNpbM9oFWTh7Ybpu5PXrpw8jwb2ZRrOLbgi63HHZVkRykokr-dSeCPWMdKmiULb1AmoLVWeOy7jVKULfhhtBZP61xjYWZFJ0LLbmQxruCen06zPZL4v0DCRlQSqHRLzLNDVm7Epn_ROZYdXKcacwrE42qK9pa5XBJA",
+          Authorization: "Bearer " + token,
         },
       }
     );
@@ -25,8 +28,7 @@ export const getBussinessParamDetail = async ({ id }: { id: string }) => {
       `http://192.168.90.35:8082/admin/params/${id}`,
       {
         headers: {
-          Authorization:
-            "Bearer eyJraWQiOiI4NjhhYTUyZi0zY2QyLTQxMzktYjU1MC1lNGNiOWZlMDY2OTYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJpbnRlcm5hbC1jbGllbnQiLCJhdWQiOiJpbnRlcm5hbC1jbGllbnQiLCJuYmYiOjE3MjExMDIxNTYsInNjb3BlIjpbIm9wZW5pZCIsIklOVEVSTkFMIl0sImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjkwLjM1OjkwMDAiLCJleHAiOjE3MjExMDU3NTYsImlhdCI6MTcyMTEwMjE1NiwianRpIjoiYzc0MTNiMjctNmJmMy00MWY3LWFmMGMtYjY3OTExNThkZjk1In0.LSZkyji9sKvZBaxmysFzFxvsEuErxX85Y1Zl6ZOpYSiycpVlsjhlswU3WldgUI3wKjpOa_2BH6Dnh8U2mdb0XknkKRkAWSf1de_Ue1_tRURj4urOcJIbd1nbhncoDkn8Grfm7qOMky4GfMvoNRRBSE-NpV-OitQ_mI_YoAagBY_xoZTvfmqQhNpbM9oFWTh7Ybpu5PXrpw8jwb2ZRrOLbgi63HHZVkRykokr-dSeCPWMdKmiULb1AmoLVWeOy7jVKULfhhtBZP61xjYWZFJ0LLbmQxruCen06zPZL4v0DCRlQSqHRLzLNDVm7Epn_ROZYdXKcacwrE42qK9pa5XBJA",
+          Authorization: "Bearer " + token,
         },
       }
     );
@@ -44,8 +46,7 @@ export const postParam = async (data: ParamSchema) => {
       data,
       {
         headers: {
-          Authorization:
-            "Bearer eyJraWQiOiI4NjhhYTUyZi0zY2QyLTQxMzktYjU1MC1lNGNiOWZlMDY2OTYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJpbnRlcm5hbC1jbGllbnQiLCJhdWQiOiJpbnRlcm5hbC1jbGllbnQiLCJuYmYiOjE3MjExMDIxNTYsInNjb3BlIjpbIm9wZW5pZCIsIklOVEVSTkFMIl0sImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjkwLjM1OjkwMDAiLCJleHAiOjE3MjExMDU3NTYsImlhdCI6MTcyMTEwMjE1NiwianRpIjoiYzc0MTNiMjctNmJmMy00MWY3LWFmMGMtYjY3OTExNThkZjk1In0.LSZkyji9sKvZBaxmysFzFxvsEuErxX85Y1Zl6ZOpYSiycpVlsjhlswU3WldgUI3wKjpOa_2BH6Dnh8U2mdb0XknkKRkAWSf1de_Ue1_tRURj4urOcJIbd1nbhncoDkn8Grfm7qOMky4GfMvoNRRBSE-NpV-OitQ_mI_YoAagBY_xoZTvfmqQhNpbM9oFWTh7Ybpu5PXrpw8jwb2ZRrOLbgi63HHZVkRykokr-dSeCPWMdKmiULb1AmoLVWeOy7jVKULfhhtBZP61xjYWZFJ0LLbmQxruCen06zPZL4v0DCRlQSqHRLzLNDVm7Epn_ROZYdXKcacwrE42qK9pa5XBJA",
+          Authorization: "Bearer " + token,
         },
       }
     );
@@ -53,5 +54,25 @@ export const postParam = async (data: ParamSchema) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching the access token:", error);
+    throw error;
+  }
+};
+
+export const updateParam = async (data: ParamSchema) => {
+  try {
+    const response = await axios.put(
+      "http://192.168.90.35:8082/admin/params",
+      data,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching the access token:", error);
+    throw error;
   }
 };

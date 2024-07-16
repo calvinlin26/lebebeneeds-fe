@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getBussinessParamDetail } from "../../../services/api";
+import { getBussinessParamDetail } from "../../../services";
 
 export const useBussinessParamDetail = (id: string) => {
   const [userDetail, setUserDetail] = useState<BussinessParamDetail>();

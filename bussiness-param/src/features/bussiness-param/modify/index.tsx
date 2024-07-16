@@ -6,34 +6,29 @@ import DropdownSelect from "mainApp/select";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControllerRenderProps, useForm, useFieldArray } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 import {
   createParamSchema,
   updateParamSchema,
   ParamSchema,
 } from "../../../services/form";
-import { postParam } from "../../../services";
+import { postParam, updateParam } from "../../../services";
 import { useBussinessParamDetail } from "../hooks/useBussinessParamDetail";
 
 const Index: React.FC<{ id?: string | null }> = ({ id }) => {
+  const navigate = useNavigate();
   const bussinessParamDetail = useBussinessParamDetail(id ?? "");
   const form = useForm<ParamSchema>({
     resolver: zodResolver(id ? updateParamSchema : createParamSchema),
     defaultValues: {
       id: "",
-      paramId: "",
       orderNo: "",
       category: "",
       valueType: "",
       parentId: "",
       paramValue: "",
-      paramTxt: [
-        {
-          langCode: "",
-          text: "",
-          description: "",
-        },
-      ],
+      paramTxt: [],
       active: "",
       frontEnd: "",
     },
@@ -47,15 +42,17 @@ const Index: React.FC<{ id?: string | null }> = ({ id }) => {
   }, [bussinessParamDetail, form]);
 
   const onSubmit = async (data: ParamSchema) => {
-    console.log("Form Data on Submit:", data);
     try {
       if (id) {
-        toast.success("User has been created");
+        await updateParam(data);
+        toast.success("Parameter has been updated");
       } else {
         await postParam(data);
-        toast.success("User has been updated");
+        toast.success("Parameter has been created");
       }
+      navigate("/bussiness-param");
     } catch (error) {
+      toast.error("Error submitting form");
       console.error("Error submitting form:", error);
     }
   };
@@ -130,12 +127,16 @@ const Index: React.FC<{ id?: string | null }> = ({ id }) => {
               label="Value Type"
             >
               {(field: ControllerRenderProps<ParamSchema, "valueType">) => (
-                <Input
+                <DropdownSelect
                   {...field}
                   placeholder="Input Value Type"
-                  type="text"
-                  disabled={form.formState.isSubmitting}
-                  aria-disabled={form.formState.isSubmitting}
+                  data={[
+                    { label: "CHOICE", value: "CHOICE" },
+                    { label: "TEXT", value: "TEXT" },
+                    { label: "INTEGER", value: "INTEGER" },
+                    { label: "DECIMAL", value: "DECIMAL" },
+                    { label: "BOOLEAN", value: "BOOLEAN" },
+                  ]}
                 />
               )}
             </CustomFormField>
