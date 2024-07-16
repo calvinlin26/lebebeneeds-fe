@@ -1,5 +1,5 @@
-// import { API } from "mainApp/services"
 import axios from "axios";
+import { ParamSchema } from "./form";
 
 export const getBussinessParam = async (param: string) => {
   try {
@@ -7,14 +7,51 @@ export const getBussinessParam = async (param: string) => {
       `http://192.168.90.35:8082/admin/params${param}`,
       {
         headers: {
-          Authorization: 
-            "Bearer eyJraWQiOiI4NjhhYTUyZi0zY2QyLTQxMzktYjU1MC1lNGNiOWZlMDY2OTYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJpbnRlcm5hbC1jbGllbnQiLCJhdWQiOiJpbnRlcm5hbC1jbGllbnQiLCJuYmYiOjE3MjA3Njc2NDksInNjb3BlIjpbIm9wZW5pZCIsIklOVEVSTkFMIl0sImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjkwLjM1OjkwMDAiLCJleHAiOjE3MjA3NzEyNDksImlhdCI6MTcyMDc2NzY0OSwianRpIjoiNjQwYTg0NmYtODhlNi00NzE1LWI0MDItMWFkMTk1MmZiMTM1In0.FFuBcvEd3jXPBku4qqd6rjxKaen6W-Mb1KEBOhZWJVyPpyXms-9u7xg_qTcr1b7Vz7-22hpcRaV0dROdgvPdCGRzCVTy4ULUXZ_0Jy7kgCjkPrnRNJx7A8dqpQegyCYUPCtsV9Xqwjf_rehO1KWqSQP4GWQQdCn2OYS7fI31OD_NGoo9sks3YGZQbGPW3uD5RxiC90G7Yufgx8PVr1AeRXYmxWxBeIvyIJSWNS2cKO8Htu-XEC3DOOG7ZRRF0RrDm6qNUkTUZLeFDUuWa-X05Eh-E3ExVTs9tQFiXi4IjAwcHq9d6ZRwd-elTlsdms-dtuexQjF4ETZWUEJFlcf8Pw"
-        }
+          Authorization:
+            "Bearer eyJraWQiOiI4NjhhYTUyZi0zY2QyLTQxMzktYjU1MC1lNGNiOWZlMDY2OTYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJpbnRlcm5hbC1jbGllbnQiLCJhdWQiOiJpbnRlcm5hbC1jbGllbnQiLCJuYmYiOjE3MjExMDIxNTYsInNjb3BlIjpbIm9wZW5pZCIsIklOVEVSTkFMIl0sImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjkwLjM1OjkwMDAiLCJleHAiOjE3MjExMDU3NTYsImlhdCI6MTcyMTEwMjE1NiwianRpIjoiYzc0MTNiMjctNmJmMy00MWY3LWFmMGMtYjY3OTExNThkZjk1In0.LSZkyji9sKvZBaxmysFzFxvsEuErxX85Y1Zl6ZOpYSiycpVlsjhlswU3WldgUI3wKjpOa_2BH6Dnh8U2mdb0XknkKRkAWSf1de_Ue1_tRURj4urOcJIbd1nbhncoDkn8Grfm7qOMky4GfMvoNRRBSE-NpV-OitQ_mI_YoAagBY_xoZTvfmqQhNpbM9oFWTh7Ybpu5PXrpw8jwb2ZRrOLbgi63HHZVkRykokr-dSeCPWMdKmiULb1AmoLVWeOy7jVKULfhhtBZP61xjYWZFJ0LLbmQxruCen06zPZL4v0DCRlQSqHRLzLNDVm7Epn_ROZYdXKcacwrE42qK9pa5XBJA",
+        },
       }
     );
 
     return response.data.data;
   } catch (error) {
-    console.log("Error fetching admin params")
+    console.log("Error fetching admin params");
   }
-}
+};
+
+export const getBussinessParamDetail = async ({ id }: { id: string }) => {
+  try {
+    const response = await axios.get(
+      `http://192.168.90.35:8082/admin/params/${id}`,
+      {
+        headers: {
+          Authorization:
+            "Bearer eyJraWQiOiI4NjhhYTUyZi0zY2QyLTQxMzktYjU1MC1lNGNiOWZlMDY2OTYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJpbnRlcm5hbC1jbGllbnQiLCJhdWQiOiJpbnRlcm5hbC1jbGllbnQiLCJuYmYiOjE3MjExMDIxNTYsInNjb3BlIjpbIm9wZW5pZCIsIklOVEVSTkFMIl0sImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjkwLjM1OjkwMDAiLCJleHAiOjE3MjExMDU3NTYsImlhdCI6MTcyMTEwMjE1NiwianRpIjoiYzc0MTNiMjctNmJmMy00MWY3LWFmMGMtYjY3OTExNThkZjk1In0.LSZkyji9sKvZBaxmysFzFxvsEuErxX85Y1Zl6ZOpYSiycpVlsjhlswU3WldgUI3wKjpOa_2BH6Dnh8U2mdb0XknkKRkAWSf1de_Ue1_tRURj4urOcJIbd1nbhncoDkn8Grfm7qOMky4GfMvoNRRBSE-NpV-OitQ_mI_YoAagBY_xoZTvfmqQhNpbM9oFWTh7Ybpu5PXrpw8jwb2ZRrOLbgi63HHZVkRykokr-dSeCPWMdKmiULb1AmoLVWeOy7jVKULfhhtBZP61xjYWZFJ0LLbmQxruCen06zPZL4v0DCRlQSqHRLzLNDVm7Epn_ROZYdXKcacwrE42qK9pa5XBJA",
+        },
+      }
+    );
+
+    return response.data.data;
+  } catch (error) {
+    console.log("Error fetching admin params");
+  }
+};
+
+export const postParam = async (data: ParamSchema) => {
+  try {
+    const response = await axios.post(
+      "http://192.168.90.35:8082/admin/params",
+      data,
+      {
+        headers: {
+          Authorization:
+            "Bearer eyJraWQiOiI4NjhhYTUyZi0zY2QyLTQxMzktYjU1MC1lNGNiOWZlMDY2OTYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJpbnRlcm5hbC1jbGllbnQiLCJhdWQiOiJpbnRlcm5hbC1jbGllbnQiLCJuYmYiOjE3MjExMDIxNTYsInNjb3BlIjpbIm9wZW5pZCIsIklOVEVSTkFMIl0sImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjkwLjM1OjkwMDAiLCJleHAiOjE3MjExMDU3NTYsImlhdCI6MTcyMTEwMjE1NiwianRpIjoiYzc0MTNiMjctNmJmMy00MWY3LWFmMGMtYjY3OTExNThkZjk1In0.LSZkyji9sKvZBaxmysFzFxvsEuErxX85Y1Zl6ZOpYSiycpVlsjhlswU3WldgUI3wKjpOa_2BH6Dnh8U2mdb0XknkKRkAWSf1de_Ue1_tRURj4urOcJIbd1nbhncoDkn8Grfm7qOMky4GfMvoNRRBSE-NpV-OitQ_mI_YoAagBY_xoZTvfmqQhNpbM9oFWTh7Ybpu5PXrpw8jwb2ZRrOLbgi63HHZVkRykokr-dSeCPWMdKmiULb1AmoLVWeOy7jVKULfhhtBZP61xjYWZFJ0LLbmQxruCen06zPZL4v0DCRlQSqHRLzLNDVm7Epn_ROZYdXKcacwrE42qK9pa5XBJA",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching the access token:", error);
+  }
+};

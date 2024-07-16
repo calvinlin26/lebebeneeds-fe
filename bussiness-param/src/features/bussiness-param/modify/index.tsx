@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CustomFormField, Form } from "mainApp/form";
 import { Input } from "mainApp/input";
 import { Button } from "mainApp/button";
 import DropdownSelect from "mainApp/select";
+import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControllerRenderProps, useForm, useFieldArray } from "react-hook-form";
 
@@ -11,8 +12,11 @@ import {
   updateParamSchema,
   ParamSchema,
 } from "../../../services/form";
+import { postParam } from "../../../services";
+import { useBussinessParamDetail } from "../hooks/useBussinessParamDetail";
 
 const Index: React.FC<{ id?: string | null }> = ({ id }) => {
+  const bussinessParamDetail = useBussinessParamDetail(id ?? "");
   const form = useForm<ParamSchema>({
     resolver: zodResolver(id ? updateParamSchema : createParamSchema),
     defaultValues: {
@@ -36,8 +40,24 @@ const Index: React.FC<{ id?: string | null }> = ({ id }) => {
     mode: "onChange",
   });
 
+  useEffect(() => {
+    if (bussinessParamDetail) {
+      form.reset(bussinessParamDetail);
+    }
+  }, [bussinessParamDetail, form]);
+
   const onSubmit = async (data: ParamSchema) => {
-    console.log(data);
+    console.log("Form Data on Submit:", data);
+    try {
+      if (id) {
+        toast.success("User has been created");
+      } else {
+        await postParam(data);
+        toast.success("User has been updated");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
   };
 
   const { fields, append, remove } = useFieldArray({
@@ -45,16 +65,14 @@ const Index: React.FC<{ id?: string | null }> = ({ id }) => {
     name: "paramTxt",
   });
 
-  console.log(form.getValues().frontEnd);
-
   return (
-    <div className="flex flex-col gap-5 h-full">
+    <div className="flex flex-col gap-5">
       <h1 className="text-2xl font-bold">
         {id ? `Edit` : `Create`} Bussiness Param
       </h1>
       <Form {...form}>
         <form
-          className="flex flex-col justify-between h-full gap-5"
+          className="flex flex-col gap-5"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="grid grid-cols-2 gap-5">
@@ -156,7 +174,7 @@ const Index: React.FC<{ id?: string | null }> = ({ id }) => {
               )}
             </CustomFormField>
 
-            {form.getValues().frontEnd == "false" && (
+            {form.watch("frontEnd") == "false" && (
               <div className="col-span-2 w-full">
                 <CustomFormField
                   control={form.control}
@@ -179,7 +197,7 @@ const Index: React.FC<{ id?: string | null }> = ({ id }) => {
               </div>
             )}
 
-            {form.getValues().frontEnd == "true" && (
+            {form.watch("frontEnd") == "true" && (
               <>
                 <div className="flex gap-5 col-span-2 items-center">
                   <label>Parameter List</label>
@@ -274,7 +292,13 @@ const Index: React.FC<{ id?: string | null }> = ({ id }) => {
             )}
           </div>
           <div className="flex justify-end">
-            <Button type="submit">Submit</Button>
+            <Button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              aria-disabled={form.formState.isSubmitting}
+            >
+              Submit
+            </Button>
           </div>
         </form>
       </Form>

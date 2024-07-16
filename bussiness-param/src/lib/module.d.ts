@@ -6,3 +6,4 @@ declare module "mainApp/input";
 declare module "mainApp/select";
 declare module "mainApp/form";
 declare module "mainApp/checkbox";
+declare module "mainApp/useQuery";

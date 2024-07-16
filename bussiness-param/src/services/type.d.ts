@@ -60,3 +60,8 @@ type SearchFilter = {
   label: string;
   value: string;
 }
+
+type BussinessParamDetail = {
+  param: ParamItem;
+  paramTxt: ParamTxtItem[];
+}

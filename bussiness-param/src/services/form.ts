@@ -14,8 +14,8 @@ export const baseParamSchema = z.object({
   paramId: z.string().min(1, { message: "Parameter ID is required" }),
   parentId: z.string().nullable(),
   paramValue: z.string().nullable(),
-  frontEnd: z.string().nullable(),
-  active: z.string().nullable(),
+  frontEnd: z.string().min(1, { message: "Front End is required" }),
+  active: z.string().min(1, { message: "Active is required" }),
   paramTxt: z.array(paramTxtShema),
 });
 
