@@ -18,6 +18,7 @@ type tokenResponse = {
 type SearchParamQuery = {
   page: number,
   pageSize: number,
+  search: string,
 }
 
 type AdminParamPagination = {
@@ -58,4 +59,9 @@ type ParamTxtItem = {
 type SearchFilter = {
   label: string;
   value: string;
+}
+
+type BussinessParamDetail = {
+  param: ParamItem;
+  paramTxt: ParamTxtItem[];
 }

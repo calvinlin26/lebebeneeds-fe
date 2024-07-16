@@ -2,7 +2,6 @@ import { Button } from "mainApp/button";
 import CustomPagination from "mainApp/pagination";
 import { useBussinessParamData } from "../hooks/useBussinessParamData";
 import CustomTable from "mainApp/table";
-import DropdownSelect from "mainApp/select";
 import { Input } from "mainApp/input";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,10 +9,6 @@ import { useNavigate } from "react-router-dom";
 const Index: React.FC = () => {
 
   const [keyword, setKeyword] = useState<string>("");
-  const [selectedFilter, setSelectedFilter] = useState<SearchFilter>({
-    value: "",
-    label: "",
-  })
 
   const navigate = useNavigate();
 
@@ -91,7 +86,7 @@ const Index: React.FC = () => {
       active: item?.param?.active === true ? "Active" : item?.param?.active === false ? "Inactive" : "-",
       action: (
         <div className="flex flex-row gap-3">
-          <Button onClick={() => navigate(`/bussiness-param?id=12&type=edit`)}>Edit</Button>
+          <Button onClick={() => navigate(`/bussiness-param?action=1&id=${item?.param?.id}`)}>Edit</Button>
         </div>
       )
     }
@@ -108,16 +103,11 @@ const Index: React.FC = () => {
     setKeyword(e.target.value)
   }
 
-  const handleFilterChange = (event: {target: {value: string; name: string}}) => {
-    setSelectedFilter({
-      label: event.target.name,
-      value: event.target.value
-    })
-  }
-
   const handleSearch = () => {
-    console.log(keyword)
-    console.log(selectedFilter)
+    setSearchParam({
+      ...searchParam,
+      search: keyword,
+    })
   }
 
   useEffect(() => {
@@ -136,15 +126,9 @@ const Index: React.FC = () => {
             placeholder={'Enter keyword'}
             onChange={handleChangeKeyword}
           />
-          <DropdownSelect 
-            name="category_filter"
-            placeholder="Select Category"
-            emptyState="No data"
-            onChange={handleFilterChange}
-          />
           <Button onClick={handleSearch}>Search</Button>
         </div>
-        <Button className="bg-primary">Add New Parameter</Button>
+        <Button className="bg-primary" onClick={() => navigate(`/bussiness-param?action=1`)}>Add New Parameter</Button>
       </div>
       <CustomTable 
         columns={columns}

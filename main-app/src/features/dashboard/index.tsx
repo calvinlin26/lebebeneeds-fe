@@ -1,6 +1,7 @@
-import { Button } from "../../components/button";
 import CustomPagination from "../../components/pagination";
 import CustomTable from "../../components/table";
+// import { Button } from "../../components/button";
+import { toast } from "sonner";
 import { useState } from "react";
 
 const columns = [
@@ -31,14 +32,15 @@ const Dashboard = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    toast;
   };
   return (
     <div>
-      <Button>Primary</Button>
+      {/* <Button>Primary</Button>
       <Button variant="secondary" size={"sm"}>
         Secondary
       </Button>
-      <Button variant="destructive">Destructive</Button>
+      <Button variant="destructive">Destructive</Button> */}
       <CustomTable
         columns={columns}
         data={data}
