@@ -1,9 +1,9 @@
 import * as z from "zod";
 
 export const paramTxtShema = z.object({
-  langCode: z.string().min(1, { message: "Lang Code is required" }),
-  text: z.string().min(1, { message: "Text is required" }),
-  description: z.string().min(1, { message: "Description is required" }),
+  langCode: z.string(),
+  text: z.string(),
+  description: z.string(),
 });
 
 export const baseParamSchema = z.object({
@@ -11,7 +11,6 @@ export const baseParamSchema = z.object({
   id: z.string().min(1, { message: "Category ID is required" }),
   orderNo: z.string().min(1, { message: "Order No is required" }),
   valueType: z.string().min(1, { message: "Value type is required" }),
-  paramId: z.string().min(1, { message: "Parameter ID is required" }),
   parentId: z.string().nullable(),
   paramValue: z.string().nullable(),
   frontEnd: z.string().min(1, { message: "Front End is required" }),
