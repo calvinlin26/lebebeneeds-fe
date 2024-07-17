@@ -26,7 +26,6 @@ const Index: React.FC<{ code?: string | null }> = ({ code }) => {
       orderNo: "",
       category: "",
       valueType: "",
-      parentId: "",
       paramValue: "",
       paramTxt: [],
       active: "",
@@ -57,16 +56,18 @@ const Index: React.FC<{ code?: string | null }> = ({ code }) => {
     name: "paramTxt",
   });
 
+  const {
+    handleSubmit,
+    // formState: { errors },
+  } = form;
+
   return (
     <div className="flex flex-col gap-5">
       <h1 className="text-2xl font-bold">
         {code ? `Edit` : `Create`} Bussiness Param
       </h1>
       <Form {...form}>
-        <form
-          className="flex flex-col gap-5"
-          onSubmit={form.handleSubmit(onSubmit)}
-        >
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-2 gap-5">
             <CustomFormField
               control={form.control}

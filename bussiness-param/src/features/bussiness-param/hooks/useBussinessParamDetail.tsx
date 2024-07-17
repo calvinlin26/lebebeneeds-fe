@@ -3,27 +3,28 @@ import { useEffect, useState } from "react";
 import { getBussinessParamDetail } from "../../../services";
 
 export const useBussinessParamDetail = (id: string) => {
-  const [userDetail, setUserDetail] = useState<BussinessParamDetail>();
+  const [bussinessParamDetail, setBussinessParamDetail] =
+    useState<BussinessParamDetail>();
 
   useEffect(() => {
     if (id) {
-      const fetchUserDetail = async () => {
+      const fetchbussinessParamDetail = async () => {
         try {
           const response: BussinessParamDetail = await getBussinessParamDetail({
             id,
           });
 
           if (response) {
-            setUserDetail(response);
+            setBussinessParamDetail(response);
           }
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
       };
 
-      fetchUserDetail();
+      fetchbussinessParamDetail();
     }
   }, [id]);
 
-  return userDetail;
+  return bussinessParamDetail;
 };

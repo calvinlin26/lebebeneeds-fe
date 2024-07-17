@@ -11,7 +11,6 @@ export const baseParamSchema = z.object({
   code: z.string().min(1, { message: "Category ID is required" }),
   orderNo: z.string().min(1, { message: "Order No is required" }),
   valueType: z.string().min(1, { message: "Value type is required" }),
-  parentId: z.string().nullable(),
   paramValue: z.string().nullable(),
   frontEnd: z.string().min(1, { message: "Front End is required" }),
   active: z.string().min(1, { message: "Active is required" }),
