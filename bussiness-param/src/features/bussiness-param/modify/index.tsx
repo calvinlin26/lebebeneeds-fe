@@ -36,7 +36,16 @@ const Index: React.FC<{ code?: string | null }> = ({ code }) => {
 
   useEffect(() => {
     if (bussinessParamDetail) {
-      form.reset(bussinessParamDetail);
+      form.reset({
+        code: bussinessParamDetail.code ?? "",
+        orderNo: bussinessParamDetail.orderNo ?? "",
+        category: bussinessParamDetail.category ?? "",
+        valueType: bussinessParamDetail.valueType ?? "",
+        active: bussinessParamDetail.active ? "true" : "false",
+        frontEnd: bussinessParamDetail.frontEnd ? "true" : "false",
+        paramValue: bussinessParamDetail.paramValue ?? "",
+        paramTxt: bussinessParamDetail.paramTxt,
+      });
     }
   }, [bussinessParamDetail, form]);
 

@@ -48,6 +48,7 @@ type ParamItem = {
   frontEnd: boolean | null;
   orderNo: string;
   valueType: string;
+  paramValue: string | null;
 }
 
 type ParamTxtItem = {
@@ -62,6 +63,12 @@ type SearchFilter = {
 }
 
 type BussinessParamDetail = {
-  param: ParamItem;
+  active: boolean;
+  code: string;
+  category: string;
+  frontEnd: boolean | null;
+  orderNo: string;
+  valueType: string;
+  paramValue: string | null;
   paramTxt: ParamTxtItem[];
 }
