@@ -43,7 +43,7 @@ type AdminParamListItem = {
 
 type ParamItem = {
   active: boolean;
-  id: string;
+  code: string;
   category: string;
   frontEnd: boolean | null;
   orderNo: string;

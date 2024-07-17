@@ -16,13 +16,13 @@ import {
 import { postParam, updateParam } from "../../../services";
 import { useBussinessParamDetail } from "../hooks/useBussinessParamDetail";
 
-const Index: React.FC<{ id?: string | null }> = ({ id }) => {
+const Index: React.FC<{ code?: string | null }> = ({ code }) => {
   const navigate = useNavigate();
-  const bussinessParamDetail = useBussinessParamDetail(id ?? "");
+  const bussinessParamDetail = useBussinessParamDetail(code ?? "");
   const form = useForm<ParamSchema>({
-    resolver: zodResolver(id ? updateParamSchema : createParamSchema),
+    resolver: zodResolver(code ? updateParamSchema : createParamSchema),
     defaultValues: {
-      id: "",
+      code: "",
       orderNo: "",
       category: "",
       valueType: "",
@@ -43,7 +43,7 @@ const Index: React.FC<{ id?: string | null }> = ({ id }) => {
 
   const onSubmit = async (data: ParamSchema) => {
     try {
-      if (id) {
+      if (code) {
         await updateParam(data);
         toast.success("Parameter has been updated");
       } else {
@@ -65,7 +65,7 @@ const Index: React.FC<{ id?: string | null }> = ({ id }) => {
   return (
     <div className="flex flex-col gap-5">
       <h1 className="text-2xl font-bold">
-        {id ? `Edit` : `Create`} Bussiness Param
+        {code ? `Edit` : `Create`} Bussiness Param
       </h1>
       <Form {...form}>
         <form
@@ -91,13 +91,13 @@ const Index: React.FC<{ id?: string | null }> = ({ id }) => {
 
             <CustomFormField
               control={form.control}
-              name="id"
-              label="Category ID"
+              name="code"
+              label="Code"
             >
-              {(field: ControllerRenderProps<ParamSchema, "id">) => (
+              {(field: ControllerRenderProps<ParamSchema, "code">) => (
                 <Input
                   {...field}
-                  placeholder="Input Category ID"
+                  placeholder="Input Code"
                   type="text"
                   disabled={form.formState.isSubmitting}
                   aria-disabled={form.formState.isSubmitting}
