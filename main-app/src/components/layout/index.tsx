@@ -17,10 +17,7 @@ const Layout = () => {
             label: "User Management",
             items: [
               { path: "/user-management", label: "User" },
-              {
-                path: "/role",
-                label: "Role",
-              },
+              { path: "/role-management", label: "Role"},
             ],
           },
           {
