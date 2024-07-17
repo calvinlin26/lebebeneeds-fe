@@ -13,7 +13,7 @@ import {
   updateParamSchema,
   ParamSchema,
 } from "../../../services/form";
-import { postParam, updateParam } from "../../../services";
+import { postParam } from "../../../services";
 import { useBussinessParamDetail } from "../hooks/useBussinessParamDetail";
 
 const Index: React.FC<{ code?: string | null }> = ({ code }) => {
@@ -43,13 +43,8 @@ const Index: React.FC<{ code?: string | null }> = ({ code }) => {
 
   const onSubmit = async (data: ParamSchema) => {
     try {
-      if (code) {
-        await updateParam(data);
-        toast.success("Parameter has been updated");
-      } else {
-        await postParam(data);
-        toast.success("Parameter has been created");
-      }
+      await postParam(data);
+      toast.success("Parameter has been updated successfully");
       navigate("/bussiness-param");
     } catch (error) {
       toast.error("Error submitting form");
@@ -89,11 +84,7 @@ const Index: React.FC<{ code?: string | null }> = ({ code }) => {
               )}
             </CustomFormField>
 
-            <CustomFormField
-              control={form.control}
-              name="code"
-              label="Code"
-            >
+            <CustomFormField control={form.control} name="code" label="Code">
               {(field: ControllerRenderProps<ParamSchema, "code">) => (
                 <Input
                   {...field}
@@ -130,6 +121,7 @@ const Index: React.FC<{ code?: string | null }> = ({ code }) => {
                 <DropdownSelect
                   {...field}
                   placeholder="Input Value Type"
+                  disabled={form.formState.isSubmitting}
                   data={[
                     { label: "CHOICE", value: "CHOICE" },
                     { label: "TEXT", value: "TEXT" },
@@ -150,6 +142,7 @@ const Index: React.FC<{ code?: string | null }> = ({ code }) => {
                 <DropdownSelect
                   {...field}
                   placeholder="Select Front End"
+                  disabled={form.formState.isSubmitting}
                   data={[
                     { label: "true", value: "true" },
                     { label: "false", value: "false" },
@@ -167,6 +160,7 @@ const Index: React.FC<{ code?: string | null }> = ({ code }) => {
                 <DropdownSelect
                   {...field}
                   placeholder="Select Active"
+                  disabled={form.formState.isSubmitting}
                   data={[
                     { label: "Active", value: "true" },
                     { label: "Inactive", value: "false" },

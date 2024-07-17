@@ -20,6 +20,7 @@ interface SelectProps {
   value?: string;
   defaultValue?: string;
   className?: string;
+  disabled?: boolean;
 }
 
 interface Item {
@@ -88,6 +89,7 @@ const DropdownSelect = (props: SelectProps) => {
     value,
     defaultValue,
     className,
+    disabled = false,
   } = props;
 
   const onValueChange = (value: any) => {
@@ -101,6 +103,7 @@ const DropdownSelect = (props: SelectProps) => {
       onOpenChange={onOpenChange}
       value={value}
       defaultValue={defaultValue}
+      disabled={disabled}
     >
       <SelectTrigger className={className}>
         <SelectValue placeholder={placeholder} />

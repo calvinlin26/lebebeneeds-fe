@@ -1,2 +1,2 @@
-import { getBussinessParam, postParam, getBussinessParamDetail, updateParam } from "./api";
-export { getBussinessParam, postParam, getBussinessParamDetail, updateParam}
+import { getBussinessParam, postParam, getBussinessParamDetail } from "./api";
+export { getBussinessParam, postParam, getBussinessParamDetail };
