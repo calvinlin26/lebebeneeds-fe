@@ -156,8 +156,8 @@ const Index: React.FC = () => {
                 {...field}
                 placeholder="Input username"
                 type="text"
-                disabled={form.formState.isSubmitting}
-                aria-disabled={form.formState.isSubmitting}
+                disabled={isEdit || form.formState.isSubmitting}
+                aria-disabled={isEdit || form.formState.isSubmitting}
               />
             )}
           </CustomFormField>

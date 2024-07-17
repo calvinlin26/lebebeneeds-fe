@@ -25,3 +25,29 @@ export const createUserSchema = baseUserSchema.extend({
 export const updateUserSchema = baseUserSchema; // remove password validation
 
 export type UserSchema = z.infer<typeof createUserSchema>;
+
+export const servicesSchema = z.object({
+  serviceCode: z.string().min(1, { message: "Service code is required" }),
+  url: z.string().min(1, { message: "Url is required"}),
+});
+
+export const roleMenusSchema = z.object({
+  menuCode: z.string().min(1, { message: "Menu Code is required"}),
+  label: z.string().min(1, { message: "Label is required"}),
+  description: z.string().min(1, { message: "Description is required"}),
+  url: z.string().min(1, {message: "Url is required"}),
+  parent: z.string(),
+  orderNo: z.string().min(1, {message: "Order Number is required"}),
+  services: z.array(servicesSchema).nonempty({ message: "At least one Service(Menu) is required"}),
+})
+
+export const postRoleSchema = z.object({
+  roleCode: z.string().min(1, {message: "Role Code is required"}),
+  roleName: z.string().min(1, { message: "Role Name is required"}),
+  description: z.string().min(1, {message: "Description is required"}),
+  active: z.string(),
+  menus: z.array(roleMenusSchema),
+  services: z.array(servicesSchema),
+})
+
+export type PostRoleSchema = z.infer<typeof postRoleSchema>;

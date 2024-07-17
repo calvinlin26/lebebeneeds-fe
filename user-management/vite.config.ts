@@ -12,6 +12,7 @@ export default defineConfig({
       // Modules to expose
       exposes: {
         "./user-management": "./src/features/user-management",
+        "./role-management": "./src/features/role-management",
       },
       remotes: {
         mainApp: "http://localhost:5173/assets/mainApp.js",
