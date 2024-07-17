@@ -28,8 +28,8 @@ const Index: React.FC = () => {
       headerClassName: "text-left font-bold",
     },
     {
-      header: "ID",
-      accessor: "id",
+      header: "Code",
+      accessor: "code",
       headerClassName: "text-left font-bold",
     },
     {
@@ -77,7 +77,7 @@ const Index: React.FC = () => {
     return {
       category: item?.param?.category,
       frontEnd: item?.param?.frontEnd === true ? "True" : "False",
-      id: item?.param?.id,
+      code: item?.param?.code,
       orderNo: item?.param?.orderNo,
       valueType: item?.param?.valueType ? item?.param?.valueType : "-",
       description: item?.paramTxt?.description ? item?.paramTxt?.description : "-",
@@ -86,7 +86,7 @@ const Index: React.FC = () => {
       active: item?.param?.active === true ? "Active" : item?.param?.active === false ? "Inactive" : "-",
       action: (
         <div className="flex flex-row gap-3">
-          <Button onClick={() => navigate(`/bussiness-param?id=12&type=edit`)}>Edit</Button>
+          <Button onClick={() => navigate(`/bussiness-param?action=1&code=${item?.param?.code}`)}>Edit</Button>
         </div>
       )
     }
@@ -128,7 +128,7 @@ const Index: React.FC = () => {
           />
           <Button onClick={handleSearch}>Search</Button>
         </div>
-        <Button className="bg-primary">Add New Parameter</Button>
+        <Button className="bg-primary" onClick={() => navigate(`/bussiness-param?action=1`)}>Add New Parameter</Button>
       </div>
       <CustomTable 
         columns={columns}

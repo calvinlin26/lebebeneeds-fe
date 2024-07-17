@@ -43,11 +43,12 @@ type AdminParamListItem = {
 
 type ParamItem = {
   active: boolean;
-  id: string;
+  code: string;
   category: string;
   frontEnd: boolean | null;
   orderNo: string;
   valueType: string;
+  paramValue: string | null;
 }
 
 type ParamTxtItem = {
@@ -59,4 +60,15 @@ type ParamTxtItem = {
 type SearchFilter = {
   label: string;
   value: string;
+}
+
+type BussinessParamDetail = {
+  active: boolean;
+  code: string;
+  category: string;
+  frontEnd: boolean | null;
+  orderNo: string;
+  valueType: string;
+  paramValue: string | null;
+  paramTxt: ParamTxtItem[];
 }
