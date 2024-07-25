@@ -1,6 +1,12 @@
 import * as React from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./based";
 
+enum Orientation {
+  vertical = 'vertical',
+  horizontal = 'horizontal',
+}
+
+
 interface TabItem {
     trigger: React.ReactNode;
     value: string;
@@ -10,11 +16,13 @@ interface TabItem {
   interface CustomTabsProps {
     tabs: TabItem[];
     onValueChange?: ()=> void
+    orientation?: Orientation;
+    asChild?: boolean;
   }
   
-  const CustomTabs: React.FC<CustomTabsProps> = ({ onValueChange, tabs }) => {
+  const CustomTabs: React.FC<CustomTabsProps> = ({ onValueChange, tabs, orientation, asChild }) => {
     return (
-      <Tabs onValueChange={onValueChange} defaultValue={tabs[0].value} className="w-[400px]">
+      <Tabs asChild={asChild} orientation={orientation} onValueChange={onValueChange} defaultValue={tabs[0].value}>
         <TabsList>
           {tabs.map((tab, index) => (
             <TabsTrigger key={index} value={tab.value}>

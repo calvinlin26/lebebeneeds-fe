@@ -11,6 +11,7 @@ export default defineConfig({
       filename: "mainApp.js",
       remotes: {
         userManagement: "http://localhost:5001/assets/userManagment.js",
+        showcase: "http://localhost:5174/assets/showcase.js",
         bussinessParam: "http://localhost:5003/assets/bussinessParam.js",
       },
       exposes: {
@@ -25,8 +26,17 @@ export default defineConfig({
         "./toast": "./src/components/toast",
         "./useQuery": "./src/hooks/useQuery",
         "./pagination": "./src/components/pagination",
+        "./layout": "./src/components/layout",
+        "./sidebar": "./src/components/sidebar",
+        "./tabs": "./src/components/tabs",
+        "./big-number-input": "./src/components/big-number-input",
+        "./avatar": "./src/components/avatar",
+        "./navbar": "./src/components/navbar",
+        "./tooltip": "./src/components/tooltip",
+        "./dialog": "./src/components/dialog",
+        "./footer": "./src/components/footer",
       },
-      shared: ["react", "react-dom", "axios", "react-router-dom", "sonner"],
+      shared: ["react", "react-dom", "axios", "react-router-dom"],
     }),
   ],
   build: {

@@ -6,28 +6,33 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-    DialogFooter
+    DialogFooter,
+    DialogClose
 } from "./based"
+import { Button } from '../button';
 
 interface CustomDialogProps {
     children: ReactNode;
     title?: string;
     description?: string;
-    content?: ReactNode;
+    content?: any;
     footer?: ReactNode;
     defaultOpen?: boolean;
     open?: boolean;
     onOpenChange?: ()=> void;
-    modal?: boolean; 
+    modal?: boolean;
+    styleContent?: string
+    styleFooter?: string
+    closeButtonLabel? : string
 }
 
-const CustomDialog: React.FC<CustomDialogProps> = ({ children, defaultOpen, open, onOpenChange, modal, title, description, content, footer }) => {
+const CustomDialog: React.FC<CustomDialogProps> = ({ children, defaultOpen, open, onOpenChange, modal, title, description, content, footer,styleContent, styleFooter, closeButtonLabel }) => {
     return (
         <Dialog defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange} modal={modal}>
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className={styleContent}>
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>
                     <DialogDescription>
@@ -35,8 +40,15 @@ const CustomDialog: React.FC<CustomDialogProps> = ({ children, defaultOpen, open
                     </DialogDescription>
                 </DialogHeader>
                 {content}
-                <DialogFooter>
+                <DialogFooter className={styleFooter}>
                     {footer}
+                    {closeButtonLabel && (
+                        <DialogClose asChild>
+                            <Button variant="secondary">
+                                {closeButtonLabel}
+                            </Button>
+                        </DialogClose>
+                    )}
                 </DialogFooter>
             </DialogContent>
         </Dialog>
