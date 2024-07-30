@@ -13,7 +13,7 @@ const ProtectedRoutes = () => {
     if (!token) {
       const url = import.meta.env.VITE_BASE_URL;
       const clientId = "sample-client";
-      const redirectUri = "http://localhost:5173/login/oauth2/code/oidc-client";
+      const redirectUri = import.meta.env.VITE_REDIRECT_URI;
       const responseType = "code";
       const scope = "openid";
       const codeChallengeMethod = "S256";
