@@ -1,2 +1,2 @@
-import { getToken } from "./api";
-export { getToken };
+import { getToken, revokeToken } from "./api";
+export { getToken, revokeToken };
