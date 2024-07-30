@@ -17,3 +17,20 @@ export const getToken = async (payload: tokenPayload) => {
     console.error("Error fetching the access token:", error);
   }
 };
+
+export const revokeToken = async (accessToken: string) => {
+  try {
+    const response = await API.post("oauth2/revoke", {token: accessToken}, {
+    auth: {
+      username: "sample-client",
+      password: "client-secret",
+    },
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching the access token:", error);
+  }
+};
