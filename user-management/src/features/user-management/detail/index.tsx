@@ -1,6 +1,6 @@
 import { Controller, ControllerRenderProps, useForm } from "react-hook-form";
 import { CustomFormField, Form } from "mainApp/form";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   createUserSchema,
   updateUserSchema,
@@ -60,8 +60,6 @@ const Index: React.FC = () => {
     },
     mode: "onChange",
   });
-
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
   useEffect(() => {
     if (userDetail) {
@@ -179,18 +177,20 @@ const Index: React.FC = () => {
                   />
                 )}
               </CustomFormField>
-
-              <Input
-                value={passwordConfirmation}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setPasswordConfirmation(e.target.value)
-                }
-                placeholder="Confirm Password"
-                type="password"
-                disabled={form.formState.isSubmitting}
-                aria-disabled={form.formState.isSubmitting}
-                className="border-tyellow focus-visible:ring-tyellow"
-              />
+              <CustomFormField
+                control={form.control}
+                name="confirmPassword"
+              >
+                {(field: ControllerRenderProps<UserSchema, "confirmPassword">) => (
+                  <Input
+                    {...field}
+                    placeholder="Confirm password"
+                    type="password"
+                    disabled={form.formState.isSubmitting}
+                    aria-disabled={form.formState.isSubmitting}
+                  />
+                )}
+              </CustomFormField>
             </>
           )}
 

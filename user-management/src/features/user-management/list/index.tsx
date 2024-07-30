@@ -17,7 +17,7 @@ const Index: React.FC = () => {
   // Columns definition
   const columns = [
     {
-      header: "Name",
+      header: "Username",
       accessor: "username",
       headerClassName: "text-left font-bold",
     },

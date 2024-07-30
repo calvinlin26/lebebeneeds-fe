@@ -7,7 +7,7 @@ export const roleSchema = z.object({
 const baseUserSchema = z.object({
   username: z.string().min(1, { message: "Username is required" }),
   name: z.string().min(1, { message: "Name is required" }),
-  email: z.string().min(1, { message: "Email is required" }),
+  email: z.string().email({ message: "Invalid email address" }),
   branch: z.string().min(1, { message: "Branch is required" }),
   title: z.string().min(1, { message: "Title is required" }),
   invalidPasswordRetry: z.number().nonnegative(),
@@ -19,7 +19,11 @@ const baseUserSchema = z.object({
 });
 
 export const createUserSchema = baseUserSchema.extend({
-  password: z.string().min(6, { message: "Password is required" }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+  confirmPassword: z.string().min(6, { message: "Confirm Password must be at least 6 characters" })
+}).refine(data => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"], // Specify which field to add the error to
 });
 
 export const updateUserSchema = baseUserSchema; // remove password validation

@@ -1,7 +1,7 @@
-import * as React from "react"
- 
-import { cn } from "../../lib/utils"
-import { textInputVariants, type TextInputVariants } from "./variants"
+import * as React from "react";
+import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
+import { cn } from "../../lib/utils";
+import { textInputVariants, type TextInputVariants } from "./variants";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
@@ -9,16 +9,35 @@ export interface InputProps
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, variant, fieldSize, type, ...props }, ref) => {
+    const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
+
+    const togglePasswordVisibility = () => {
+      setIsPasswordVisible(!isPasswordVisible);
+    };
+
+    const inputType = type === "password" && isPasswordVisible ? "text" : type;
+
     return (
-      <input
-        type={type}
-        className={cn(textInputVariants({ variant: type == "file" ? "file" : variant, fieldSize, className }))}
-        ref={ref}
-        {...props}
-      />
-    )
+      <div className="relative">
+        <input
+          type={inputType}
+          className={cn(textInputVariants({ variant: type === "file" ? "file" : variant, fieldSize, className }))}
+          ref={ref}
+          {...props}
+        />
+        {type === "password" && (
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="absolute right-2 top-1/2 transform -translate-y-1/2"
+          >
+            {isPasswordVisible ? <EyeClosedIcon /> : <EyeOpenIcon />}
+          </button>
+        )}
+      </div>
+    );
   }
-)
-Input.displayName = "Input"
- 
-export { Input }
+);
+Input.displayName = "Input";
+
+export { Input };
