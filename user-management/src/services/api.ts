@@ -1,11 +1,11 @@
 import { API } from "mainApp/services";
 import { PostRoleSchema, UserSchema } from "./form";
 
-export const getUser = async () => {
+export const getUser = async (params: {}) => {
   try {
-    const response = await API.get(
-      "http://192.168.90.35:8081/users?page=0&sort=username&search=username:test"
-    );
+    const response = await API.get("http://192.168.90.35:8081/users", {
+      params: params,
+    });
 
     return response.data.data;
   } catch (error) {
@@ -50,9 +50,7 @@ export const getRole = async () => {
 
 export const getMenus = async () => {
   try {
-    const response = await API.get(
-      "http://192.168.90.35:8081/menus"
-    );
+    const response = await API.get("http://192.168.90.35:8081/menus");
     return response.data.data;
   } catch (error) {
     console.error("Error fetching the access token:", error);
@@ -61,9 +59,7 @@ export const getMenus = async () => {
 
 export const getServices = async () => {
   try {
-    const response = await API.get(
-      "http://192.168.90.35:8081/services"
-    );
+    const response = await API.get("http://192.168.90.35:8081/services");
     return response.data.data;
   } catch (error) {
     console.error("Error fetching the access token:", error);
@@ -155,4 +151,3 @@ export const editRole = async (data: PostRoleSchema) => {
     console.error("Error in editUser API call:", error);
   }
 };
-

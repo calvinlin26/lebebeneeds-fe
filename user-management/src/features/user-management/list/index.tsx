@@ -1,21 +1,24 @@
 import { Button } from "mainApp/button";
 import CustomTable from "mainApp/table";
+import { Input } from "mainApp/input";
 import { Hash } from "../../../constants";
 import { useNavigate } from "react-router-dom";
 import { useUserData } from "../hooks/useUserData";
 import { deleteUser } from "../../../services/api";
 import { toast } from "sonner";
+import { useState } from "react";
 
 const Index: React.FC = () => {
   const navigate = useNavigate();
   // Use custom hooks
-  const userData = useUserData();
+  const { userData, setParams, params } = useUserData();
+  const [keyword, setKeyword] = useState("");
 
   // Columns definition
   const columns = [
     {
       header: "Name",
-      accessor: "name",
+      accessor: "username",
       headerClassName: "text-left font-bold",
     },
     {
@@ -67,10 +70,32 @@ const Index: React.FC = () => {
     }
   };
 
+  const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+  };
+
+  const handleSearch = () => {
+    setParams({
+      ...params,
+      search: `username:${keyword}`,
+    });
+  };
+
   return (
     <div className="flex flex-col">
       <h1 className="text-2xl font-bold">User Data</h1>
-      <div className="flex justify-end items-center mb-4">
+      <br />
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex gap-4 items-center">
+          <Input
+            variant={"default"}
+            fieldSize={"default"}
+            type={"text"}
+            placeholder={"Enter keyword"}
+            onChange={handleChangeKeyword}
+          />
+          <Button onClick={handleSearch}>Search</Button>
+        </div>
         <Button onClick={handleAddUser}>Add User</Button>
       </div>
 

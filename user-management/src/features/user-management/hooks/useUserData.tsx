@@ -4,11 +4,16 @@ import { getUser } from "../../../services";
 
 export const useUserData = () => {
   const [userData, setUserData] = useState<UserListItem[]>([]);
+  const [params, setParams] = useState({
+    page: 0,
+    sort: "username",
+    search: "",
+  });
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response: UserListResponse = await getUser();
+        const response: UserListResponse = await getUser(params);
 
         if (response && response.content) {
           setUserData(response.content);
@@ -19,7 +24,7 @@ export const useUserData = () => {
     };
 
     fetchUser();
-  }, []);
+  }, [params]);
 
-  return userData;
+  return { userData, setParams, params };
 };
