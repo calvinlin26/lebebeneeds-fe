@@ -8,9 +8,11 @@ import {
   useMemo,
   useState,
 } from "react";
-import { setAxiosConfig } from "../services/api";
 import { getToken, revokeToken } from "../services/auth";
+
 import axiosWithConfig from "../services/api";
+import { setAxiosConfig } from "../services/api";
+import { toast } from "sonner";
 
 interface Context {
   token: string;
@@ -40,37 +42,39 @@ export function TokenProvider({ children }: Readonly<Props>) {
     setAxiosConfig(token);
   }, [token]);
 
-    const refreshAuthToken = async () => {
-     try {
-       const payload = {
-         grant_type: "refresh_token",
-         refresh_token: refreshToken,
-       };
-       const response = await getToken(payload);
+  const refreshAuthToken = async () => {
+    try {
+      const payload = {
+        grant_type: "refresh_token",
+        refresh_token: refreshToken,
+      };
+      const response = await getToken(payload);
 
-       const { access_token, refresh_token } = response as tokenResponse;
-       changeToken(access_token, refresh_token);
-       return access_token;
-     } catch (error) {
-       console.error("Error refreshing the token:", error);
-        changeToken("", "");  
-        throw error;
-     }
-   };
- 
-    axiosWithConfig.interceptors.response.use(
-     (response) => response,
-     async (error) => {
-       if (error.response.status === 401  ) {
-         const newToken = await refreshAuthToken();
-         setAxiosConfig(newToken);
-        error.config.headers['Authorization'] = `Bearer ${newToken}`;
-         return axiosWithConfig(error.config);
-       }
-       return Promise.reject(error);
-     }
-   ); 
-  
+      const { access_token, refresh_token } = response as tokenResponse;
+      changeToken(access_token, refresh_token);
+      return access_token;
+    } catch (error) {
+      console.error("Error refreshing the token:", error);
+      changeToken("", "");
+      throw error;
+    }
+  };
+
+  axiosWithConfig.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+      if (error.response.status === 401) {
+        const newToken = await refreshAuthToken();
+        setAxiosConfig(newToken);
+        error.config.headers["Authorization"] = `Bearer ${newToken}`;
+        return axiosWithConfig(error.config);
+      }
+      toast.error(
+        error.response?.data?.responseMessage || "An unexpected error occurred"
+      );
+      return Promise.reject(error);
+    }
+  );
 
   const idleLogoutTime = 1 * 60 * 1000; // 1 menit
   let idleTimeout: ReturnType<typeof setTimeout>;
@@ -80,13 +84,13 @@ export function TokenProvider({ children }: Readonly<Props>) {
       clearTimeout(idleTimeout);
     }
     if (token) {
-    idleTimeout = setTimeout(() => {
-      revokeToken(token)
-      localStorage.clear()
-      const url = import.meta.env.VITE_BASE_URL
-      window.location.href = `${url}logout`;
-    }, idleLogoutTime);
-  }
+      idleTimeout = setTimeout(() => {
+        revokeToken(token);
+        localStorage.clear();
+        const url = import.meta.env.VITE_BASE_URL;
+        window.location.href = `${url}logout`;
+      }, idleLogoutTime);
+    }
   };
 
   const changeToken = useCallback((token?: string, refreshToken?: string) => {
@@ -121,26 +125,26 @@ export function TokenProvider({ children }: Readonly<Props>) {
 
   useEffect(() => {
     if (token) {
-    const eventHandler = () => {
-      resetTimer();
-    };
+      const eventHandler = () => {
+        resetTimer();
+      };
 
-    window.addEventListener("mousemove", eventHandler);
-    window.addEventListener("keydown", eventHandler);
-    window.addEventListener("scroll", eventHandler);
+      window.addEventListener("mousemove", eventHandler);
+      window.addEventListener("keydown", eventHandler);
+      window.addEventListener("scroll", eventHandler);
 
       resetTimer(); // initial timer set when token is not empty
 
-    return () => {
-      window.removeEventListener("mousemove", eventHandler);
-      window.removeEventListener("keydown", eventHandler);
-      window.removeEventListener("scroll", eventHandler);
+      return () => {
+        window.removeEventListener("mousemove", eventHandler);
+        window.removeEventListener("keydown", eventHandler);
+        window.removeEventListener("scroll", eventHandler);
 
-      if (idleTimeout) {
-        clearTimeout(idleTimeout);
-      }
+        if (idleTimeout) {
+          clearTimeout(idleTimeout);
+        }
+      };
     }
-  }
   }, [token]);
 
   return (
