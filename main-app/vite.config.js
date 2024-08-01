@@ -39,6 +39,7 @@ export default defineConfig(function (_a) {
                     "./tooltip": "./src/components/tooltip",
                     "./dialog": "./src/components/dialog",
                     "./footer": "./src/components/footer",
+                    "./withUserAccess": "./src/services/withUserAccess",
                 },
                 shared: ["react", "react-dom", "axios", "react-router-dom"],
             }),

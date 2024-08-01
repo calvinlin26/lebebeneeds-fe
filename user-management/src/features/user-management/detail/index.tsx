@@ -9,6 +9,7 @@ import {
 import { Button } from "mainApp/button";
 import { Checkbox } from "mainApp/checkbox";
 import CustomTable from "mainApp/table";
+import withUserAccess from "mainApp/withUserAccess";
 import DropdownSelect from "mainApp/select";
 import { Input } from "mainApp/input";
 import { postUser, editUser } from "../../../services/api";
@@ -85,7 +86,7 @@ const Index: React.FC = () => {
   ];
 
   // Table Data
-  const data: RoleData[] = roleData.map(role => ({
+  const data: RoleData[] = roleData.map((role) => ({
     roleCode: role.roleCode,
     action: (
       <Controller
@@ -96,7 +97,7 @@ const Index: React.FC = () => {
             onCheckedChange={(checked: boolean) =>
               handleRoleChange(checked, role.roleCode, field)
             }
-            checked={field.value.some(r => r.roleCode === role.roleCode)}
+            checked={field.value.some((r) => r.roleCode === role.roleCode)}
           />
         )}
       />
@@ -111,7 +112,7 @@ const Index: React.FC = () => {
     const newRoles = checked
       ? [...(field.value as { roleCode: string }[]), { roleCode: role }]
       : (field.value as { roleCode: string }[]).filter(
-          r => r.roleCode !== role
+          (r) => r.roleCode !== role
         );
     field.onChange(newRoles);
   };
@@ -177,11 +178,10 @@ const Index: React.FC = () => {
                   />
                 )}
               </CustomFormField>
-              <CustomFormField
-                control={form.control}
-                name="confirmPassword"
-              >
-                {(field: ControllerRenderProps<UserSchema, "confirmPassword">) => (
+              <CustomFormField control={form.control} name="confirmPassword">
+                {(
+                  field: ControllerRenderProps<UserSchema, "confirmPassword">
+                ) => (
                   <Input
                     {...field}
                     placeholder="Confirm password"
@@ -256,8 +256,9 @@ const Index: React.FC = () => {
                     emptyState="No options available"
                     data={statusOptions}
                     value={
-                      statusOptions.find(option => option.value === field.value)
-                        ?.value
+                      statusOptions.find(
+                        (option) => option.value === field.value
+                      )?.value
                     }
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       console.log(e.target.value);
@@ -282,8 +283,9 @@ const Index: React.FC = () => {
                     emptyState="No options available"
                     data={statusOptions}
                     value={
-                      statusOptions.find(option => option.value === field.value)
-                        ?.value
+                      statusOptions.find(
+                        (option) => option.value === field.value
+                      )?.value
                     }
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       field.onChange(e?.target.value)
@@ -324,4 +326,4 @@ const Index: React.FC = () => {
   );
 };
 
-export default Index;
+export default withUserAccess(Index);

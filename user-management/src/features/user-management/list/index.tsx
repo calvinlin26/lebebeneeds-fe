@@ -7,8 +7,14 @@ import { useUserData } from "../hooks/useUserData";
 import { deleteUser } from "../../../services/api";
 import { toast } from "sonner";
 import { useState } from "react";
+import withUserAccess from "mainApp/withUserAccess";
 
-const Index: React.FC = () => {
+const Index: React.FC = ({
+  USER_LIST,
+  USER_ADD,
+  USER_EDIT,
+  USER_DEACTIVE,
+}: any) => {
   const navigate = useNavigate();
   // Use custom hooks
   const { userData, setParams, params } = useUserData();
@@ -39,8 +45,14 @@ const Index: React.FC = () => {
       active: item.active ? "Active" : "Inactive",
       action: (
         <div className="flex flex-row gap-3">
-          <Button onClick={() => handleDetailUser(item.username)}>Edit</Button>
           <Button
+            disabled={!USER_EDIT}
+            onClick={() => handleDetailUser(item.username)}
+          >
+            Edit
+          </Button>
+          <Button
+            disabled={!USER_DEACTIVE}
             onClick={() => handleDeleteUser(item.username)}
             variant="destructive"
           >
@@ -96,19 +108,23 @@ const Index: React.FC = () => {
           />
           <Button onClick={handleSearch}>Search</Button>
         </div>
-        <Button onClick={handleAddUser}>Add User</Button>
+        <Button disabled={!USER_ADD} onClick={handleAddUser}>
+          Add User
+        </Button>
       </div>
 
-      <CustomTable
-        columns={columns}
-        data={data}
-        caption="User Data"
-        className="mt-4 border-collapse border border-gray-200 shadow-lg"
-        headerClassName="bg-gray-100 text-gray-700"
-        bodyClassName="bg-white"
-      />
+      {USER_LIST && (
+        <CustomTable
+          columns={columns}
+          data={data}
+          caption="User Data"
+          className="mt-4 border-collapse border border-gray-200 shadow-lg"
+          headerClassName="bg-gray-100 text-gray-700"
+          bodyClassName="bg-white"
+        />
+      )}
     </div>
   );
 };
 
-export default Index;
+export default withUserAccess(Index);
