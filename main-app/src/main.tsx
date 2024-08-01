@@ -12,6 +12,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <TokenProvider>
       <RouterProvider router={router} />
     </TokenProvider>
-    <Toaster richColors />
+    <Toaster richColors closeButton />
   </React.StrictMode>
 );
