@@ -8,8 +8,6 @@ export default defineConfig(({ mode }) => {
   // Load environment variables based on the current mode
   const env = loadEnv(mode, process.cwd());
 
-  console.log({ mode, env });
-
   return {
     plugins: [
       react(),
