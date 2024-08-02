@@ -1,24 +1,25 @@
 import { Button } from "mainApp/button";
 import CustomPagination from "mainApp/pagination";
+import withUserAccess from "mainApp/withUserAccess";
 import { useBussinessParamData } from "../hooks/useBussinessParamData";
 import CustomTable from "mainApp/table";
 import { Input } from "mainApp/input";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Index: React.FC = () => {
+interface Props {
+  ADMIN_PARAM_LIST: boolean;
+  ADMIN_PARAM_GET: boolean;
+}
 
+const Index: React.FC<Props> = ({ ADMIN_PARAM_LIST, ADMIN_PARAM_GET }) => {
   const [keyword, setKeyword] = useState<string>("");
 
   const navigate = useNavigate();
 
   //use custom hooks
-  const { 
-    bussinessParamData,
-    searchParam,
-    setSearchParam,
-    paginationInfo
-  } = useBussinessParamData();
+  const { bussinessParamData, searchParam, setSearchParam, paginationInfo } =
+    useBussinessParamData();
 
   // Columns definition
   const columns = [
@@ -80,75 +81,98 @@ const Index: React.FC = () => {
       code: item?.param?.code,
       orderNo: item?.param?.orderNo,
       valueType: item?.param?.valueType ? item?.param?.valueType : "-",
-      description: item?.paramTxt?.description ? item?.paramTxt?.description : "-",
+      description: item?.paramTxt?.description
+        ? item?.paramTxt?.description
+        : "-",
       langCode: item?.paramTxt?.langCode ? item?.paramTxt?.langCode : "-",
       text: item?.paramTxt?.text ? item?.paramTxt?.text : "-",
-      active: item?.param?.active === true ? "Active" : item?.param?.active === false ? "Inactive" : "-",
+      active:
+        item?.param?.active === true
+          ? "Active"
+          : item?.param?.active === false
+          ? "Inactive"
+          : "-",
       action: (
         <div className="flex flex-row gap-3">
-          <Button onClick={() => navigate(`/bussiness-param?action=1&code=${item?.param?.code}`)}>Edit</Button>
+          <Button
+            disabled={!ADMIN_PARAM_GET}
+            onClick={() =>
+              navigate(`/bussiness-param?action=1&code=${item?.param?.code}`)
+            }
+          >
+            Edit
+          </Button>
         </div>
-      )
-    }
-  })
+      ),
+    };
+  });
 
   const handlePageChange = (page: number) => {
     setSearchParam({
       ...searchParam,
       page: page,
-    })
-  }
+    });
+  };
 
   const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value)
-  }
+    setKeyword(e.target.value);
+  };
 
   const handleSearch = () => {
     setSearchParam({
       ...searchParam,
       search: keyword,
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    document.getElementById('bussinessParamTitle')?.scrollIntoView({behavior: 'smooth'})
-  }, [bussinessParamData]) 
+    document
+      .getElementById("bussinessParamTitle")
+      ?.scrollIntoView({ behavior: "smooth" });
+  }, [bussinessParamData]);
 
   return (
     <div className="flex flex-col" id="bussinessParamTitle">
       <h1 className="text-2xl font-bold">Bussiness Param Service</h1>
       <div className="flex w-full justify-between items-center mt-5">
         <div className="flex gap-x-4 items-center">
-          <Input 
-            variant={'default'}
-            fieldSize={'default'}
-            type={'text'}
-            placeholder={'Enter keyword'}
+          <Input
+            variant={"default"}
+            fieldSize={"default"}
+            type={"text"}
+            placeholder={"Enter keyword"}
             onChange={handleChangeKeyword}
           />
           <Button onClick={handleSearch}>Search</Button>
         </div>
-        <Button className="bg-primary" onClick={() => navigate(`/bussiness-param?action=1`)}>Add New Parameter</Button>
+        <Button
+          className="bg-primary"
+          onClick={() => navigate(`/bussiness-param?action=1`)}
+        >
+          Add New Parameter
+        </Button>
       </div>
-      <CustomTable 
-        columns={columns}
-        data={data}
-        caption="Bussiness Param Data"
-        className="mt-4 border-collapse border border-gray-200 shadow-lg"
-        headerClassName="bg-gray-100 text-gray-700"
-        bodyClassName="bg-white"
-      />
-      {
-        paginationInfo.totalPages > 0 && (
-          <CustomPagination 
-            currentPage={paginationInfo.page}
-            totalPageCount={paginationInfo.totalPages}
-            onPageChange={handlePageChange}
+      {ADMIN_PARAM_LIST && (
+        <>
+          <CustomTable
+            columns={columns}
+            data={data}
+            caption="Bussiness Param Data"
+            className="mt-4 border-collapse border border-gray-200 shadow-lg"
+            headerClassName="bg-gray-100 text-gray-700"
+            bodyClassName="bg-white"
           />
-        )
-      }
+          {paginationInfo.totalPages > 0 && (
+            <CustomPagination
+              currentPage={paginationInfo.page}
+              totalPageCount={paginationInfo.totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Index;
+export default withUserAccess(Index);

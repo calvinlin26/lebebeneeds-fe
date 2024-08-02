@@ -3,6 +3,7 @@ import { CustomFormField, Form } from "mainApp/form";
 import { Input } from "mainApp/input";
 import { Button } from "mainApp/button";
 import DropdownSelect from "mainApp/select";
+import withUserAccess from "mainApp/withUserAccess";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControllerRenderProps, useForm, useFieldArray } from "react-hook-form";
@@ -16,7 +17,15 @@ import {
 import { postParam } from "../../../services";
 import { useBussinessParamDetail } from "../hooks/useBussinessParamDetail";
 
-const Index: React.FC<{ code?: string | null }> = ({ code }) => {
+interface Props {
+  code?: string | null;
+  ADMIN_PARAM_SAVE: boolean;
+}
+
+const Index: React.FC<Props> = ({
+  code,
+  ADMIN_PARAM_SAVE,
+}) => {
   const navigate = useNavigate();
   const bussinessParamDetail = useBussinessParamDetail(code ?? "");
   const form = useForm<ParamSchema>({
@@ -299,7 +308,7 @@ const Index: React.FC<{ code?: string | null }> = ({ code }) => {
           <div className="flex justify-end">
             <Button
               type="submit"
-              disabled={form.formState.isSubmitting}
+              disabled={form.formState.isSubmitting || !ADMIN_PARAM_SAVE}
               aria-disabled={form.formState.isSubmitting}
             >
               Submit
@@ -311,4 +320,4 @@ const Index: React.FC<{ code?: string | null }> = ({ code }) => {
   );
 };
 
-export default Index;
+export default withUserAccess(Index);

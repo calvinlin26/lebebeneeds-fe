@@ -11,7 +11,14 @@ const withUserAccess = (WrappedComponent: React.FC) => (props: {}) => {
   const [services, setServices] = useState({});
 
   useEffect(() => {
-    const hasAccessMenu: any = accessUser.find((item: any) =>
+    const destructorMenu = accessUser.flatMap((menuItem) => [
+      { url: menuItem.url, services: menuItem.services },
+      ...(menuItem.items?.map((item) => ({
+        url: item.url,
+        services: menuItem.services,
+      })) || []),
+    ]);
+    const hasAccessMenu: any = destructorMenu.find((item: any) =>
       currentPath.startsWith(item.url)
     );
     if (!hasAccessMenu && !loading) {
