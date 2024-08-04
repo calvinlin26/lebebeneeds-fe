@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
             element: <RoleManagement />,
           },
           {
-            path: "/bussiness-param",
+            path: "/bussiness-params",
             element: <BussinessParam />,
           },
         ],
