@@ -18,7 +18,7 @@ const withUserAccess = (WrappedComponent: React.FC) => (props: {}) => {
         services: menuItem.services,
       })) || []),
     ]);
-    const hasAccessMenu: any = destructorMenu.find((item: any) =>
+const hasAccessMenu: any = destructorMenu.find((item: any) =>
       currentPath.startsWith(item.url)
     );
     if (!hasAccessMenu && !loading) {

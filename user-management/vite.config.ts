@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
         // Modules to expose
         exposes: {
           "./user-management": "./src/features/user-management",
-          "./role-management": "./src/features/role-management",
+          "./roles-management": "./src/features/role-management",
         },
         remotes: {
           mainApp: `${env.VITE_MAIN_APP_URL}/assets/mainApp.js`,

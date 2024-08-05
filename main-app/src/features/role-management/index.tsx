@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-const RoleManagementApp = lazy(() => import("userManagement/role-management"));
+const RoleManagementApp = lazy(() => import("userManagement/roles-management"));
 
 const RoleManagement = () => {
   return (
