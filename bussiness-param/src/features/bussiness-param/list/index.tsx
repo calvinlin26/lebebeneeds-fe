@@ -97,7 +97,7 @@ const Index: React.FC<Props> = ({ ADMIN_PARAM_LIST, ADMIN_PARAM_GET }) => {
           <Button
             disabled={!ADMIN_PARAM_GET}
             onClick={() =>
-              navigate(`/bussiness-param?action=1&code=${item?.param?.code}`)
+              navigate(`/bussiness-params?action=1&code=${item?.param?.code}`)
             }
           >
             Edit
@@ -147,7 +147,7 @@ const Index: React.FC<Props> = ({ ADMIN_PARAM_LIST, ADMIN_PARAM_GET }) => {
         </div>
         <Button
           className="bg-primary"
-          onClick={() => navigate(`/bussiness-param?action=1`)}
+          onClick={() => navigate(`/bussiness-params?action=1`)}
         >
           Add New Parameter
         </Button>

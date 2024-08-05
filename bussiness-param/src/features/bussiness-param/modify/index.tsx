@@ -62,7 +62,7 @@ const Index: React.FC<Props> = ({
     try {
       await postParam(data);
       toast.success("Parameter has been updated successfully");
-      navigate("/bussiness-param");
+      navigate("/bussiness-params");
     } catch (error) {
       toast.error("Error submitting form");
       console.error("Error submitting form:", error);
