@@ -9,11 +9,19 @@ import { toast } from "sonner";
 import { useState } from "react";
 import withUserAccess from "mainApp/withUserAccess";
 
-const Index: React.FC = ({
+interface IndexProps {
+  USER_LIST: boolean;
+  USER_ADD: boolean;
+  USER_EDIT: boolean;
+  USER_DELETE: boolean;
+  [key: string]: boolean;
+}
+
+const Index: React.FC<IndexProps> = ({
   USER_LIST,
   USER_ADD,
   USER_EDIT,
-  USER_DEACTIVE,
+  USER_DELETE,
 }: any) => {
   const navigate = useNavigate();
   // Use custom hooks
@@ -52,7 +60,7 @@ const Index: React.FC = ({
             Edit
           </Button>
           <Button
-            disabled={!USER_DEACTIVE}
+            disabled={!USER_DELETE}
             onClick={() => handleDeleteUser(item.username)}
             variant="destructive"
           >

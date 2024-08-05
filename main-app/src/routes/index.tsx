@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
             element: <UserManagement />,
           },
           {
-            path: "/role-management",
+            path: "/roles-management",
             element: <RoleManagement />,
           },
           {

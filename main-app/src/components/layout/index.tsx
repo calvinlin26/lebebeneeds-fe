@@ -2,30 +2,18 @@ import Navbar from "../navbar";
 import { Outlet } from "react-router-dom";
 import SideBar from "../sidebar";
 import logo from "../../assets/indvara.png";
+import useUserAccess from "../../hooks/useUserAccess";
+import useSidebarItems from "../../hooks/useSidebarItems";
 
 const Layout = () => {
+  const { loading } = useUserAccess();
+  const { sidebarItems } = useSidebarItems();
+
   return (
     <div className="flex flex-row h-screen overflow-hidden">
       <SideBar
         shadow="shadow-md"
-        items={[
-          {
-            path: "/",
-            label: "Dashboard",
-          },
-          {
-            label: "User Management",
-            items: [
-              { path: "/user-management", label: "User" },
-              { path: "/role-management", label: "Role"},
-            ],
-          },
-          {
-            label: "Bussiness Parameter",
-            path: "/bussiness-param"
-          },
-          // Add more items as needed
-        ]}
+        items={sidebarItems}
       />
       <div className="flex flex-col w-full overflow-hidden">
         <Navbar
@@ -40,7 +28,11 @@ const Layout = () => {
           // linksPosition="center"
         />
         <div className="overflow-y-auto h-full p-6">
-          <Outlet />
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+            <Outlet />
+          )}
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { introspect } from "../services/auth/api";
+import { introspect } from "../services/auth";
+import { useToken } from "./useToken";
 
 interface MenuItem {
   menuCode: string;
@@ -16,23 +17,24 @@ interface ServiceItem {
 
 interface AccessItem extends MenuItem {
   services: ServiceItem[];
-  items: MenuItem[];
+  items?: MenuItem[];
 }
 
 function useUserAccess() {
+  const { token } = useToken()
   const [loading, setLoading] = useState<boolean>(true);
   const [accessUser, setAccessUser] = useState<AccessItem[]>([]);
   useEffect(() => {
-    const token: string | null = localStorage.getItem("token");
     const fetchIntrospect = async () => {
       if (token) {
         const response = await introspect(token);
-        const menu = response?.menu;
-        const service = response?.service;
-        const access: AccessItem[] = menu?.map((menuItem: MenuItem) => {
+        const menu: MenuItem[] = response?.menu || [];
+        const service: ServiceItem[] = response?.service || [];
+        const topLevelMenu = menu.filter((menuItem) => !menuItem.parent);
+        const access: AccessItem[] = topLevelMenu?.map((menuItem: MenuItem) => {
           // services list
           const services = service.filter((serviceItem: ServiceItem) =>
-            serviceItem.serviceCode.startsWith(menuItem.menuCode)
+            serviceItem.serviceCode
           );
           // submenu list
           const items = menu.filter(
@@ -41,7 +43,7 @@ function useUserAccess() {
           return {
             ...menuItem,
             services,
-            items,
+            ...(items.length > 0 && { items }),
           };
         });
         setAccessUser(access);
@@ -51,7 +53,6 @@ function useUserAccess() {
 
     fetchIntrospect();
   }, []);
-
   return { accessUser, loading };
 }
 
