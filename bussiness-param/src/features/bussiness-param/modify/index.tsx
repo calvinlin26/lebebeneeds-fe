@@ -305,7 +305,8 @@ const Index: React.FC<Props> = ({
               </>
             )}
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-5">
+            <Button onClick={() => navigate("/bussiness-params")}>Back</Button>
             <Button
               type="submit"
               disabled={form.formState.isSubmitting || !ADMIN_PARAM_SAVE}
