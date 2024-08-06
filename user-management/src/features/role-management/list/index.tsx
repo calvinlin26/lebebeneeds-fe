@@ -70,7 +70,7 @@ const Index: React.FC<IndexProps> = ({
 
   const handleAddRole = () => {
     // Handle add user logic here, e.g., open a form or modal
-    navigate("/role-management" + Hash.DETAIL);
+    navigate("/roles-management" + Hash.DETAIL);
   };
 
   const handleDeleteRole = async (roleCode: string) => {

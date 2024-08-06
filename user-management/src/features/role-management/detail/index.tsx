@@ -14,6 +14,7 @@ import { useRoleServiceData } from "../hooks/useRoleServiceData";
 import DropdownSelect from "mainApp/select";
 import { editRole, postRole } from "../../../services/api";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 
 interface Menus {
@@ -40,7 +41,7 @@ const statusOptions: StatusOption[] = [
 const Index: React.FC = () => {
   const query = useQuery();
   const roleCode = query.get("rolecode") as string;
-
+  const navigate = useNavigate();
   const isEdit = roleCode ? true : false;
   const roleDetail = useRoleDetail(roleCode);
 
@@ -278,7 +279,7 @@ const Index: React.FC = () => {
           />
 
           <div className="flex flex-row gap-5 mt-4 justify-end">
-            <Button variant="secondary">Back</Button>
+            <Button variant="secondary" onClick={() => navigate("/roles-management")}>Back</Button>
             <Button
               type="submit"
               disabled={form.formState.isSubmitting}

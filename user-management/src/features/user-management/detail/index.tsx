@@ -19,6 +19,7 @@ import { useQuery } from "mainApp/useQuery";
 import { useRolesData } from "../hooks/useRolesData";
 import { useUserDetail } from "../hooks/useUserDetail";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 
 interface RoleData {
   roleCode: string;
@@ -34,7 +35,7 @@ const Index: React.FC = () => {
   // const navigate = useNavigate();
   const query = useQuery();
   const username = query.get("username") as string;
-
+  const navigate = useNavigate()
   //const username = "test1234567";
   const isEdit = username ? true : false;
   // console.log(username, "username");
@@ -307,7 +308,7 @@ const Index: React.FC = () => {
           />
 
           <div className="flex flex-row gap-5 mt-4 justify-end">
-            <Button variant="secondary">Back</Button>
+            <Button variant="secondary" onClick={() => navigate("/user-management")}>Back</Button>
             <Button
               type="submit"
               disabled={form.formState.isSubmitting}
