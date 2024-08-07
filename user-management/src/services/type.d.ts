@@ -146,3 +146,16 @@ type StatusOption = {
   value: string;
   label: string;
 };
+
+type SearchParamQuery = {
+  page: number,
+  pageSize: number,
+  search: string,
+}
+
+type AdminParamPagination = {
+  page: number,
+  pageSize: number,
+  totalDataCount: number,
+  totalPages: number;
+}

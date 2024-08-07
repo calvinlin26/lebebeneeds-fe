@@ -37,10 +37,13 @@ export const getRoleDetail = async (roleCode: string) => {
   }
 };
 
-export const getRole = async () => {
+export const getRole = async (params: SearchParamQuery) => {
   try {
     const response = await API.get(
-      "http://192.168.90.35:8081/roles?sort=roleCode"
+      "http://192.168.90.35:8081/roles?sort=roleCode",
+      {
+        params,
+      }
     );
     return response.data.data;
   } catch (error) {
@@ -48,18 +51,22 @@ export const getRole = async () => {
   }
 };
 
-export const getMenus = async () => {
+export const getMenus = async (params: SearchParamQuery) => {
   try {
-    const response = await API.get("http://192.168.90.35:8081/menus");
+    const response = await API.get("http://192.168.90.35:8081/menus", {
+      params,
+    });
     return response.data.data;
   } catch (error) {
     console.error("Error fetching the access token:", error);
   }
 };
 
-export const getServices = async () => {
+export const getServices = async (params: SearchParamQuery) => {
   try {
-    const response = await API.get("http://192.168.90.35:8081/services");
+    const response = await API.get("http://192.168.90.35:8081/services", {
+      params,
+    });
     return response.data.data;
   } catch (error) {
     console.error("Error fetching the access token:", error);

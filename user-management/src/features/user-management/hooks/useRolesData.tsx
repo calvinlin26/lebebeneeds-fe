@@ -8,7 +8,7 @@ export const useRolesData = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response: RoleListResponse = await getRole();
+        const response: RoleListResponse = await getRole({ page: 1, pageSize: 10, search: "" });
 
         if (response && response.content) {
           setRolesData(response.content);
