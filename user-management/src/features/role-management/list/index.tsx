@@ -1,5 +1,6 @@
 import { Button } from "mainApp/button";
 import CustomTable from "mainApp/table";
+import CustomPagination from "mainApp/pagination";
 import { Hash } from "../../../constants";
 import { useNavigate } from "react-router-dom";
 import { useRoleData } from "../hooks/useRoleData";
@@ -15,16 +16,15 @@ interface IndexProps {
   [key: string]: boolean;
 }
 
-const Index: React.FC<IndexProps> = ({ 
+const Index: React.FC<IndexProps> = ({
   ROLE_LIST,
   ROLE_ADD,
   ROLE_EDIT,
   ROLE_DELETE,
 }: any) => {
-  
   const navigate = useNavigate();
   // Use custom hooks
-  const roleData = useRoleData();
+  const {roleData, searchParam, setSearchParam, paginationInfo} = useRoleData();
 
   // Columns definition
   const columns = [
@@ -44,6 +44,13 @@ const Index: React.FC<IndexProps> = ({
     },
   ];
 
+  const handlePageChange = (page: number) => {
+    setSearchParam({
+      ...searchParam,
+      page: page,
+    });
+  };
+
   // Table Data
   const data = roleData?.map((item: RoleListItem) => {
     return {
@@ -51,7 +58,12 @@ const Index: React.FC<IndexProps> = ({
       active: item.active ? "Active" : "Inactive",
       action: (
         <div className="flex flex-row gap-3">
-          <Button disabled={!ROLE_EDIT} onClick={() => handleDetailRole(item.roleCode)}>Edit</Button>
+          <Button
+            disabled={!ROLE_EDIT}
+            onClick={() => handleDetailRole(item.roleCode)}
+          >
+            Edit
+          </Button>
           <Button
             disabled={!ROLE_DELETE}
             onClick={() => handleDeleteRole(item.roleCode)}
@@ -86,17 +98,28 @@ const Index: React.FC<IndexProps> = ({
     <div className="flex flex-col">
       <h1 className="text-2xl font-bold">Role Data</h1>
       <div className="flex justify-end items-center mb-4">
-        <Button disabled={!ROLE_ADD} onClick={handleAddRole}>Add Role</Button>
+        <Button disabled={!ROLE_ADD} onClick={handleAddRole}>
+          Add Role
+        </Button>
       </div>
       {ROLE_LIST && (
-      <CustomTable
-        columns={columns}
-        data={data}
-        caption="Role Data"
-        className="mt-4 border-collapse border border-gray-200 shadow-lg"
-        headerClassName="bg-gray-100 text-gray-700"
-        bodyClassName="bg-white"
-      />
+        <>
+          <CustomTable
+            columns={columns}
+            data={data}
+            caption="Role Data"
+            className="mt-4 border-collapse border border-gray-200 shadow-lg"
+            headerClassName="bg-gray-100 text-gray-700"
+            bodyClassName="bg-white"
+          />
+          {paginationInfo.totalPages > 0 && (
+            <CustomPagination
+              currentPage={paginationInfo.page}
+              totalPageCount={paginationInfo.totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </>
       )}
     </div>
   );

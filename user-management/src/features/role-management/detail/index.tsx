@@ -5,6 +5,7 @@ import { PostRoleSchema, postRoleSchema } from "../../../services/form";
 import { Button } from "mainApp/button";
 import { Checkbox } from "mainApp/checkbox";
 import CustomTable from "mainApp/table";
+import CustomPagination from "mainApp/pagination";
 import { Input } from "mainApp/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRoleMenuData } from "../hooks/useRoleMenusData";
@@ -93,7 +94,7 @@ const Index: React.FC = () => {
   }, [roleDetail, form]);
 
   // Table Data
-  const menus = useRoleMenuData();
+  const {menus, menusSearchParam, setMenusSearchParam, menusPaginationInfo} = useRoleMenuData();
   const dataMenu: Menus[] = menus.map((menu) => ({
     menuCode: menu.menuCode,
     label: menu.label,
@@ -107,17 +108,24 @@ const Index: React.FC = () => {
         control={form.control}
         render={({ field }) => (
           <Checkbox
-            onChange={(checked: boolean) =>
-              handleMenuChangeMenu(checked, menu.label, field)
+            onCheckedChange={(checked: boolean) =>
+              handleMenuChangeMenu(checked, menu.menuCode, field)
             }
-            checked={field.value.some(r => r.label === menu.label)}
+            checked={field.value.some(r => r.menuCode === menu.menuCode)}
           />
         )}
       />
     ),
   }));
 
-  const services = useRoleServiceData();
+  const handlePageChangeMenus = (page: number) => {
+    setMenusSearchParam({
+      ...menusSearchParam,
+      page: page,
+    });
+  };
+
+  const {services, servicessSearchParam, setServicesSearchParam, servicesPaginationInfo} = useRoleServiceData();
   const dataService: Services[] = services.map((service) => ({
     serviceCode: service.serviceCode,
     url: service.url,
@@ -127,15 +135,22 @@ const Index: React.FC = () => {
         control={form.control}
         render={({ field }) => (
           <Checkbox
-            onChange={(checked: boolean) =>
+            onCheckedChange={(checked: boolean) =>
               handleMenuChangeService(checked, service.serviceCode, field)
             }
-            checked={field.value.includes(service as any)}
+            checked={field.value.some(r => r.serviceCode === service.serviceCode)}
           />
         )}
       />
     ),
   }));
+
+  const handlePageChangeServices = (page: number) => {
+    setServicesSearchParam({
+      ...servicessSearchParam,
+      page: page,
+    });
+  };
 
   const handleMenuChangeService = (
     checked: boolean,
@@ -143,7 +158,7 @@ const Index: React.FC = () => {
     field: ControllerRenderProps<PostRoleSchema, "services">
   ) => {
     const newService = checked
-      ? [...field.value as { serviceCode: string}[]]
+      ? [...field.value as { serviceCode: string}[], services.find(r => r.serviceCode === service)]
       : (field.value as {serviceCode: string}[]).filter(r => r.serviceCode !== service);
     field.onChange(newService);
   };
@@ -154,8 +169,8 @@ const Index: React.FC = () => {
     field: ControllerRenderProps<PostRoleSchema, "menus">
   ) => {
     const newMenus = checked
-      ? [...(field.value as { label: string}[]), {label : menu}]
-      : (field.value as {label: string}[]).filter(r => r.label !== menu);
+      ? [...(field.value as { menuCode: string}[]), menus.find(r => r.menuCode === menu)]
+      : (field.value as {menuCode: string}[]).filter(r => r.menuCode !== menu);
     field.onChange(newMenus);
   };
 
@@ -170,11 +185,17 @@ const Index: React.FC = () => {
         await postRole(data);
         toast.success("User has been created");
       }
-      // navigate("/user-management");
+      navigate("/roles-management");
     } catch (error) {
       console.error("Error submitting form:", error);
     }
   };
+
+  const {
+    handleSubmit,
+    // formState: { errors }
+  } = form;
+  // console.log("Errors:", errors);
 
   return (
     <div className="flex flex-col gap-5">
@@ -185,7 +206,7 @@ const Index: React.FC = () => {
       <Form {...form}>
         <form
           className="flex flex-col gap-5"
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <CustomFormField
             control={form.control}
@@ -269,6 +290,13 @@ const Index: React.FC = () => {
             headerClassName="bg-gray-100 text-gray-700"
             bodyClassName="bg-white"
           />
+          {menusPaginationInfo.totalPages > 0 && (
+            <CustomPagination
+              currentPage={menusPaginationInfo.page}
+              totalPageCount={menusPaginationInfo.totalPages}
+              onPageChange={handlePageChangeMenus}
+            />
+          )}
 
           <CustomTable
             columns={columnsServices}
@@ -277,6 +305,13 @@ const Index: React.FC = () => {
             headerClassName="bg-gray-100 text-gray-700"
             bodyClassName="bg-white"
           />
+          {servicesPaginationInfo.totalPages > 0 && (
+            <CustomPagination
+              currentPage={servicesPaginationInfo.page}
+              totalPageCount={servicesPaginationInfo.totalPages}
+              onPageChange={handlePageChangeServices}
+            />
+          )}
 
           <div className="flex flex-row gap-5 mt-4 justify-end">
             <Button variant="secondary" onClick={() => navigate("/roles-management")}>Back</Button>

@@ -8,3 +8,4 @@ declare module "mainApp/select";
 declare module "mainApp/toast";
 declare module "mainApp/useQuery";
 declare module "mainApp/withUserAccess";
+declare module "mainApp/pagination";
