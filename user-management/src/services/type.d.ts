@@ -43,8 +43,6 @@ type UserDetail = {
   modifiedBy: string;
   modifiedDate: string;
   username: string;
-  name: string;
-  email: string;
   branchCode: string;
   title: string;
   invalidPasswordRetry: number;
