@@ -6,10 +6,7 @@ export const roleSchema = z.object({
 
 const baseUserSchema = z.object({
   username: z.string().min(1, { message: "Username is required" }),
-  name: z.string().min(1, { message: "Name is required" }),
-  email: z.string().email({ message: "Invalid email address" }),
   branch: z.string().min(1, { message: "Branch is required" }),
-  title: z.string().min(1, { message: "Title is required" }),
   invalidPasswordRetry: z.number().nonnegative(),
   locked: z.string(),
   active: z.string(),

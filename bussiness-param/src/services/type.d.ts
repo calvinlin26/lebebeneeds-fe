@@ -19,6 +19,7 @@ type SearchParamQuery = {
   page: number,
   pageSize: number,
   search: string,
+  searchField: string,
 }
 
 type AdminParamPagination = {

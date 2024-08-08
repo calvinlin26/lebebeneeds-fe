@@ -9,6 +9,7 @@ import {
 import { Button } from "mainApp/button";
 import { Checkbox } from "mainApp/checkbox";
 import CustomTable from "mainApp/table";
+import CustomPagination from "mainApp/pagination";
 import withUserAccess from "mainApp/withUserAccess";
 import DropdownSelect from "mainApp/select";
 import { Input } from "mainApp/input";
@@ -41,7 +42,7 @@ const Index: React.FC = () => {
   // console.log(username, "username");
 
   // Use custom hooks
-  const roleData = useRolesData();
+  const {rolesData, roleSearchParam, setRoleSearchParam, rolePagination} = useRolesData();
   const userDetail = useUserDetail(username);
 
   // console.log(userDetail, "user detail");
@@ -51,10 +52,7 @@ const Index: React.FC = () => {
     defaultValues: {
       username: "",
       password: "",
-      name: "",
-      email: "",
       branch: "",
-      title: "",
       invalidPasswordRetry: 0,
       locked: "false",
       active: "true",
@@ -69,6 +67,7 @@ const Index: React.FC = () => {
         ...userDetail,
         locked: userDetail.locked ? "true" : "false",
         active: userDetail.active ? "true" : "false",
+        branch: userDetail.branchCode
       });
     }
   }, [userDetail, form]);
@@ -87,7 +86,7 @@ const Index: React.FC = () => {
   ];
 
   // Table Data
-  const data: RoleData[] = roleData.map((role) => ({
+  const data: RoleData[] = rolesData.map((role) => ({
     roleCode: role.roleCode,
     action: (
       <Controller
@@ -104,6 +103,14 @@ const Index: React.FC = () => {
       />
     ),
   }));
+
+  const handlePageChangeRole = (page: number) => {
+    setRoleSearchParam({
+      ...roleSearchParam,
+      page: page,
+    });
+  };
+
 
   const handleRoleChange = (
     checked: boolean,
@@ -195,47 +202,11 @@ const Index: React.FC = () => {
             </>
           )}
 
-          <CustomFormField control={form.control} name="name" label="Name">
-            {(field: ControllerRenderProps<UserSchema, "name">) => (
-              <Input
-                {...field}
-                placeholder="Input name"
-                type="text"
-                disabled={form.formState.isSubmitting}
-                aria-disabled={form.formState.isSubmitting}
-              />
-            )}
-          </CustomFormField>
-
-          <CustomFormField control={form.control} name="email" label="Email">
-            {(field: ControllerRenderProps<UserSchema, "email">) => (
-              <Input
-                {...field}
-                placeholder="Input email"
-                type="email"
-                disabled={form.formState.isSubmitting}
-                aria-disabled={form.formState.isSubmitting}
-              />
-            )}
-          </CustomFormField>
-
           <CustomFormField control={form.control} name="branch" label="Branch">
             {(field: ControllerRenderProps<UserSchema, "branch">) => (
               <Input
                 {...field}
                 placeholder="Input branch"
-                type="text"
-                disabled={form.formState.isSubmitting}
-                aria-disabled={form.formState.isSubmitting}
-              />
-            )}
-          </CustomFormField>
-
-          <CustomFormField control={form.control} name="title" label="Title">
-            {(field: ControllerRenderProps<UserSchema, "title">) => (
-              <Input
-                {...field}
-                placeholder="Input title"
                 type="text"
                 disabled={form.formState.isSubmitting}
                 aria-disabled={form.formState.isSubmitting}
@@ -306,6 +277,13 @@ const Index: React.FC = () => {
             headerClassName="bg-gray-100 text-gray-700"
             bodyClassName="bg-white"
           />
+          {rolePagination.totalPages > 0 && (
+            <CustomPagination
+              currentPage={rolePagination.page}
+              totalPageCount={rolePagination.totalPages}
+              onPageChange={handlePageChangeRole}
+            />
+          )}
 
           <div className="flex flex-row gap-5 mt-4 justify-end">
             <Button variant="secondary" onClick={() => navigate("/user-management")}>Back</Button>
