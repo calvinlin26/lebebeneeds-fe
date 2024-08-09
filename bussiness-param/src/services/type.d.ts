@@ -63,7 +63,7 @@ type SearchFilter = {
   value: string;
 }
 
-type BussinessParamDetail = {
+type BusinessParamDetail = {
   active: boolean;
   code: string;
   category: string;

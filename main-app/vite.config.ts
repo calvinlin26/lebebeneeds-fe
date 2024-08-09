@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
         remotes: {
           userManagement: `${env.VITE_USER_MANAGEMENT_URL}/assets/userManagement.js`,
           showcase: `${env.VITE_SHOWCASE_URL}/assets/showcase.js`,
-          bussinessParam: `${env.VITE_BUSSINESS_PARAM_URL}/assets/bussinessParam.js`,
+          businessParam: `${env.VITE_BUSINESS_PARAM_URL}/assets/businessParam.js`,
           notification: `${env.VITE_NOTIFICATION_URL}/assets/notification.js`,
         },
         exposes: {

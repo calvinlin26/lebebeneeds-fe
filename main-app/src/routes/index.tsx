@@ -1,4 +1,4 @@
-import BussinessParam from "../features/bussiness-param";
+import BusinessParam from "../features/business-param";
 import Dashboard from "../features/dashboard";
 import Layout from "../components/layout";
 import Notification from "../features/notification";
@@ -33,8 +33,8 @@ export const router = createBrowserRouter([
             element: <RoleManagement />,
           },
           {
-            path: "/bussiness-params",
-            element: <BussinessParam />,
+            path: "/admin/params",
+            element: <BusinessParam />,
           },
           {
             path: "/notification",
