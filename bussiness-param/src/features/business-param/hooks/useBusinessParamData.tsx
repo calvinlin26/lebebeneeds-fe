@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { getBussinessParam } from "../../../services";
+import { getBusinessParam } from "../../../services";
 
-export const useBussinessParamData = () => {
-  const [bussinessParamData, setBussinessParamData] = useState<AdminParamListItem[]>([]);
+export const useBusinessParamData = () => {
+  const [businessParamData, setBusinessParamData] = useState<AdminParamListItem[]>([]);
   const [searchParam, setSearchParam] = useState<SearchParamQuery>({
     page: 1,
     pageSize: 10,
@@ -17,17 +17,17 @@ export const useBussinessParamData = () => {
   })
 
   useEffect(() => {
-    const fetchBussinessParam = async() => {
+    const fetchBusinessParam = async() => {
       let listParam = [];
       listParam.push(`page=${searchParam.page}`)
       listParam.push(`pageSize=${searchParam.pageSize}`)
       searchParam.search.length > 0 && listParam.push(`search=${searchParam.searchField}:${searchParam.search}`)
       const finalQueryParameter = `?${listParam.join('&')}`
       try {
-        const response: AdminParamResponse = await getBussinessParam(finalQueryParameter);
+        const response: AdminParamResponse = await getBusinessParam(finalQueryParameter);
 
         if ( response && response.content ) {
-          setBussinessParamData(response.content)
+          setBusinessParamData(response.content)
           setPaginationInfo({
             page: response.page,
             pageSize: response.pageSize,
@@ -40,8 +40,8 @@ export const useBussinessParamData = () => {
       }
     }
 
-    fetchBussinessParam();
+    fetchBusinessParam();
   }, [searchParam])
 
-  return {bussinessParamData, searchParam, setSearchParam, paginationInfo};
+  return {businessParamData, searchParam, setSearchParam, paginationInfo};
 }

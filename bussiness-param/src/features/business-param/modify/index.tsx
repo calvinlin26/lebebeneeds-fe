@@ -15,7 +15,7 @@ import {
   ParamSchema,
 } from "../../../services/form";
 import { postParam } from "../../../services";
-import { useBussinessParamDetail } from "../hooks/useBussinessParamDetail";
+import { useBusinessParamDetail } from "../hooks/useBusinessParamDetail";
 
 interface Props {
   code?: string | null;
@@ -27,7 +27,7 @@ const Index: React.FC<Props> = ({
   ADMIN_PARAM_SAVE,
 }) => {
   const navigate = useNavigate();
-  const bussinessParamDetail = useBussinessParamDetail(code ?? "");
+  const businessParamDetail = useBusinessParamDetail(code ?? "");
   const form = useForm<ParamSchema>({
     resolver: zodResolver(code ? updateParamSchema : createParamSchema),
     defaultValues: {
@@ -44,25 +44,25 @@ const Index: React.FC<Props> = ({
   });
 
   useEffect(() => {
-    if (bussinessParamDetail) {
+    if (businessParamDetail) {
       form.reset({
-        code: bussinessParamDetail.code ?? "",
-        orderNo: bussinessParamDetail.orderNo ?? "",
-        category: bussinessParamDetail.category ?? "",
-        valueType: bussinessParamDetail.valueType ?? "",
-        active: bussinessParamDetail.active ? "true" : "false",
-        frontEnd: bussinessParamDetail.frontEnd ? "true" : "false",
-        paramValue: bussinessParamDetail.paramValue ?? "",
-        paramTxt: bussinessParamDetail.paramTxt,
+        code: businessParamDetail.code ?? "",
+        orderNo: businessParamDetail.orderNo ?? "",
+        category: businessParamDetail.category ?? "",
+        valueType: businessParamDetail.valueType ?? "",
+        active: businessParamDetail.active ? "true" : "false",
+        frontEnd: businessParamDetail.frontEnd ? "true" : "false",
+        paramValue: businessParamDetail.paramValue ?? "",
+        paramTxt: businessParamDetail.paramTxt,
       });
     }
-  }, [bussinessParamDetail, form]);
+  }, [businessParamDetail, form]);
 
   const onSubmit = async (data: ParamSchema) => {
     try {
       await postParam(data);
       toast.success("Parameter has been updated successfully");
-      navigate("/bussiness-params");
+      navigate("/admin/params");
     } catch (error) {
       toast.error("Error submitting form");
       console.error("Error submitting form:", error);
@@ -82,7 +82,7 @@ const Index: React.FC<Props> = ({
   return (
     <div className="flex flex-col gap-5">
       <h1 className="text-2xl font-bold">
-        {code ? `Edit` : `Create`} Bussiness Param
+        {code ? `Edit` : `Create`} Business Param
       </h1>
       <Form {...form}>
         <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
@@ -306,7 +306,7 @@ const Index: React.FC<Props> = ({
             )}
           </div>
           <div className="flex justify-end gap-5">
-            <Button onClick={() => navigate("/bussiness-params")}>Back</Button>
+            <Button onClick={() => navigate("/admin/params")}>Back</Button>
             <Button
               type="submit"
               disabled={form.formState.isSubmitting || !ADMIN_PARAM_SAVE}

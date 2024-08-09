@@ -12,11 +12,11 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       federation({
-        name: "bussinessParam",
-        filename: "bussinessParam.js",
+        name: "businessParam",
+        filename: "businessParam.js",
         // Modules to expose
         exposes: {
-          "./bussiness-param": "./src/features/bussiness-param",
+          "./business-param": "./src/features/business-param",
         },
         remotes: {
           mainApp: `${env.VITE_MAIN_APP_URL}/assets/mainApp.js`,

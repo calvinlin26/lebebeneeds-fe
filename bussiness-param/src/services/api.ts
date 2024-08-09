@@ -1,7 +1,7 @@
 import { API } from "mainApp/services";
 import { ParamSchema } from "./form";
 
-export const getBussinessParam = async (param: string) => {
+export const getBusinessParam = async (param: string) => {
   try {
     const response = await API.get(
       `http://192.168.90.35:8082/admin/params${param}`
@@ -13,7 +13,7 @@ export const getBussinessParam = async (param: string) => {
   }
 };
 
-export const getBussinessParamDetail = async ({ id }: { id: string }) => {
+export const getBusinessParamDetail = async ({ id }: { id: string }) => {
   try {
     const response = await API.get(
       `http://192.168.90.35:8082/admin/params/${id}`

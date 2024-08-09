@@ -1,7 +1,7 @@
 import React from "react"
-import BussinessParamListPage from "./list"
+import BusinessParamListPage from "./list"
 import { usePageParam } from "./hooks/usePageParam";
-import ModifyBussinessParamPage from "./modify"
+import ModifyBusinessParamPage from "./modify"
 
 const Index: React.FC = () => {
 
@@ -9,10 +9,10 @@ const Index: React.FC = () => {
   const action = usePageParam().get("action");
 
   if ( action === "1" ) {
-    return <ModifyBussinessParamPage code={code}/>
+    return <ModifyBusinessParamPage code={code}/>
   }
 
-  return <BussinessParamListPage/>;
+  return <BusinessParamListPage/>;
 };
 
 export default Index;

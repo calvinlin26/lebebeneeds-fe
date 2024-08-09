@@ -1,7 +1,7 @@
 import { Button } from "mainApp/button";
 import CustomPagination from "mainApp/pagination";
 import withUserAccess from "mainApp/withUserAccess";
-import { useBussinessParamData } from "../hooks/useBussinessParamData";
+import { useBusinessParamData } from "../hooks/useBusinessParamData";
 import CustomTable from "mainApp/table";
 import { Input } from "mainApp/input";
 import { useEffect, useState } from "react";
@@ -18,8 +18,8 @@ const Index: React.FC<Props> = ({ ADMIN_PARAM_LIST, ADMIN_PARAM_GET }) => {
   const navigate = useNavigate();
 
   //use custom hooks
-  const { bussinessParamData, searchParam, setSearchParam, paginationInfo } =
-    useBussinessParamData();
+  const { businessParamData, searchParam, setSearchParam, paginationInfo } =
+    useBusinessParamData();
 
   // Columns definition
   const columns = [
@@ -74,7 +74,7 @@ const Index: React.FC<Props> = ({ ADMIN_PARAM_LIST, ADMIN_PARAM_GET }) => {
     },
   ];
 
-  const data = bussinessParamData.map((item: AdminParamListItem) => {
+  const data = businessParamData.map((item: AdminParamListItem) => {
     return {
       category: item?.param?.category,
       frontEnd: item?.param?.frontEnd === true ? "True" : "False",
@@ -97,7 +97,7 @@ const Index: React.FC<Props> = ({ ADMIN_PARAM_LIST, ADMIN_PARAM_GET }) => {
           <Button
             disabled={!ADMIN_PARAM_GET}
             onClick={() =>
-              navigate(`/bussiness-params?action=1&code=${item?.param?.code}`)
+              navigate(`/admin/params?action=1&code=${item?.param?.code}`)
             }
           >
             Edit
@@ -132,13 +132,13 @@ const Index: React.FC<Props> = ({ ADMIN_PARAM_LIST, ADMIN_PARAM_GET }) => {
 
   useEffect(() => {
     document
-      .getElementById("bussinessParamTitle")
+      .getElementById("businessParamTitle")
       ?.scrollIntoView({ behavior: "smooth" });
-  }, [bussinessParamData]);
+  }, [businessParamData]);
 
   return (
-    <div className="flex flex-col" id="bussinessParamTitle">
-      <h1 className="text-2xl font-bold">Bussiness Param Service</h1>
+    <div className="flex flex-col" id="businessParamTitle">
+      <h1 className="text-2xl font-bold">Business Param Service</h1>
       <div className="flex w-full justify-between items-center mt-5">
         <div className="flex gap-x-4 items-center">
           <Input
@@ -148,7 +148,11 @@ const Index: React.FC<Props> = ({ ADMIN_PARAM_LIST, ADMIN_PARAM_GET }) => {
             placeholder={"Enter keyword"}
             onChange={handleChangeKeyword}
           />
-           <select className=" bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" value={searchField} onChange={handleChangeSearchField}>
+          <select
+            className=" bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+            value={searchField}
+            onChange={handleChangeSearchField}
+          >
             <option value="description">Description</option>
             <option value="category">Category</option>
           </select>
@@ -156,7 +160,7 @@ const Index: React.FC<Props> = ({ ADMIN_PARAM_LIST, ADMIN_PARAM_GET }) => {
         </div>
         <Button
           className="bg-primary"
-          onClick={() => navigate(`/bussiness-params?action=1`)}
+          onClick={() => navigate(`/admin/params?action=1`)}
         >
           Add New Parameter
         </Button>
@@ -166,7 +170,7 @@ const Index: React.FC<Props> = ({ ADMIN_PARAM_LIST, ADMIN_PARAM_GET }) => {
           <CustomTable
             columns={columns}
             data={data}
-            caption="Bussiness Param Data"
+            caption="Business Param Data"
             className="mt-4 border-collapse border border-gray-200 shadow-lg"
             headerClassName="bg-gray-100 text-gray-700"
             bodyClassName="bg-white"
