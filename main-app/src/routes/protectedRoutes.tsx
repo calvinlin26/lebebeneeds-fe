@@ -7,7 +7,12 @@ const ProtectedRoutes = () => {
 
   const { token } = useToken();
 
-  const tokenProtected = ["/", "/user-management", "/role-management"];
+  const tokenProtected = [
+    "/",
+    "/user-management",
+    "/role-management",
+    "/notification",
+  ];
 
   if (tokenProtected.includes(pathname)) {
     if (!token) {

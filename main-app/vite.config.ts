@@ -18,6 +18,7 @@ export default defineConfig(({ mode }) => {
           userManagement: `${env.VITE_USER_MANAGEMENT_URL}/assets/userManagement.js`,
           showcase: `${env.VITE_SHOWCASE_URL}/assets/showcase.js`,
           bussinessParam: `${env.VITE_BUSSINESS_PARAM_URL}/assets/bussinessParam.js`,
+          notification: `${env.VITE_NOTIFICATION_URL}/assets/notification.js`,
         },
         exposes: {
           "./button": "./src/components/button",
@@ -41,6 +42,7 @@ export default defineConfig(({ mode }) => {
           "./dialog": "./src/components/dialog",
           "./footer": "./src/components/footer",
           "./withUserAccess": "./src/services/withUserAccess",
+          "./firebase": "./src/firebase",
         },
         shared: ["react", "react-dom", "axios", "react-router-dom"],
       }),
