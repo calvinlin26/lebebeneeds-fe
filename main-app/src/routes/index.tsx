@@ -1,10 +1,11 @@
+import BussinessParam from "../features/bussiness-param";
 import Dashboard from "../features/dashboard";
 import Layout from "../components/layout";
+import Notification from "../features/notification";
 import OAuth2Callback from "../features/authentication/auth-callback";
 import ProtectedRoutes from "./protectedRoutes";
-import UserManagement from "../features/user-management";
 import RoleManagement from "../features/role-management";
-import BussinessParam from "../features/bussiness-param";
+import UserManagement from "../features/user-management";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
           {
             path: "/bussiness-params",
             element: <BussinessParam />,
+          },
+          {
+            path: "/notification",
+            element: <Notification />,
           },
         ],
       },

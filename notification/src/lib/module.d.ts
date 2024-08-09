@@ -1,0 +1,12 @@
+declare module "mainApp/table";
+declare module "mainApp/button";
+declare module "mainApp/services";
+declare module "mainApp/input";
+declare module "mainApp/form";
+declare module "mainApp/checkbox";
+declare module "mainApp/select";
+declare module "mainApp/toast";
+declare module "mainApp/useQuery";
+declare module "mainApp/withUserAccess";
+declare module "mainApp/firebase";
+declare module "mainApp/firebase/storage";

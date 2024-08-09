@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 5173 --strictPort",
-    "build": "tsc -b && vite build --mode dev",
+    "build": "tsc && vite build --mode dev",
     "build:prod": "tsc && vite build --mode production",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview --port 5173 --strictPort",
@@ -24,6 +24,7 @@
     "@radix-ui/react-tooltip": "^1.1.1",
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
+    "firebase": "^10.12.5",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.397.0",
     "next-themes": "^0.3.0",
