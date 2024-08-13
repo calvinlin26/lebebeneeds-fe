@@ -4,7 +4,7 @@ import useNavSideBar from "../../../hooks/useNavSideBar";
 import CodeBlocks from "../../../components/codeBLock";
 import useScrollIntoView from "../../../hooks/useScrollIntoView";
 import { CustomTabs } from "mainApp/tabs";
-import { CustomFooter } from "mainApp/footer"
+import { CustomFooter } from "mainApp/footer";
 import CustomBottom from "./withBottomColumn";
 import CustomBottomLeftRight from "./withBottomColumnLeftRight";
 
@@ -13,15 +13,15 @@ const Index: React.FC = () => {
     { path: "/footer#installation", label: "Installation" },
     { path: "/footer#usage", label: "Usage" },
     {
-        path: "/footer#example",
-        label: "Example",
-        items: [
-          { path: "/footer#example-customClose", label: "With bottom columns" },
-        ],
+      path: "/footer#example",
+      label: "Example",
+      items: [
+        { path: "/footer#example-customClose", label: "With bottom columns" },
+      ],
     },
     { path: "/footer#props", label: "Props" },
   ]);
-  useScrollIntoView()
+  useScrollIntoView();
 
   const importCode = `import { CustomFooter } from "mainApp/footer";
   `;
@@ -31,7 +31,7 @@ const footerDataWithoutBottom = {
      {
        title: "About Us",
        items: [
-                { content: <p className="w-96">Indivara Group is one of the largest IT company in Indonesia and South East Asia region which focuses on consulting, software development and platform businesses.</p> },
+                { content: <p className="w-50">Indivara Group is one of the largest IT company in Indonesia and South East Asia region which focuses on consulting, software development and platform businesses.</p> },
        ],
      },
      {
@@ -75,114 +75,134 @@ const footerDataWithoutBottom = {
 />
 `;
 
-        const footerDataWithoutBottom = {
-            leftColumns: [
-              {
-                title: "About Us",
-                items: [
-                  { content: <p className="w-96">Indivara Group is one of the largest IT company in Indonesia and South East Asia region which focuses on consulting, software development and platform businesses.</p> },
-                ],
-              },
-              {
-                title: "Info",
-                items: [
-                  { content: <a href="/faq">Faq</a> },
-                  { content: <a href="/policy">Policy</a> },
-                  { content: <a href="/status">Status</a> },
-                ],
-              },
-              {
-                title: "Getting Started",
-                items: [
-                  { content: <a href="/introduction">Introduction</a> },
-                  { content: <a href="/usages">Usages</a> },
-                  { content: <a href="/documentation">Documentation</a> },
-                ],
-              },
-            ],
-            rightColumns: [
-              {
-                title: "Resources",
-                items: [
-                  { content: <a href="/api">API</a> },
-                  { content: <a href="/accessbility">Accessbility</a> },
-                  { content: <a href="/community">Community</a> },
-                ],
-              },
-              {
-                title: "Contact Us",
-                items: [
-                  { content: <p className="w-72">Kirana Boutique Office Blok G3 JL. Kirana Avenue No 1-2 Kelapa Gading, 14240 Jakarta, Indonesia</p> },
-                ],
-              },
-            ],
-          };
-
-    const tabs = [
-        {
-            trigger: <span>Preview</span>,
-            value: "preview",
+  const footerDataWithoutBottom = {
+    leftColumns: [
+      {
+        title: "About Us",
+        items: [
+          {
             content: (
-                <div className="w-full border h-[400px] rounded-sm flex items-center justify-center">
-                    <CustomFooter 
-                      leftColumns={footerDataWithoutBottom.leftColumns}
-                      rightColumns={footerDataWithoutBottom.rightColumns}
-                    />
-                </div>
+              <p className="w-50">
+                Indivara Group is one of the largest IT company in Indonesia and
+                South East Asia region which focuses on consulting, software
+                development and platform businesses.
+              </p>
             ),
-        },
-        {
-            trigger: <span>Code</span>,
-            value: "code",
-            content: <CodeBlocks code={previewCode} language="js" />,
-        }
-    ]
+          },
+        ],
+      },
+      {
+        title: "Info",
+        items: [
+          { content: <a href="/faq">Faq</a> },
+          { content: <a href="/policy">Policy</a> },
+          { content: <a href="/status">Status</a> },
+        ],
+      },
+      {
+        title: "Getting Started",
+        items: [
+          { content: <a href="/introduction">Introduction</a> },
+          { content: <a href="/usages">Usages</a> },
+          { content: <a href="/documentation">Documentation</a> },
+        ],
+      },
+    ],
+    rightColumns: [
+      {
+        title: "Resources",
+        items: [
+          { content: <a href="/api">API</a> },
+          { content: <a href="/accessbility">Accessbility</a> },
+          { content: <a href="/community">Community</a> },
+        ],
+      },
+      {
+        title: "Contact Us",
+        items: [
+          {
+            content: (
+              <p className="w-72">
+                Kirana Boutique Office Blok G3 JL. Kirana Avenue No 1-2 Kelapa
+                Gading, 14240 Jakarta, Indonesia
+              </p>
+            ),
+          },
+        ],
+      },
+    ],
+  };
 
-    const propsData = [
-        {
-          name: "leftColumns",
-          type: "[ ]",
-          default: "undefined",
-          description: "An array of objects defining the left columns for the footer.",
-        },
-        {
-          name: "rightColumns",
-          type: "[ ]",
-          default: "undefined",
-          description: "An array of objects defining the right columns for the footer.",
-        },
-        {
-          name: "styleFooter",
-          type: "string",
-          default: "bg-gray-800 text-white",
-          description: "Tailwind CSS classes for styling the footer.",
-        },
-        {
-          name: "titleStyle",
-          type: "string",
-          default: "font-bold mb-2",
-          description: "Tailwind CSS classes for styling the titles of the left and right columns.",
-        },
-        {
-          name: "bottomColumns",
-          type: "[ ]",
-          default: "undefined",
-          description: "An array of objects defining the additional bottom columns for the footer.",
-        },
-        {
-          name: "bottomColumnLayout",
-          type: "center | left-right",
-          default: "center",
-          description: "Layout for the bottom columns, either centered or split left and right.",
-        },
-        {
-          name: "dividerColor",
-          type: "string",
-          default: "border-gray-400",
-          description: "Tailwind CSS classes for the color of the divider if bottom columns are present.",
-        },
-      ];
-      
+  const tabs = [
+    {
+      trigger: <span>Preview</span>,
+      value: "preview",
+      content: (
+        <div className="w-full border h-[400px] rounded-sm flex items-center justify-center">
+          <CustomFooter
+            leftColumns={footerDataWithoutBottom.leftColumns}
+            rightColumns={footerDataWithoutBottom.rightColumns}
+          />
+        </div>
+      ),
+    },
+    {
+      trigger: <span>Code</span>,
+      value: "code",
+      content: <CodeBlocks code={previewCode} language="js" />,
+    },
+  ];
+
+  const propsData = [
+    {
+      name: "leftColumns",
+      type: "[ ]",
+      default: "undefined",
+      description:
+        "An array of objects defining the left columns for the footer.",
+    },
+    {
+      name: "rightColumns",
+      type: "[ ]",
+      default: "undefined",
+      description:
+        "An array of objects defining the right columns for the footer.",
+    },
+    {
+      name: "styleFooter",
+      type: "string",
+      default: "bg-gray-800 text-white",
+      description: "Tailwind CSS classes for styling the footer.",
+    },
+    {
+      name: "titleStyle",
+      type: "string",
+      default: "font-bold mb-2",
+      description:
+        "Tailwind CSS classes for styling the titles of the left and right columns.",
+    },
+    {
+      name: "bottomColumns",
+      type: "[ ]",
+      default: "undefined",
+      description:
+        "An array of objects defining the additional bottom columns for the footer.",
+    },
+    {
+      name: "bottomColumnLayout",
+      type: "center | left-right",
+      default: "center",
+      description:
+        "Layout for the bottom columns, either centered or split left and right.",
+    },
+    {
+      name: "dividerColor",
+      type: "string",
+      default: "border-gray-400",
+      description:
+        "Tailwind CSS classes for the color of the divider if bottom columns are present.",
+    },
+  ];
 
   const columns = [
     {
@@ -215,8 +235,7 @@ const footerDataWithoutBottom = {
         </h1>
         <p className="text-base text-muted-foreground">
           <span className="inline-block align-top [text-decoration:inherit] max-w-[538px]">
-            The Footer component is a customizable for React
-            applications.
+            The Footer component is a customizable for React applications.
           </span>
         </p>
       </div>
@@ -237,7 +256,12 @@ const footerDataWithoutBottom = {
       </div>
       <br />
       <div className="space-y-2">
-        <h3 className="scroll-m-20 text-2xl font-bold tracking-tight" id="#usage">Usage</h3>
+        <h3
+          className="scroll-m-20 text-2xl font-bold tracking-tight"
+          id="#usage"
+        >
+          Usage
+        </h3>
         <hr />
         <CodeBlocks code={importCode} language="js" />
         <br />
