@@ -1,9 +1,8 @@
-import { Controller, ControllerRenderProps, useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { CustomFormField, Form } from "mainApp/form";
 import React, { useEffect } from "react";
 import { PostRoleSchema, postRoleSchema } from "../../../services/form";
 import { Button } from "mainApp/button";
-import { Checkbox } from "mainApp/checkbox";
 import CustomTable from "mainApp/table";
 import CustomPagination from "mainApp/pagination";
 import { Input } from "mainApp/input";
@@ -17,7 +16,6 @@ import { editRole, postRole } from "../../../services/api";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
-
 interface Menus {
   menuCode: string;
   label: string;
@@ -25,13 +23,11 @@ interface Menus {
   url: string;
   parent: string;
   orderNo: string;
-  action: JSX.Element;
 }
 
 interface Services {
   serviceCode: string;
   url: string;
-  action: JSX.Element;
 }
 
 const statusOptions: StatusOption[] = [
@@ -45,6 +41,10 @@ const Index: React.FC = () => {
   const navigate = useNavigate();
   const isEdit = roleCode ? true : false;
   const roleDetail = useRoleDetail(roleCode);
+  const [selectedServices, setSelectedServices] = React.useState<Services[]>(
+    []
+  );
+  const [selectedMenu, setselectedMenu] = React.useState<any[]>([]);
 
   const form = useForm<PostRoleSchema>({
     resolver: zodResolver(postRoleSchema),
@@ -66,10 +66,6 @@ const Index: React.FC = () => {
       accessor: "label",
       headerClassName: "text-left font-bold",
     },
-    {
-      header: "Action",
-      accessor: "action",
-    },
   ];
 
   const columnsServices = [
@@ -77,10 +73,6 @@ const Index: React.FC = () => {
       header: "Service",
       accessor: "serviceCode",
       headerClassName: "text-left font-bold",
-    },
-    {
-      header: "Action",
-      accessor: "action",
     },
   ];
 
@@ -94,7 +86,8 @@ const Index: React.FC = () => {
   }, [roleDetail, form]);
 
   // Table Data
-  const {menus, menusSearchParam, setMenusSearchParam, menusPaginationInfo} = useRoleMenuData();
+  const { menus, menusSearchParam, setMenusSearchParam, menusPaginationInfo } =
+    useRoleMenuData();
   const dataMenu: Menus[] = menus.map((menu) => ({
     menuCode: menu.menuCode,
     label: menu.label,
@@ -102,20 +95,6 @@ const Index: React.FC = () => {
     url: menu.url,
     parent: menu.parent,
     orderNo: menu.orderNo,
-    action: (
-      <Controller
-        name="menus"
-        control={form.control}
-        render={({ field }) => (
-          <Checkbox
-            onCheckedChange={(checked: boolean) =>
-              handleMenuChangeMenu(checked, menu.menuCode, field)
-            }
-            checked={field.value.some(r => r.menuCode === menu.menuCode)}
-          />
-        )}
-      />
-    ),
   }));
 
   const handlePageChangeMenus = (page: number) => {
@@ -125,24 +104,15 @@ const Index: React.FC = () => {
     });
   };
 
-  const {services, servicessSearchParam, setServicesSearchParam, servicesPaginationInfo} = useRoleServiceData();
+  const {
+    services,
+    servicessSearchParam,
+    setServicesSearchParam,
+    servicesPaginationInfo,
+  } = useRoleServiceData();
   const dataService: Services[] = services.map((service) => ({
     serviceCode: service.serviceCode,
     url: service.url,
-    action: (
-      <Controller
-        name="services"
-        control={form.control}
-        render={({ field }) => (
-          <Checkbox
-            onCheckedChange={(checked: boolean) =>
-              handleMenuChangeService(checked, service.serviceCode, field)
-            }
-            checked={field.value.some(r => r.serviceCode === service.serviceCode)}
-          />
-        )}
-      />
-    ),
   }));
 
   const handlePageChangeServices = (page: number) => {
@@ -152,37 +122,23 @@ const Index: React.FC = () => {
     });
   };
 
-  const handleMenuChangeService = (
-    checked: boolean,
-    service: string,
-    field: ControllerRenderProps<PostRoleSchema, "services">
-  ) => {
-    const newService = checked
-      ? [...field.value as { serviceCode: string}[], services.find(r => r.serviceCode === service)]
-      : (field.value as {serviceCode: string}[]).filter(r => r.serviceCode !== service);
-    field.onChange(newService);
-  };
-
-  const handleMenuChangeMenu = (
-    checked: boolean,
-    menu: string,
-    field: ControllerRenderProps<PostRoleSchema, "menus">
-  ) => {
-    const newMenus = checked
-      ? [...(field.value as { menuCode: string}[]), menus.find(r => r.menuCode === menu)]
-      : (field.value as {menuCode: string}[]).filter(r => r.menuCode !== menu);
-    field.onChange(newMenus);
-  };
-
   const onSubmit = async (data: PostRoleSchema) => {
     // Handle form submission
     try {
       console.log("Form Data on Submit:", data);
       if (isEdit) {
-        await editRole(data);
+        await editRole({
+          ...data,
+          menus: selectedMenu,
+          services: selectedServices,
+        });
         toast.success("User has been updated");
       } else {
-        await postRole(data);
+        await postRole({
+          ...data,
+          menus: selectedMenu,
+          services: selectedServices,
+        });
         toast.success("User has been created");
       }
       navigate("/roles-management");
@@ -200,14 +156,11 @@ const Index: React.FC = () => {
   return (
     <div className="flex flex-col gap-5">
       <h1 className="text-2xl font-bold">
-        {isEdit? "Edit Role" : "Add Role"}
+        {isEdit ? "Edit Role" : "Add Role"}
       </h1>
 
       <Form {...form}>
-        <form
-          className="flex flex-col gap-5"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
           <CustomFormField
             control={form.control}
             name="roleCode"
@@ -241,9 +194,10 @@ const Index: React.FC = () => {
           </CustomFormField>
 
           <CustomFormField
-            control={form.control} 
-            name="description" 
-            label="Description">
+            control={form.control}
+            name="description"
+            label="Description"
+          >
             {(field: ControllerRenderProps<PostRoleSchema, "description">) => (
               <Input
                 {...field}
@@ -269,8 +223,9 @@ const Index: React.FC = () => {
                     emptyState="No options available"
                     data={statusOptions}
                     value={
-                      statusOptions.find(option => option.value === field.value)
-                        ?.value
+                      statusOptions.find(
+                        (option) => option.value === field.value
+                      )?.value
                     }
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       field.onChange(e?.target.value)
@@ -286,6 +241,10 @@ const Index: React.FC = () => {
           <CustomTable
             columns={columnsMenus}
             data={dataMenu}
+            asSelect
+            selected={selectedMenu}
+            setSelected={setselectedMenu}
+            selectAccessor="menuCode"
             className="mt-4 border-collapse border border-gray-200 shadow-lg"
             headerClassName="bg-gray-100 text-gray-700"
             bodyClassName="bg-white"
@@ -297,10 +256,13 @@ const Index: React.FC = () => {
               onPageChange={handlePageChangeMenus}
             />
           )}
-
           <CustomTable
             columns={columnsServices}
             data={dataService}
+            asSelect
+            selected={selectedServices}
+            setSelected={setSelectedServices}
+            selectAccessor="serviceCode"
             className="mt-4 border-collapse border border-gray-200 shadow-lg"
             headerClassName="bg-gray-100 text-gray-700"
             bodyClassName="bg-white"
@@ -314,13 +276,22 @@ const Index: React.FC = () => {
           )}
 
           <div className="flex flex-row gap-5 mt-4 justify-end">
-            <Button variant="secondary" onClick={() => navigate("/roles-management")}>Back</Button>
+            <Button
+              variant="secondary"
+              onClick={() => navigate("/roles-management")}
+            >
+              Back
+            </Button>
             <Button
               type="submit"
               disabled={form.formState.isSubmitting}
               aria-disabled={form.formState.isSubmitting}
             >
-              {form.formState.isSubmitting ? "Submitting..." : isEdit ? "Update": "Submit"}
+              {form.formState.isSubmitting
+                ? "Submitting..."
+                : isEdit
+                ? "Update"
+                : "Submit"}
             </Button>
           </div>
         </form>

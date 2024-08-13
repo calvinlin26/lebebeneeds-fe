@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 export const roleSchema = z.object({
-  roleCode: z.string().min(1, { message: "Role code is required" }),
+  roleCode: z.string(),
 });
 
 const baseUserSchema = z.object({
@@ -10,9 +10,7 @@ const baseUserSchema = z.object({
   invalidPasswordRetry: z.number().nonnegative(),
   locked: z.string(),
   active: z.string(),
-  roles: z
-    .array(roleSchema)
-    .nonempty({ message: "At least one role is required" }),
+  roles: z.array(roleSchema),
 });
 
 export const createUserSchema = baseUserSchema.extend({
