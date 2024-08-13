@@ -1,5 +1,5 @@
 import { CustomTabs } from "mainApp/tabs";
-import { CustomFooter } from "mainApp/footer"
+import { CustomFooter } from "mainApp/footer";
 import CodeBlocks from "../../../components/codeBLock";
 
 function CustomBottom() {
@@ -9,7 +9,7 @@ const footerDataWithCenterBottom = {
     {
         title: "About Us",
         items: [
-            { content: <p className="w-96">Indivara Group is one of the largest IT company in Indonesia and South East Asia region which focuses on consulting, software development and platform businesses.</p> },
+            { content: <p className="w-50">Indivara Group is one of the largest IT company in Indonesia and South East Asia region which focuses on consulting, software development and platform businesses.</p> },
             ],
         },
         {
@@ -64,79 +64,106 @@ const footerDataWithCenterBottom = {
 />
 `;
 
-    const footerDataWithCenterBottom = {
-        leftColumns: [
+  const footerDataWithCenterBottom = {
+    leftColumns: [
+      {
+        title: "About Us",
+        items: [
           {
-            title: "About Us",
-            items: [
-              { content: <p className="w-96">Indivara Group is one of the largest IT company in Indonesia and South East Asia region which focuses on consulting, software development and platform businesses.</p> },
-            ],
-          },
-          {
-            title: "Info",
-            items: [
-              { content: <a href="/faq">Faq</a> },
-              { content: <a href="/policy">Policy</a> },
-              { content: <a href="/status">Status</a> },
-            ],
-          },
-          {
-            title: "Getting Started",
-            items: [
-              { content: <a href="/introduction">Introduction</a> },
-              { content: <a href="/usages">Usages</a> },
-              { content: <a href="/documentation">Documentation</a> },
-            ],
-          },
-        ],
-        rightColumns: [
-          {
-            title: "Resources",
-            items: [
-              { content: <a href="/api">API</a> },
-              { content: <a href="/accessbility">Accessbility</a> },
-              { content: <a href="/community">Community</a> },
-            ],
-          },
-          {
-            title: "Contact Us",
-            items: [
-              { content: <p className="w-72">Kirana Boutique Office Blok G3 JL. Kirana Avenue No 1-2 Kelapa Gading, 14240 Jakarta, Indonesia</p> },
-            ],
-          },
-        ],
-        bottomColumns: [
-            {
-              items: [
-                { content: <p className="font-normal text-xs">This template is made with by Showcase.</p> },
-                { content: <p className="font-normal text-xs">Copyright ©2021 All rights reserved.</p> },
-              ],
-            },
-          ],
-      };
-
-    const tabs = [
-        {
-            trigger: <span>Preview</span>,
-            value: "preview",
             content: (
-                <div className="w-full border h-[400px] rounded-sm flex items-center justify-center">
-                    <CustomFooter 
-                        leftColumns={footerDataWithCenterBottom.leftColumns} 
-                        rightColumns={footerDataWithCenterBottom.rightColumns} 
-                        bottomColumns={footerDataWithCenterBottom.bottomColumns} 
-                        bottomColumnLayout="center"
-                        dividerColor="gray-100"
-                     />
-                </div>
+              <p className="w-50">
+                Indivara Group is one of the largest IT company in Indonesia and
+                South East Asia region which focuses on consulting, software
+                development and platform businesses.
+              </p>
             ),
-        },
-        {
-            trigger: <span>Code</span>,
-            value: "code",
-            content: <CodeBlocks code={previewCode} language="js" />,
-        }
-    ]
+          },
+        ],
+      },
+      {
+        title: "Info",
+        items: [
+          { content: <a href="/faq">Faq</a> },
+          { content: <a href="/policy">Policy</a> },
+          { content: <a href="/status">Status</a> },
+        ],
+      },
+      {
+        title: "Getting Started",
+        items: [
+          { content: <a href="/introduction">Introduction</a> },
+          { content: <a href="/usages">Usages</a> },
+          { content: <a href="/documentation">Documentation</a> },
+        ],
+      },
+    ],
+    rightColumns: [
+      {
+        title: "Resources",
+        items: [
+          { content: <a href="/api">API</a> },
+          { content: <a href="/accessbility">Accessbility</a> },
+          { content: <a href="/community">Community</a> },
+        ],
+      },
+      {
+        title: "Contact Us",
+        items: [
+          {
+            content: (
+              <p className="w-72">
+                Kirana Boutique Office Blok G3 JL. Kirana Avenue No 1-2 Kelapa
+                Gading, 14240 Jakarta, Indonesia
+              </p>
+            ),
+          },
+        ],
+      },
+    ],
+    bottomColumns: [
+      {
+        items: [
+          {
+            content: (
+              <p className="font-normal text-xs">
+                This template is made with by Showcase.
+              </p>
+            ),
+          },
+          {
+            content: (
+              <p className="font-normal text-xs">
+                Copyright ©2021 All rights reserved.
+              </p>
+            ),
+          },
+        ],
+      },
+    ],
+  };
+
+  const tabs = [
+    {
+      trigger: <span>Preview</span>,
+      value: "preview",
+      content: (
+        <div className="w-full border h-[400px] rounded-sm flex items-center justify-center">
+          <CustomFooter
+            leftColumns={footerDataWithCenterBottom.leftColumns}
+            rightColumns={footerDataWithCenterBottom.rightColumns}
+            bottomColumns={footerDataWithCenterBottom.bottomColumns}
+            bottomColumnLayout="center"
+            dividerColor="gray-100"
+          />
+        </div>
+      ),
+    },
+    {
+      trigger: <span>Code</span>,
+      value: "code",
+      content: <CodeBlocks code={previewCode} language="js" />,
+    },
+  ];
 
   return (
     <>
@@ -144,7 +171,7 @@ const footerDataWithCenterBottom = {
         className="scroll-m-20 text-xl font-bold tracking-tight"
         id="#example-customClose"
       >
-         With Bottom Column
+        With Bottom Column
       </h5>
       <CustomTabs
         tabs={tabs}

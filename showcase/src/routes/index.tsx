@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "../features/components";
 
 import Dashboard from "../features/dashboard";
-import { listComponent } from "../lib/staticData";
+import { listComponent, listComponentBackend, listComponentMobile } from "../lib/staticData";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +17,8 @@ export const router = createBrowserRouter([
         element: <Dashboard />,
       },
       ...listComponent,
+      ...listComponentBackend,
+      ...listComponentMobile,
     ],
     // },
     // ],
