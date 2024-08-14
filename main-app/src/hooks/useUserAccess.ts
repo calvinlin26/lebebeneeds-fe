@@ -9,6 +9,7 @@ interface MenuItem {
   description: string;
   icon: string;
   url: string;
+  orderNo: string
 }
 
 interface ServiceItem {
@@ -30,16 +31,17 @@ function useUserAccess() {
         const response = await introspect(token);
         const menu: MenuItem[] = response?.menu || [];
         const service: ServiceItem[] = response?.service || [];
-        const topLevelMenu = menu.filter((menuItem) => !menuItem.parent);
+        const sortedMenu = menu.sort((a, b) => a.orderNo.localeCompare(b.orderNo));
+        const topLevelMenu = sortedMenu.filter((menuItem) => !menuItem.parent);
         const access: AccessItem[] = topLevelMenu?.map((menuItem: MenuItem) => {
           // services list
           const services = service.filter((serviceItem: ServiceItem) =>
             serviceItem.serviceCode
           );
           // submenu list
-          const items = menu.filter(
-            (item: MenuItem) => item.parent === menuItem.menuCode
-          );
+          const items = sortedMenu
+            .filter((item: MenuItem) => item.parent === menuItem.menuCode)
+            .sort((a, b) => a.orderNo.localeCompare(b.orderNo));
           return {
             ...menuItem,
             services,
