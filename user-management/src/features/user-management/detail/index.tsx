@@ -1,4 +1,4 @@
-import { Controller, ControllerRenderProps, useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { CustomFormField, Form } from "mainApp/form";
 import React, { useEffect } from "react";
 import {
@@ -7,7 +7,6 @@ import {
   UserSchema,
 } from "../../../services/form";
 import { Button } from "mainApp/button";
-import { Checkbox } from "mainApp/checkbox";
 import CustomTable from "mainApp/table";
 import CustomPagination from "mainApp/pagination";
 import withUserAccess from "mainApp/withUserAccess";
@@ -24,7 +23,6 @@ import { useNavigate } from "react-router-dom";
 
 interface RoleData {
   roleCode: string;
-  action: JSX.Element;
 }
 
 const statusOptions: StatusOption[] = [
@@ -36,13 +34,15 @@ const Index: React.FC = () => {
   // const navigate = useNavigate();
   const query = useQuery();
   const username = query.get("username") as string;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   //const username = "test1234567";
   const isEdit = username ? true : false;
   // console.log(username, "username");
+  const [selectedRoles, setSelectedRoles] = React.useState<RoleData[]>([]);
 
   // Use custom hooks
-  const {rolesData, roleSearchParam, setRoleSearchParam, rolePagination} = useRolesData();
+  const { rolesData, roleSearchParam, setRoleSearchParam, rolePagination } =
+    useRolesData();
   const userDetail = useUserDetail(username);
 
   // console.log(userDetail, "user detail");
@@ -67,7 +67,7 @@ const Index: React.FC = () => {
         ...userDetail,
         locked: userDetail.locked ? "true" : "false",
         active: userDetail.active ? "true" : "false",
-        branch: userDetail.branchCode
+        branch: userDetail.branchCode,
       });
     }
   }, [userDetail, form]);
@@ -79,29 +79,11 @@ const Index: React.FC = () => {
       accessor: "roleCode",
       headerClassName: "text-left font-bold",
     },
-    {
-      header: "Action",
-      accessor: "action",
-    },
   ];
 
   // Table Data
   const data: RoleData[] = rolesData.map((role) => ({
     roleCode: role.roleCode,
-    action: (
-      <Controller
-        name="roles"
-        control={form.control}
-        render={({ field }) => (
-          <Checkbox
-            onCheckedChange={(checked: boolean) =>
-              handleRoleChange(checked, role.roleCode, field)
-            }
-            checked={field.value.some((r) => r.roleCode === role.roleCode)}
-          />
-        )}
-      />
-    ),
   }));
 
   const handlePageChangeRole = (page: number) => {
@@ -111,36 +93,42 @@ const Index: React.FC = () => {
     });
   };
 
-
-  const handleRoleChange = (
-    checked: boolean,
-    role: string,
-    field: ControllerRenderProps<UserSchema, "roles">
-  ) => {
-    const newRoles = checked
-      ? [...(field.value as { roleCode: string }[]), { roleCode: role }]
-      : (field.value as { roleCode: string }[]).filter(
-          (r) => r.roleCode !== role
-        );
-    field.onChange(newRoles);
+  const convertArrayToTuple = (array: RoleData[]): [RoleData, ...RoleData[]] => {
+    if (array.length === 0) {
+      throw new Error("Array must contain at least one element to convert to a tuple.");
+    }
+    return [array[0], ...array.slice(1)] as [RoleData, ...RoleData[]];
   };
 
   const onSubmit = async (data: UserSchema) => {
     // Handle form submission
+    const roleTuple: [RoleData, ...RoleData[]] = convertArrayToTuple(selectedRoles);
     try {
       console.log("Form Data on Submit:", data);
       if (isEdit) {
-        await editUser(data);
+        await editUser({
+          ...data,
+          roles: roleTuple,
+        });
         toast.success("User has been updated");
       } else {
-        await postUser(data);
+        await postUser({
+          ...data,
+          roles: roleTuple,
+        });
         toast.success("User has been created");
       }
-      // navigate("/user-management");
+      navigate("/user-management");
     } catch (error) {
       console.error("Error submitting form:", error);
     }
   };
+
+  const {
+    handleSubmit,
+    // formState: { errors }
+  } = form;
+  // console.log("Errors:", errors);
 
   return (
     <div className="flex flex-col gap-5">
@@ -151,7 +139,7 @@ const Index: React.FC = () => {
       <Form {...form}>
         <form
           className="flex flex-col gap-5"
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <CustomFormField
             control={form.control}
@@ -273,6 +261,10 @@ const Index: React.FC = () => {
           <CustomTable
             columns={columns}
             data={data}
+            asSelect
+            selected={selectedRoles}
+            setSelected={setSelectedRoles}
+            selectAccessor="roleCode"
             className="mt-4 border-collapse border border-gray-200 shadow-lg"
             headerClassName="bg-gray-100 text-gray-700"
             bodyClassName="bg-white"
@@ -286,7 +278,12 @@ const Index: React.FC = () => {
           )}
 
           <div className="flex flex-row gap-5 mt-4 justify-end">
-            <Button variant="secondary" onClick={() => navigate("/user-management")}>Back</Button>
+            <Button
+              variant="secondary"
+              onClick={() => navigate("/user-management")}
+            >
+              Back
+            </Button>
             <Button
               type="submit"
               disabled={form.formState.isSubmitting}
