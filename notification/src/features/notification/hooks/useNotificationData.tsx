@@ -11,6 +11,12 @@ export const useNotificationData = () => {
     sort: "",
     search: "",
   });
+  const [paginationInfo, setPaginationInfo] = useState<NotificationPagination>({
+    page: 1,
+    pageSize: 0,
+    totalDataCount: 0,
+    totalPages: 0,
+  })
 
   useEffect(() => {
     const fetchNotification = async () => {
@@ -21,6 +27,12 @@ export const useNotificationData = () => {
 
         if (response && response.content) {
           setNotificationData(response.content);
+          setPaginationInfo({
+            page: response.page,
+            pageSize: response.pageSize,
+            totalPages: response.totalPages,
+            totalDataCount: response.totalDataCount,
+          })
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -30,5 +42,5 @@ export const useNotificationData = () => {
     fetchNotification();
   }, [params]);
 
-  return { notificationData, setParams, params };
+  return { notificationData, setParams, params, paginationInfo };
 };
