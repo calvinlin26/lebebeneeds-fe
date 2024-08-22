@@ -10,3 +10,4 @@ declare module "mainApp/useQuery";
 declare module "mainApp/withUserAccess";
 declare module "mainApp/firebase";
 declare module "mainApp/firebase/storage";
+declare module "mainApp/pagination"

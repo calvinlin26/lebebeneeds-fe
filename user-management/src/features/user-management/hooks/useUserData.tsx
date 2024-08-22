@@ -9,6 +9,12 @@ export const useUserData = () => {
     sort: "username",
     search: "",
   });
+  const [paginationInfo, setPaginationInfo] = useState<AdminParamPagination>({
+    page: 1,
+    pageSize: 0,
+    totalDataCount: 0,
+    totalPages: 0,
+  })
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -17,6 +23,12 @@ export const useUserData = () => {
 
         if (response && response.content) {
           setUserData(response.content);
+          setPaginationInfo({
+            page: response.page,
+            pageSize: response.pageSize,
+            totalPages: response.totalPages,
+            totalDataCount: response.totalDataCount,
+          })
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -26,5 +38,5 @@ export const useUserData = () => {
     fetchUser();
   }, [params]);
 
-  return { userData, setParams, params };
+  return { userData, setParams, params, paginationInfo };
 };

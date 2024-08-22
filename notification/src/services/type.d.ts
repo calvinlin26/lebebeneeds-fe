@@ -31,3 +31,10 @@ type NotificationDetail = {
   content: string;
   image: string;
 };
+
+type NotificationPagination = {
+  page: number,
+  pageSize: number,
+  totalDataCount: number,
+  totalPages: number;
+}

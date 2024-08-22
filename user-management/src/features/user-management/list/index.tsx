@@ -8,6 +8,7 @@ import { deleteUser } from "../../../services/api";
 import { toast } from "sonner";
 import { useState } from "react";
 import withUserAccess from "mainApp/withUserAccess";
+import CustomPagination from "mainApp/pagination";
 
 interface IndexProps {
   USER_LIST: boolean;
@@ -25,7 +26,7 @@ const Index: React.FC<IndexProps> = ({
 }: any) => {
   const navigate = useNavigate();
   // Use custom hooks
-  const { userData, setParams, params } = useUserData();
+  const { userData, setParams, params, paginationInfo } = useUserData();
   const [keyword, setKeyword] = useState("");
 
   // Columns definition
@@ -70,6 +71,13 @@ const Index: React.FC<IndexProps> = ({
       ),
     };
   });
+
+  const handlePageChange = (page: number) => {
+    setParams({
+      ...params,
+      page: page,
+    });
+  };
 
   const handleDetailUser = (username: string) => {
     navigate(`/user-management?username=${username}${Hash.DETAIL}`);
@@ -122,6 +130,7 @@ const Index: React.FC<IndexProps> = ({
       </div>
 
       {USER_LIST && (
+        <>
         <CustomTable
           columns={columns}
           data={data}
@@ -130,6 +139,14 @@ const Index: React.FC<IndexProps> = ({
           headerClassName="bg-gray-100 text-gray-700"
           bodyClassName="bg-white"
         />
+        {paginationInfo.totalPages > 0 && (
+          <CustomPagination
+            currentPage={paginationInfo.page}
+            totalPageCount={paginationInfo.totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
+        </>
       )}
     </div>
   );

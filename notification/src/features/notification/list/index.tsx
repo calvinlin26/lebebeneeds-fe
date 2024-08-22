@@ -7,11 +7,12 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { useNotificationData } from "../hooks/useNotificationData";
 import { useState } from "react";
+import CustomPagination from "mainApp/pagination";
 
 const Index: React.FC = () => {
   const navigate = useNavigate();
   // Use custom hooks
-  const { notificationData, setParams, params } = useNotificationData();
+  const { notificationData, setParams, params , paginationInfo} = useNotificationData();
   const [keyword, setKeyword] = useState("");
 
   const columns = [
@@ -53,6 +54,13 @@ const Index: React.FC = () => {
       ),
     };
   });
+
+  const handlePageChange = (page: number) => {
+    setParams({
+      ...params,
+      page: page,
+    });
+  };
 
   const handleDetailNotification = (notificationCode: string) => {
     navigate(`/notification?code=${notificationCode}${Hash.DETAIL}`);
@@ -110,6 +118,13 @@ const Index: React.FC = () => {
         headerClassName="bg-gray-100 text-gray-700"
         bodyClassName="bg-white"
       />
+      {paginationInfo.totalPages > 0 && (
+          <CustomPagination
+            currentPage={paginationInfo.page}
+            totalPageCount={paginationInfo.totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
     </div>
   );
 };
