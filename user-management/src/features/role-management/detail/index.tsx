@@ -82,6 +82,8 @@ const Index: React.FC = () => {
         ...roleDetail,
         active: roleDetail.active ? "true" : "false",
       });
+      setselectedMenu(roleDetail.menus);
+      setSelectedServices(roleDetail.services);
     }
   }, [roleDetail, form]);
 
