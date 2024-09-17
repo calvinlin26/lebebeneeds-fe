@@ -104,7 +104,6 @@ const Index: React.FC = () => {
     // Handle form submission
     const roleTuple: [RoleData, ...RoleData[]] = convertArrayToTuple(selectedRoles);
     try {
-      console.log("Form Data on Submit:", data);
       if (isEdit) {
         await editUser({
           ...data,
