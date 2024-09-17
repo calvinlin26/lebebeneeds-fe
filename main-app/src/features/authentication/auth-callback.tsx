@@ -15,12 +15,19 @@ const OAuth2Callback = () => {
 
     if (code) {
       const fetchToken = async () => {
+        // const payload = {
+        //   grant_type: import.meta.env.VITE_GRANT_TYPE,
+        //   redirect_uri: import.meta.env.VITE_REDIRECT_URI,
+        //   code,
+        //   code_verifier: import.meta.env.VITE_CODE_VERIFIER,
+        // };
+
         const payload = {
-          grant_type: import.meta.env.VITE_GRANT_TYPE,
-          redirect_uri: import.meta.env.VITE_REDIRECT_URI,
+          grant_type: (window as any).__RUNTIME_CONFIG__.REACT_APP_GRANT_TYPE,
+          redirect_uri: (window as any).__RUNTIME_CONFIG__.REACT_APP_REDIRECT_URI,
           code,
-          code_verifier: import.meta.env.VITE_CODE_VERIFIER,
-        };
+          code_verifier: (window as any).__RUNTIME_CONFIG__.REACT_APP_CODE_VERIFIER,
+        }
 
         const response = await getToken(payload);
 

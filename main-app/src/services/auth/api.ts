@@ -4,8 +4,10 @@ export const getToken = async (payload: tokenPayload) => {
   try {
     const response = await API.post("oauth2/token", payload, {
       auth: {
-        username: "sample-client",
-        password: "client-secret",
+        // username: import.meta.env.VITE_USERNAME,
+        // password: import.meta.env.VITE_PASSWORD,
+        username: (window as any).__RUNTIME_CONFIG__.REACT_APP_USERNAME,
+        password: (window as any).__RUNTIME_CONFIG__.REACT_APP_PASSWORD,
       },
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -20,15 +22,19 @@ export const getToken = async (payload: tokenPayload) => {
 
 export const revokeToken = async (accessToken: string) => {
   try {
-    const response = await API.post("oauth2/revoke", {token: accessToken}, {
-    auth: {
-      username: "sample-client",
-      password: "client-secret",
-    },
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-  })
+    const response = await API.post(
+      "oauth2/revoke",
+      { token: accessToken },
+      {
+        auth: {
+          username: (window as any).__RUNTIME_CONFIG__.REACT_APP_USERNAME,
+          password: (window as any).__RUNTIME_CONFIG__.REACT_APP_PASSWORD,
+        },
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching the access token:", error);
@@ -37,15 +43,19 @@ export const revokeToken = async (accessToken: string) => {
 
 export const introspect = async (accessToken: string) => {
   try {
-    const response = await API.post("oauth2/introspect", {token: accessToken}, {
-    auth: {
-      username: "sample-client",
-      password: "client-secret",
-    },
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-  })
+    const response = await API.post(
+      "oauth2/introspect",
+      { token: accessToken },
+      {
+        auth: {
+          username: (window as any).__RUNTIME_CONFIG__.REACT_APP_USERNAME,
+          password: (window as any).__RUNTIME_CONFIG__.REACT_APP_PASSWORD,
+        },
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching the access token:", error);

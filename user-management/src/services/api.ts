@@ -3,7 +3,7 @@ import { PostRoleSchema, UserSchema } from "./form";
 
 export const getUser = async (params: {}) => {
   try {
-    const response = await API.get("http://192.168.90.35:8081/users", {
+    const response = await API.get(`${(window as any).__RUNTIME_CONFIG__.REACT_APP_USER_MANAGEMENT_ENDPOINT_URL}users`, {
       params: params,
     });
 
@@ -16,7 +16,7 @@ export const getUser = async (params: {}) => {
 export const getUserDetail = async (username: string) => {
   try {
     const response = await API.get(
-      `http://192.168.90.35:8081/users/${username}`
+      `${(window as any).__RUNTIME_CONFIG__.REACT_APP_USER_MANAGEMENT_ENDPOINT_URL}users/${username}`
     );
 
     return response.data.data;
@@ -28,7 +28,7 @@ export const getUserDetail = async (username: string) => {
 export const getRoleDetail = async (roleCode: string) => {
   try {
     const response = await API.get(
-      `http://192.168.90.35:8081/roles/${roleCode}`
+      `${(window as any).__RUNTIME_CONFIG__.REACT_APP_USER_MANAGEMENT_ENDPOINT_URL}roles/${roleCode}`
     );
 
     return response.data.data;
@@ -40,7 +40,7 @@ export const getRoleDetail = async (roleCode: string) => {
 export const getRole = async (params: SearchParamQuery) => {
   try {
     const response = await API.get(
-      "http://192.168.90.35:8081/roles?sort=roleCode",
+      `${(window as any).__RUNTIME_CONFIG__.REACT_APP_USER_MANAGEMENT_ENDPOINT_URL}roles?sort=roleCode`,
       {
         params,
       }
@@ -53,7 +53,7 @@ export const getRole = async (params: SearchParamQuery) => {
 
 export const getMenus = async (params: SearchParamQuery) => {
   try {
-    const response = await API.get("http://192.168.90.35:8081/menus", {
+    const response = await API.get(`${(window as any).__RUNTIME_CONFIG__.REACT_APP_USER_MANAGEMENT_ENDPOINT_URL}menus`, {
       params,
     });
     return response.data.data;
@@ -64,7 +64,7 @@ export const getMenus = async (params: SearchParamQuery) => {
 
 export const getServices = async (params: SearchParamQuery) => {
   try {
-    const response = await API.get("http://192.168.90.35:8081/services", {
+    const response = await API.get(`${(window as any).__RUNTIME_CONFIG__.REACT_APP_USER_MANAGEMENT_ENDPOINT_URL}services`, {
       params,
     });
     return response.data.data;
@@ -81,7 +81,7 @@ export const postUser = async (data: UserSchema) => {
       locked: data.locked === "true",
     };
 
-    const response = await API.post("http://192.168.90.35:8081/users", payload);
+    const response = await API.post(`${(window as any).__RUNTIME_CONFIG__.REACT_APP_USER_MANAGEMENT_ENDPOINT_URL}users`, payload);
 
     return response.data;
   } catch (error) {
@@ -97,7 +97,7 @@ export const editUser = async (data: UserSchema) => {
       locked: data.locked === "true",
     };
 
-    const response = await API.put("http://192.168.90.35:8081/users", payload);
+    const response = await API.put(`${(window as any).__RUNTIME_CONFIG__.REACT_APP_USER_MANAGEMENT_ENDPOINT_URL}users`, payload);
 
     return response.data;
   } catch (error) {
@@ -108,7 +108,7 @@ export const editUser = async (data: UserSchema) => {
 export const deleteUser = async (username: string) => {
   try {
     const response = await API.delete(
-      `http://192.168.90.35:8081/users/${username}`
+      `${(window as any).__RUNTIME_CONFIG__.REACT_APP_USER_MANAGEMENT_ENDPOINT_URL}users/${username}`
     );
 
     return response.data;
@@ -120,7 +120,7 @@ export const deleteUser = async (username: string) => {
 export const deleteRole = async (roleCode: string) => {
   try {
     const response = await API.delete(
-      `http://192.168.90.35:8081/roles/${roleCode}`
+      `${(window as any).__RUNTIME_CONFIG__.REACT_APP_USER_MANAGEMENT_ENDPOINT_URL}roles/${roleCode}`
     );
 
     return response.data;
@@ -136,7 +136,7 @@ export const postRole = async (data: PostRoleSchema) => {
       active: data.active === "true",
     };
 
-    const response = await API.post("http://192.168.90.35:8081/roles", payload);
+    const response = await API.post(`${(window as any).__RUNTIME_CONFIG__.REACT_APP_USER_MANAGEMENT_ENDPOINT_URL}roles`, payload);
 
     return response.data;
   } catch (error) {
@@ -151,7 +151,7 @@ export const editRole = async (data: PostRoleSchema) => {
       active: data.active === "true",
     };
 
-    const response = await API.put("http://192.168.90.35:8081/roles", payload);
+    const response = await API.put(`${(window as any).__RUNTIME_CONFIG__.REACT_APP_USER_MANAGEMENT_ENDPOINT_URL}roles`, payload);
 
     return response.data;
   } catch (error) {

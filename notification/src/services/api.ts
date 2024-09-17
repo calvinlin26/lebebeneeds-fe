@@ -3,7 +3,7 @@ import { NotificationSchema } from "./form";
 
 export const getNotificationList = async (params: {}) => {
   try {
-    const response = await API.get("http://192.168.90.35:8084/notification", {
+    const response = await API.get(`${(window as any).__RUNTIME_CONFIG__.REACT_APP_NOTIFICATION_ENDPOINT_URL}notification`, {
       params: params,
     });
 
@@ -16,7 +16,7 @@ export const getNotificationList = async (params: {}) => {
 export const getNotificationDetail = async (code: string) => {
   try {
     const response = await API.get(
-      `http://192.168.90.35:8084/notification/${code}`
+      `${(window as any).__RUNTIME_CONFIG__.REACT_APP_NOTIFICATION_ENDPOINT_URL}notification/${code}`
     );
 
     return response.data.data;
@@ -28,7 +28,7 @@ export const getNotificationDetail = async (code: string) => {
 export const deleteNotification = async (code: string) => {
   try {
     const response = await API.delete(
-      `http://192.168.90.35:8084/notification/${code}`
+      `${(window as any).__RUNTIME_CONFIG__.REACT_APP_NOTIFICATION_ENDPOINT_URL}notification/${code}`
     );
 
     return response.data;
@@ -40,7 +40,7 @@ export const deleteNotification = async (code: string) => {
 export const postNotification = async (data: NotificationSchema) => {
   try {
     const response = await API.post(
-      "http://192.168.90.35:8084/notification",
+      `${(window as any).__RUNTIME_CONFIG__.REACT_APP_NOTIFICATION_ENDPOINT_URL}notification`,
       data
     );
 
@@ -54,7 +54,7 @@ export const postNotification = async (data: NotificationSchema) => {
 export const putNotification = async (data: NotificationSchema) => {
   try {
     const response = await API.put(
-      "http://192.168.90.35:8084/notification",
+      `${(window as any).__RUNTIME_CONFIG__.REACT_APP_NOTIFICATION_ENDPOINT_URL}notification`,
       data
     );
 

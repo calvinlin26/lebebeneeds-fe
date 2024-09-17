@@ -2,9 +2,10 @@ import { API } from "mainApp/services";
 import { ParamSchema } from "./form";
 
 export const getBusinessParam = async (param: string) => {
+  console.log()
   try {
     const response = await API.get(
-      `http://192.168.90.35:8082/admin/params${param}`
+      `${(window as any).__RUNTIME_CONFIG__.REACT_APP_BUSINESS_PARAM_ENDPOINT_URL}admin/params${param}`
     );
 
     return response.data.data;
@@ -16,7 +17,7 @@ export const getBusinessParam = async (param: string) => {
 export const getBusinessParamDetail = async ({ id }: { id: string }) => {
   try {
     const response = await API.get(
-      `http://192.168.90.35:8082/admin/params/${id}`
+      `${(window as any).__RUNTIME_CONFIG__.REACT_APP_BUSINESS_PARAM_ENDPOINT_URL}admin/params/${id}`
     );
 
     return response.data.data;
@@ -28,7 +29,7 @@ export const getBusinessParamDetail = async ({ id }: { id: string }) => {
 export const postParam = async (data: ParamSchema) => {
   try {
     const response = await API.post(
-      "http://192.168.90.35:8082/admin/params",
+      `${(window as any).__RUNTIME_CONFIG__.REACT_APP_BUSINESS_PARAM_ENDPOINT_URL}admin/params`,
       data
     );
 

@@ -63,15 +63,22 @@ export function TokenProvider({ children }: Readonly<Props>) {
   axiosWithConfig.interceptors.response.use(
     (response) => response,
     async (error) => {
-      if (error.response.status === 401) {
+      const status = error.response.data.responseCode ?? error.response.status;
+      const code = error.code;
+      const requestId = error.response.data.requestId ?? "N/A";
+      let errorMessage = error.response.data.responseMessage ?? error.message;
+
+      if (status == 401) {
         const newToken = await refreshAuthToken();
         setAxiosConfig(newToken);
         error.config.headers["Authorization"] = `Bearer ${newToken}`;
         return axiosWithConfig(error.config);
       }
-      toast.error(
-        error.response?.data?.responseMessage || "An unexpected error occurred"
-      );
+
+      toast.error(`${code} - ${status}`, {
+        description: `${errorMessage} with requestId: ${requestId}`,
+      });
+
       return Promise.reject(error);
     }
   );
@@ -87,8 +94,11 @@ export function TokenProvider({ children }: Readonly<Props>) {
       idleTimeout = setTimeout(() => {
         revokeToken(token);
         localStorage.clear();
-        const url = import.meta.env.VITE_BASE_URL;
-        window.location.href = `${url}logout`;
+        // const url = import.meta.env.VITE_BASE_URL;
+        // const endpoint = import.meta.env.VITE_ENDPOINT_LOGOUT;
+        const url = (window as any).__RUNTIME_CONFIG__.REACT_APP_BASE_URL;
+        const endpoint = (window as any).__RUNTIME_CONFIG__.REACT_APP_ENDPOINT_LOGOUT;
+        window.location.href = `${url}${endpoint}`;
       }, idleLogoutTime);
     }
   };
