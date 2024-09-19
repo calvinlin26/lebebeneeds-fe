@@ -14,6 +14,7 @@ import CustomFormField from "./custom-form-field";
 import { Label } from "../label";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "../../lib/utils";
+import { TokenContext } from "../../hooks/useToken";
 
 const Form = FormProvider;
 
@@ -44,6 +45,7 @@ const FormField = <
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext);
   const itemContext = React.useContext(FormItemContext);
+  const tokenContext = React.useContext(TokenContext);
   const { getFieldState, formState } = useFormContext();
 
   const fieldState = getFieldState(fieldContext.name, formState);
@@ -53,6 +55,25 @@ const useFormField = () => {
   }
 
   const { id } = itemContext;
+  let stateValidation = fieldState;
+
+  if (tokenContext.fieldValidation.length > 0) {
+    const fieldValidation = tokenContext.fieldValidation.find(
+      (field) => field.field === fieldContext.name
+    );
+
+    if (fieldValidation) {
+      stateValidation = {
+        ...fieldState,
+        invalid: true,
+        error: {
+          ...fieldState.error,
+          message: fieldValidation.message,
+          type: "custom", // Replace "custom" with the appropriate type value
+        },
+      };
+    }
+  }
 
   return {
     id,
@@ -60,7 +81,7 @@ const useFormField = () => {
     formItemId: `${id}-form-item`,
     formDescriptionId: `${id}-form-item-description`,
     formMessageId: `${id}-form-item-message`,
-    ...fieldState,
+    ...stateValidation,
   };
 };
 
