@@ -93,27 +93,19 @@ const Index: React.FC = () => {
     });
   };
 
-  const convertArrayToTuple = (array: RoleData[]): [RoleData, ...RoleData[]] => {
-    if (array.length === 0) {
-      throw new Error("Array must contain at least one element to convert to a tuple.");
-    }
-    return [array[0], ...array.slice(1)] as [RoleData, ...RoleData[]];
-  };
-
   const onSubmit = async (data: UserSchema) => {
     // Handle form submission
-    const roleTuple: [RoleData, ...RoleData[]] = convertArrayToTuple(selectedRoles);
     try {
       if (isEdit) {
         await editUser({
           ...data,
-          roles: roleTuple,
+          roles: selectedRoles,
         });
         toast.success("User has been updated");
       } else {
         await postUser({
           ...data,
-          roles: roleTuple,
+          roles: selectedRoles,
         });
         toast.success("User has been created");
       }
@@ -136,10 +128,7 @@ const Index: React.FC = () => {
       </h1>
 
       <Form {...form}>
-        <form
-          className="flex flex-col gap-5"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
           <CustomFormField
             control={form.control}
             name="username"

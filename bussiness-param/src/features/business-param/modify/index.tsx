@@ -22,10 +22,7 @@ interface Props {
   ADMIN_PARAM_SAVE: boolean;
 }
 
-const Index: React.FC<Props> = ({
-  code,
-  ADMIN_PARAM_SAVE,
-}) => {
+const Index: React.FC<Props> = ({ code, ADMIN_PARAM_SAVE }) => {
   const navigate = useNavigate();
   const businessParamDetail = useBusinessParamDetail(code ?? "");
   const form = useForm<ParamSchema>({
@@ -64,7 +61,6 @@ const Index: React.FC<Props> = ({
       toast.success("Parameter has been updated successfully");
       navigate("/admin/params");
     } catch (error) {
-      toast.error("Error submitting form");
       console.error("Error submitting form:", error);
     }
   };
