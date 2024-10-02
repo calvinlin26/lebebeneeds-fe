@@ -20,6 +20,7 @@ export default defineConfig(({ mode }) => {
           businessParam: `${env.VITE_BUSINESS_PARAM_URL}/assets/businessParam.js`,
           notification: `${env.VITE_NOTIFICATION_URL}/assets/notification.js`,
           avm: `${env.VITE_AVM_SERVICE_URL}/assets/avm.js`,
+          auditTrail: `${env.VITE_AUDIT_TRAIL_URL}/assets/auditTrail.js`,
         },
         exposes: {
           "./button": "./src/components/button",
