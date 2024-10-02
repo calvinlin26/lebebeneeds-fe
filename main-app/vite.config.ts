@@ -19,6 +19,7 @@ export default defineConfig(({ mode }) => {
           showcase: `${env.VITE_SHOWCASE_URL}/assets/showcase.js`,
           businessParam: `${env.VITE_BUSINESS_PARAM_URL}/assets/businessParam.js`,
           notification: `${env.VITE_NOTIFICATION_URL}/assets/notification.js`,
+          avm: `${env.VITE_AVM_SERVICE_URL}/assets/avm.js`,
         },
         exposes: {
           "./button": "./src/components/button",

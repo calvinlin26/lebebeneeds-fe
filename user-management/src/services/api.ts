@@ -86,6 +86,7 @@ export const postUser = async (data: UserSchema) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching the access token:", error);
+    throw error;
   }
 };
 
@@ -102,6 +103,7 @@ export const editUser = async (data: UserSchema) => {
     return response.data;
   } catch (error) {
     console.error("Error in editUser API call:", error);
+    throw error;
   }
 };
 
@@ -141,6 +143,7 @@ export const postRole = async (data: PostRoleSchema) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching the access token:", error);
+    throw error;
   }
 };
 
@@ -156,5 +159,6 @@ export const editRole = async (data: PostRoleSchema) => {
     return response.data;
   } catch (error) {
     console.error("Error in editUser API call:", error);
+    throw error;
   }
 };
