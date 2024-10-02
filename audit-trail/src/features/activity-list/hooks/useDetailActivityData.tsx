@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-
 import { getActivityDetailList } from "../../../services/api";
-import { useLocation } from "react-router-dom";
+import { useQuery } from "mainApp/useQuery";
 
 export const useActivityDetailData = () => {
   const [activityDetailData, setActivityDetailData] = useState<ActivityListItem>();
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const activityId = params.get("activityId");
+  const query = useQuery()
+  const activityId = query.get('activityId') as string
 
   useEffect(() => {
     const fetchActivityDetail = async () => {
