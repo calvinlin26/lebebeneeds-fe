@@ -1,0 +1,10 @@
+declare module "mainApp/table";
+declare module "mainApp/button";
+declare module "mainApp/select";
+declare module "mainApp/services";
+declare module "mainApp/input";
+declare module "mainApp/label";
+declare module "mainApp/form";
+declare module "mainApp/pagination";
+declare module "mainApp/dialog";
+declare module "mainApp/useQuery";
