@@ -7,6 +7,8 @@ import ProtectedRoutes from "./protectedRoutes";
 import RoleManagement from "../features/role-management";
 import UserManagement from "../features/user-management";
 import AVM from "../features/avm";
+import ApiList from "../features/api-list";
+import ActivityList from "../features/activity-list";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -44,7 +46,15 @@ export const router = createBrowserRouter([
           {
             path: "/notification",
             element: <Notification />,
+          },  
+          {
+            path: "/api-list",
+            element: <ApiList />,
           },
+          {
+            path: "/activity-list",
+            element: <ActivityList />,
+          }, 
         ],
       },
     ],
