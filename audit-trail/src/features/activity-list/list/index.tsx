@@ -8,6 +8,7 @@ import { useActivityListData } from "../hooks/useActivityListData";
 import { useState } from "react";
 import { Hash } from "../../../constants";
 import { formatDate } from "../../../lib/utils";
+import { getActivityListDownload } from "../../../services/api";
 
 function Index() {
     const navigate = useNavigate();
@@ -54,6 +55,42 @@ function Index() {
         });
       };    
 
+      const handleDownload = async (onError?: (error: any) => void): Promise<void> => {
+        try {
+           const query = new URLSearchParams({
+                sort: params.sort || "username,ASC",
+                search: params.search || "",
+                isAndSearch: "true",
+          }).toString();
+          const response = await getActivityListDownload(query);
+          if (!response || response.status !== 200) {
+            throw new Error("Failed to download the file or invalid response.");
+          }
+          const blob = new Blob([response.data], {
+            type: response.headers['content-type'],
+          });
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          const now = new Date();
+          const formattedDate = now.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+          link.download = `audit_activity_${formattedDate}.xlsx`;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          window.URL.revokeObjectURL(url);
+        } catch (err: any) {
+          const blob = new Blob([err.response.data], { type: "application/json" });
+          if (blob.text) {
+            const errorText = await blob.text();
+            onError && onError(JSON.parse(errorText));
+          } else {
+            const reader = new FileReader();
+            reader.readAsText(err.response.data);
+            reader.onload = (e) => onError && onError(JSON.parse(e?.target?.result as string));
+          }
+        }
+      };
 
   const columns = [
     {
@@ -111,7 +148,7 @@ function Index() {
             />
             <Button onClick={handleSearch}>Search</Button>
           </div>
-          <Button>
+          <Button onClick={handleDownload}>
             Download
           </Button>
         </div>
