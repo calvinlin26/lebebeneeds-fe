@@ -3,6 +3,7 @@ import { Button } from "mainApp/button";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useApiDetailData } from "../hooks/useDetailApiData";
+import withUserAccess from "mainApp/withUserAccess";
 import { formatDate } from "../../../lib/utils";
 
 function Index() {
@@ -94,4 +95,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default withUserAccess(Index);

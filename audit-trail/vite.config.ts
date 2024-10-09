@@ -16,8 +16,8 @@ export default defineConfig(({ mode }) => {
         filename: "auditTrail.js",
         // Modules to expose
         exposes: {
-          "./api-list": "./src/features/api-list",
-          "./activity-list": "./src/features/activity-list",
+          "./api": "./src/features/api-list",
+          "./activity": "./src/features/activity-list",
         },
         remotes: {
           mainApp: `http://localhost:5173/assets/mainApp.js`,

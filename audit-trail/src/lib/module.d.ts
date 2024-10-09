@@ -8,4 +8,5 @@ declare module "mainApp/label";
 declare module "mainApp/form";
 declare module "mainApp/pagination";
 declare module "mainApp/dialog";
+declare module "mainApp/withUserAccess";
 declare module "mainApp/useQuery";

@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-const ApiList = lazy(() => import("auditTrail/api-list"));
+const ApiList = lazy(() => import("auditTrail/api"));
 
 const AuditTrailApiList = () => {
   return (

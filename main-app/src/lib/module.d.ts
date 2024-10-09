@@ -3,5 +3,5 @@ declare module "avm/avm";
 declare module "businessParam/business-param";
 declare module "userManagement/roles-management";
 declare module "notification/notification";
-declare module "auditTrail/api-list";
-declare module "auditTrail/activity-list";
+declare module "auditTrail/api";
+declare module "auditTrail/activity";
