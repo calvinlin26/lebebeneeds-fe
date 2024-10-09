@@ -8,6 +8,7 @@ import { useActivityListData } from "../hooks/useActivityListData";
 import { useState } from "react";
 import { Hash } from "../../../constants";
 import { formatDate } from "../../../lib/utils";
+import withUserAccess from "mainApp/withUserAccess";
 import { getActivityListDownload } from "../../../services/api";
 
 function Index() {
@@ -169,4 +170,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default withUserAccess(Index);

@@ -1,5 +1,6 @@
 import { Input } from "mainApp/input";
 import { useActivityDetailData } from "../hooks/useDetailActivityData";
+import withUserAccess from "mainApp/withUserAccess";
 import { formatDate } from "../../../lib/utils";
 
 function Index() {
@@ -43,4 +44,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default withUserAccess(Index);

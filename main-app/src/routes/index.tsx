@@ -48,11 +48,11 @@ export const router = createBrowserRouter([
             element: <Notification />,
           },  
           {
-            path: "/api-list",
+            path: "/audit/api",
             element: <ApiList />,
           },
           {
-            path: "/activity-list",
+            path: "/audit/activity",
             element: <ActivityList />,
           }, 
         ],
