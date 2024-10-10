@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
           "./activity": "./src/features/activity-list",
         },
         remotes: {
-          mainApp: `http://localhost:5173/assets/mainApp.js`,
+          mainApp: `${env.VITE_MAIN_APP_URL}/assets/mainApp.js`,
         },
         shared: ["react", "react-dom", "react-router-dom", "sonner"],
       }),
