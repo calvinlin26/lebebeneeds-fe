@@ -24,7 +24,7 @@ function Index() {
           action: (
             <div className="flex">
               <Button
-                onClick={() => navigate(`/api-list?apiAuditId=${item.apiAuditId}${Hash.DETAIL}`)}>
+                onClick={() => navigate(`/audit/api?apiAuditId=${item.apiAuditId}${Hash.DETAIL}`)}>
                 Detail
               </Button>
             </div>
