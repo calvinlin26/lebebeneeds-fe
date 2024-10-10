@@ -58,7 +58,7 @@ function Index() {
       <br />
       <div>
         <label className="font-semibold">Event Date</label>
-        <Input className={style} type="text" disabled value={formatDate(apiDetailData?.eventDate || "") || ""}/>
+        <Input className={style} type="text" disabled value={apiDetailData?.eventDate ? formatDate(apiDetailData.eventDate) : ""}/>
       </div>
       <br />
       <div className="shadow-lg py-4 px-8">

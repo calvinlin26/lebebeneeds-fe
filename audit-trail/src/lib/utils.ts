@@ -6,14 +6,17 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const formatDate = (isoDateString: string): string => {
-  const date = new Date(isoDateString);
-  
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  };
+export const formatDate = (eventDate:string) => {
+  // Hilangkan bagian mikrodetik dan zona waktu yang bermasalah
+  const cleanDate = eventDate.split(".")[0]; // Ambil hanya tanggal dan waktu tanpa mikrodetik
 
-  return date.toLocaleDateString('en-US', options);
+  const date = new Date(cleanDate);
+  
+  // Pastikan Date valid
+  if (isNaN(date.getTime())) {
+    return ""; // Kembalikan string kosong jika tanggal invalid
+  }
+
+  // Format menjadi YYYY-MM-DD
+  return date.toISOString().split('T')[0];
 };
