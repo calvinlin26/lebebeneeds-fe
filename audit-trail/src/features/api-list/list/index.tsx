@@ -11,57 +11,102 @@ import { formatDate } from "../../../lib/utils";
 import withUserAccess from "mainApp/withUserAccess";
 import { getApiListDownload } from "../../../services/api";
 
+interface ApiListItem {
+  apiAuditId: string;
+  username: string;
+  path: string;
+  method: string;
+  eventDate: string;
+}
+
 function Index() {
-    const navigate = useNavigate();
-    const { apiListData, setParams, params, paginationInfo } = useApiListData();
-    const [keyword, setKeyword] = useState("");
-    const [searchBy, setSearchBy] = useState("username");
+  const navigate = useNavigate();
+  const { apiListData, setParams, params, paginationInfo } = useApiListData();
+  const [keyword, setKeyword] = useState("");
+  const [searchBy, setSearchBy] = useState("username");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const today = new Date().toISOString().split("T")[0];
 
-    const data = apiListData?.map((item: any) => {
-        return {
-          ...item,
-          eventDate: formatDate(item.eventDate),
-          action: (
-            <div className="flex">
-              <Button
-                onClick={() => navigate(`/audit/api?apiAuditId=${item.apiAuditId}${Hash.DETAIL}`)}>
-                Detail
-              </Button>
-            </div>
-          ),
-        };
-      });
-    
-      const handleChange = (e: any) => {
-        const { value } = e.target;
-    
-        setSearchBy(value);
-      };
+  const data = apiListData?.map((item: ApiListItem) => {
+    return {
+      ...item,
+      eventDate: formatDate(item.eventDate),
+      action: (
+        <div className="flex">
+          <Button
+            onClick={() => navigate(`/audit/api?apiAuditId=${item.apiAuditId}${Hash.DETAIL}`)}>
+            Detail
+          </Button>
+        </div>
+      ),
+    };
+  });
 
-      const handlePageChange = (page: number) => {
-        setParams({
-          ...params,
-          page: page,
-        });
-      };
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedStartDate = e.target.value;
+    setStartDate(selectedStartDate);
+    if (endDate && selectedStartDate > endDate) {
+      setEndDate("");
+    }
+  };
 
-      const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setKeyword(e.target.value);
-      };
-    
-      const handleSearch = () => {
-        setParams({
-          ...params,
-          search: `${searchBy}:${keyword}`,
-        });
-      };  
-      
-  const handleDownload = async (onError?: (error: any) => void): Promise<void> => {
+  const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedEndDate = e.target.value;
+    if (startDate && selectedEndDate >= startDate) {
+      setEndDate(selectedEndDate);
+    } else {
+      alert("End date tidak bisa kurang dari start date");
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+
+    setSearchBy(value);
+    if (value !== "eventDate") {
+      setStartDate("");
+      setEndDate("");
+    }
+  };
+
+  const handlePageChange = (page: number) => {
+    setParams({
+      ...params,
+      page: page,
+    });
+  };
+
+  const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+  };
+
+  const handleSearch = () => {
+    const newSearchParams = [];
+
+    if (searchBy === "eventDate") {
+      if (startDate) {
+        newSearchParams.push(`startDate:${startDate}`);
+      }
+      if (endDate) {
+        newSearchParams.push(`endDate:${endDate}`);
+      }
+    } else {
+      newSearchParams.push(`${searchBy}:${keyword}`);
+    }
+    setParams({
+      ...params,
+      search: `${newSearchParams}`,
+      sort: searchBy === "eventDate" ? "" : "username,ASC",
+    });
+  };
+
+  const handleDownload = async (onError?: (error: unknown) => void): Promise<void> => {
     try {
-       const query = new URLSearchParams({
-            sort: params.sort || "username,ASC",
-            search: params.search || "",
-            isAndSearch: "true",
+      const query = new URLSearchParams({
+        sort: params.sort || "username,ASC",
+        search: `${params.search}` || "",
+        isAndSearch: "true",
       }).toString();
       const response = await getApiListDownload(query);
       if (!response || response.status !== 200) {
@@ -127,6 +172,14 @@ function Index() {
       value: "eventDate",
       label: "Event Date",
     },
+    {
+      value: "path",
+      label: "Path",
+    },
+    {
+      value: "method",
+      label: "Method",
+    },
   ];
 
   return (
@@ -135,16 +188,38 @@ function Index() {
       <div className="flex flex-col items-start mb-4 gap-4">
         <div className="flex justify-between items-center w-full">
           <div className="flex gap-2 items-center">
-            <Input
-              variant={"default"}
-              fieldSize={"default"}
-              type={"text"}
-              placeholder={"Enter keyword"}
-              onChange={handleChangeKeyword}
-            />
+            {searchBy === "eventDate" ? (
+              <>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  placeholder="Start Date"
+                  max={today}
+                />
+                <input
+                  type="date"
+                  value={endDate}
+                  placeholder="End Date"
+                  onChange={handleEndDateChange}
+                  min={startDate}
+                  max={today}
+                  disabled={!startDate}
+                />
+              </>
+            ) : (
+              <Input
+                variant={"default"}
+                fieldSize={"default"}
+                type={"text"}
+                placeholder={"Enter keyword"}
+                onChange={handleChangeKeyword}
+              />
+            )}
             <DropdownSelect
               name="field"
               placeholder="Search Field"
+              defaultValue="username"
               data={option}
               onChange={handleChange}
               className="w-2/4"
@@ -162,11 +237,11 @@ function Index() {
           headerClassName="bg-gray-100 text-gray-700 whitespace-nowrap"
           bodyClassName="bg-white"
         />
-          <CustomPagination
-            currentPage={paginationInfo.page}
-            totalPageCount={paginationInfo.totalPages}
-            onPageChange={handlePageChange}
-          />
+        <CustomPagination
+          currentPage={paginationInfo.page}
+          totalPageCount={paginationInfo.totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );
