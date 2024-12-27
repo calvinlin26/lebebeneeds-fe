@@ -17,26 +17,26 @@ export const useRoleData = () => {
   })
 
   useEffect(() => {
-    const fetchRole = async () => {
-      try {
-        const response: RoleListResponse = await getRole(searchParam);
-
-        if (response && response.content) {
-          setRoleData(response.content);
-          setPaginationInfo({
-            page: response.page,
-            pageSize: response.pageSize,
-            totalPages: response.totalPages,
-            totalDataCount: response.totalDataCount,
-          })
-        }
-      } catch (error) {
-        console.error("Error fetching role data:", error);
-      }
-    };
-
     fetchRole();
   }, [searchParam]);
 
-  return {roleData, searchParam, setSearchParam, paginationInfo};
+  const fetchRole = async () => {
+    try {
+      const response: RoleListResponse = await getRole(searchParam);
+
+      if (response && response.content) {
+        setRoleData(response.content);
+        setPaginationInfo({
+          page: response.page,
+          pageSize: response.pageSize,
+          totalPages: response.totalPages,
+          totalDataCount: response.totalDataCount,
+        })
+      }
+    } catch (error) {
+      console.error("Error fetching role data:", error);
+    }
+  };
+
+  return {roleData, searchParam, setSearchParam, paginationInfo, fetchRole};
 };
