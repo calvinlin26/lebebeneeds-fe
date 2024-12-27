@@ -1,6 +1,7 @@
 import { ClassValue, clsx } from "clsx";
 
 import { twMerge } from "tailwind-merge";
+import CryptoJS from "crypto-js";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -35,11 +36,9 @@ export function generateCodeVerifier() {
     .replace(/=+$/, "");
 }
 
-export async function generateCodeChallenge(codeVerifier: string) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(codeVerifier);
-  const hash = await window.crypto.subtle.digest("SHA-256", data);
-  return btoa(String.fromCharCode(...new Uint8Array(hash)))
+export function generateCodeChallenge(codeVerifier: string): string {
+  const hash = CryptoJS.SHA256(codeVerifier);
+  return CryptoJS.enc.Base64.stringify(hash)
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
     .replace(/=+$/, "");
