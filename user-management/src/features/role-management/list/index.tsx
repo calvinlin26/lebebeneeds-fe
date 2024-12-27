@@ -26,8 +26,9 @@ const Index: React.FC<IndexProps> = ({
 }: any) => {
   const navigate = useNavigate();
   // Use custom hooks
-  const {roleData, searchParam, setSearchParam, paginationInfo} = useRoleData();
+  const {roleData, searchParam, setSearchParam, paginationInfo, fetchRole} = useRoleData();
   const [keyword, setKeyword] = useState("");
+  const [loading, setLoading] = useState("");
 
   // Columns definition
   const columns = [
@@ -71,19 +72,19 @@ const Index: React.FC<IndexProps> = ({
       ...item,
       active: item.active ? "Active" : "Inactive",
       action: (
-        <div className="flex flex-row gap-3">
+        <div className="flex flex-row gap-2">
           <Button
-            disabled={!ROLE_EDIT}
+            disabled={!ROLE_EDIT || !item.active || loading === item.roleCode}
             onClick={() => handleDetailRole(item.roleCode)}
           >
             Edit
           </Button>
           <Button
-            disabled={!ROLE_DELETE}
+            disabled={!ROLE_DELETE || !item.active || loading === item.roleCode}
             onClick={() => handleDeleteRole(item.roleCode)}
             variant="destructive"
           >
-            Deactivate
+            {loading == item.roleCode ? "loading..." : "Deactivate"}
           </Button>
         </div>
       ),
@@ -100,10 +101,14 @@ const Index: React.FC<IndexProps> = ({
   };
 
   const handleDeleteRole = async (roleCode: string) => {
+    setLoading(roleCode)
     try {
       await deleteRole(roleCode);
+      await fetchRole()
+      setLoading("")
       toast.success("Role has been deleted");
     } catch (error) {
+      setLoading("")
       console.error("Error deleting user:", error);
     }
   };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { introspect } from "../services/auth";
 import { useToken } from "./useToken";
+import { handleOAuthRedirect } from "../lib/utils";
 
 interface MenuItem {
   menuCode: string;
@@ -29,6 +30,11 @@ function useUserAccess() {
     const fetchIntrospect = async () => {
       if (token) {
         const response = await introspect(token);
+        if (!response?.active) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("refreshToken");
+          handleOAuthRedirect();
+        }
         const menu: MenuItem[] = response?.menu || [];
         const service: ServiceItem[] = response?.service || [];
         const sortedMenu = menu.sort((a, b) => a.orderNo.localeCompare(b.orderNo));

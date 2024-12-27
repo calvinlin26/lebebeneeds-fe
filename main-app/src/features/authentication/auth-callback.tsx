@@ -24,10 +24,11 @@ const OAuth2Callback = () => {
 
         const payload = {
           grant_type: (window as any).__RUNTIME_CONFIG__.REACT_APP_GRANT_TYPE,
-          redirect_uri: (window as any).__RUNTIME_CONFIG__.REACT_APP_REDIRECT_URI,
+          redirect_uri: (window as any).__RUNTIME_CONFIG__
+            .REACT_APP_REDIRECT_URI,
           code,
-          code_verifier: (window as any).__RUNTIME_CONFIG__.REACT_APP_CODE_VERIFIER,
-        }
+          code_verifier: localStorage.getItem("codeVerifier") || "",
+        };
 
         const response = await getToken(payload);
 

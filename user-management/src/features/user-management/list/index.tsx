@@ -26,8 +26,9 @@ const Index: React.FC<IndexProps> = ({
 }: any) => {
   const navigate = useNavigate();
   // Use custom hooks
-  const { userData, setParams, params, paginationInfo } = useUserData();
+  const { userData, setParams, params, paginationInfo, fetchUser } = useUserData();
   const [keyword, setKeyword] = useState("");
+  const [loading, setLoading] = useState("");
 
   // Columns definition
   const columns = [
@@ -53,19 +54,19 @@ const Index: React.FC<IndexProps> = ({
       ...item,
       active: item.active ? "Active" : "Inactive",
       action: (
-        <div className="flex flex-row gap-3">
+        <div className="flex flex-row gap-2">
           <Button
-            disabled={!USER_EDIT}
+            disabled={!USER_EDIT || !item.active || loading == item.username}
             onClick={() => handleDetailUser(item.username)}
           >
             Edit
           </Button>
           <Button
-            disabled={!USER_DELETE}
+            disabled={!USER_DELETE || !item.active || loading == item.username}
             onClick={() => handleDeleteUser(item.username)}
             variant="destructive"
           >
-            Deactivate
+            {loading == item.username ? "loading..." : "Deactivate"}
           </Button>
         </div>
       ),
@@ -90,10 +91,14 @@ const Index: React.FC<IndexProps> = ({
   };
 
   const handleDeleteUser = async (username: string) => {
+    setLoading(username);
     try {
       await deleteUser(username);
+      await fetchUser();
+      setLoading("");
       toast.success("User has been deleted");
     } catch (error) {
+      setLoading("");
       console.error("Error deleting user:", error);
     }
   };
