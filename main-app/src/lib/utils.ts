@@ -1,7 +1,7 @@
 import { ClassValue, clsx } from "clsx";
 
-import { twMerge } from "tailwind-merge";
 import CryptoJS from "crypto-js";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -11,13 +11,17 @@ export async function handleOAuthRedirect() {
   const codeVerifier = generateCodeVerifier();
   localStorage.setItem("codeVerifier", codeVerifier);
   const codeChallenge = await generateCodeChallenge(codeVerifier);
+
+  // Example usage
+  console.log("Code Verifier:", codeVerifier);
+  console.log("Code Challenge:", codeChallenge);
+  console.log("Verification Result:", verifyPKCE(codeVerifier, codeChallenge));
+
   const url = (window as any).__RUNTIME_CONFIG__.REACT_APP_BASE_URL;
-  const endpoint = (window as any).__RUNTIME_CONFIG__
-    .REACT_APP_ENDPOINT_OAUTH;
-  const clientId = (window as any).__RUNTIME_CONFIG__
-    .REACT_APP_CLIENT_ID;
-  const redirectUri = (window as any).__RUNTIME_CONFIG__
-    .REACT_APP_REDIRECT_URI;
+  const endpoint = (window as any).__RUNTIME_CONFIG__.REACT_APP_ENDPOINT_OAUTH;
+  const clientId = (window as any).__RUNTIME_CONFIG__.REACT_APP_CLIENT_ID;
+  const redirectUri = "http://localhost:5173/login/oauth2/code/oidc-client";
+  // (window as any).__RUNTIME_CONFIG__.REACT_APP_REDIRECT_URI;
   const responseType = (window as any).__RUNTIME_CONFIG__
     .REACT_APP_RESPONSE_TYPE;
   const scope = (window as any).__RUNTIME_CONFIG__.REACT_APP_SCOPE;
@@ -42,4 +46,9 @@ export function generateCodeChallenge(codeVerifier: string): string {
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
     .replace(/=+$/, "");
+}
+
+function verifyPKCE(codeVerifier: string, codeChallenge: string) {
+  const generatedChallenge = generateCodeChallenge(codeVerifier);
+  return generatedChallenge === codeChallenge;
 }

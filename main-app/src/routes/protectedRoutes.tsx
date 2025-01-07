@@ -1,8 +1,8 @@
 import { Outlet, useLocation } from "react-router-dom";
 
-import { useToken } from "../hooks/useToken";
 import { handleOAuthRedirect } from "../lib/utils";
 import { useEffect } from "react";
+import { useToken } from "../hooks/useToken";
 
 const ProtectedRoutes = () => {
   const { pathname } = useLocation();
@@ -20,7 +20,7 @@ const ProtectedRoutes = () => {
     const checkAuth = async () => {
       if (tokenProtected.includes(pathname)) {
         if (!token) {
-          await handleOAuthRedirect()
+          await handleOAuthRedirect();
         }
       }
     };
