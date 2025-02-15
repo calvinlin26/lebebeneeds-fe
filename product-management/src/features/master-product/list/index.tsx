@@ -5,13 +5,14 @@ import CustomPagination from "mainApp/pagination";
 import CustomTable from "mainApp/table";
 import { Input } from "mainApp/input";
 import { useMasterData } from "../hooks/useMasterData";
+import { Hash } from "../../../constants";
 
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Index: React.FC = () => {
   const [keyword, setKeyword] = useState<string>("");
-  const [searchField, setSearchField] = useState<string>("description");
-  //   const navigate = useNavigate();
+  const [searchField, setSearchField] = useState<string>("productName");
+  const navigate = useNavigate();
 
   //use custom hooks
   const { masterData, searchParam, setSearchParam, paginationInfo } =
@@ -31,7 +32,7 @@ const Index: React.FC = () => {
     },
     {
       header: "Variants",
-      accessor: "variants",
+      accessor: "totalVariant",
       headerClassName: "text-left font-bold",
     },
     {
@@ -40,38 +41,22 @@ const Index: React.FC = () => {
     },
   ];
 
-  //   const data = businessParamData.map((item: AdminParamListItem) => {
-  //     return {
-  //       category: item?.param?.category,
-  //       frontEnd: item?.param?.frontEnd === true ? "True" : "False",
-  //       code: item?.param?.code,
-  //       orderNo: item?.param?.orderNo,
-  //       valueType: item?.param?.valueType ? item?.param?.valueType : "-",
-  //       description: item?.paramTxt?.description
-  //         ? item?.paramTxt?.description
-  //         : "-",
-  //       langCode: item?.paramTxt?.langCode ? item?.paramTxt?.langCode : "-",
-  //       text: item?.paramTxt?.text ? item?.paramTxt?.text : "-",
-  //       active:
-  //         item?.param?.active === true
-  //           ? "Active"
-  //           : item?.param?.active === false
-  //           ? "Inactive"
-  //           : "-",
-  //       action: (
-  //         <div className="flex flex-row gap-3">
-  //           <Button
-  //             disabled={!ADMIN_PARAM_GET}
-  //             onClick={() =>
-  //               navigate(`/admin/params?action=1&code=${item?.param?.code}`)
-  //             }
-  //           >
-  //             Edit
-  //           </Button>
-  //         </div>
-  //       ),
-  //     };
-  //   });
+  const data = masterData.map((item: MasterData) => {
+    return {
+      ...item,
+      action: (
+        <div className="flex flex-row gap-3">
+          <Button
+            onClick={() =>
+              navigate(`/master-product?id=${item.productId}${Hash.DETAIL}`)
+            }
+          >
+            Edit
+          </Button>
+        </div>
+      ),
+    };
+  });
 
   const handlePageChange = (page: number) => {
     setSearchParam({
@@ -119,21 +104,21 @@ const Index: React.FC = () => {
             value={searchField}
             onChange={handleChangeSearchField}
           >
-            <option value="description">Description</option>
-            <option value="category">Category</option>
+            <option value="productName">Product Name</option>
+            <option value="productCode">Product Code</option>
           </select>
           <Button onClick={handleSearch}>Search</Button>
         </div>
         <Button
           className="bg-primary"
-          //   onClick={() => navigate(`/admin/params?action=1`)}
+          onClick={() => navigate(`/master-product` + Hash.DETAIL)}
         >
           Add Product
         </Button>
       </div>
       <CustomTable
         columns={columns}
-        data={[]}
+        data={data}
         className="mt-4 mb-10 border-collapse border border-gray-200 shadow-lg"
         headerClassName="bg-gray-100 text-gray-700"
         bodyClassName="bg-white"

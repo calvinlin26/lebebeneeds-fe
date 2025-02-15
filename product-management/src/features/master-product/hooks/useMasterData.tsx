@@ -26,11 +26,10 @@ export const useMasterData = () => {
         listParam.push(
           `search=${searchParam.searchField}:${searchParam.search}`
         );
-      // const finalQueryParameter = `?${listParam.join("&")}`;
+      const finalQueryParameter = `?${listParam.join("&")}`;
 
       try {
-        const response: any = await getMasterData();
-        // finalQueryParameter
+        const response: any = await getMasterData(finalQueryParameter);
 
         setMasterData(response.content);
         setPaginationInfo({

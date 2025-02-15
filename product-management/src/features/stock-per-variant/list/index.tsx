@@ -11,24 +11,34 @@ import DropdownSelect from "mainApp/select";
 import { Input } from "mainApp/input";
 import { useStockVariantData } from "../hooks/useStockVariantData";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
+import { postAdjustByCsv, postStockAdjustment } from "../../../services";
+import { toast } from "sonner";
+import { useMarketPlaceData } from "../hooks/useMarketPlaceData";
 
 // import { useNavigate } from "react-router-dom";
 
 const Index: React.FC = () => {
   const [keyword, setKeyword] = useState<string>("");
-  const [searchField, setSearchField] = useState<string>("description");
-  const [csvType, setCsvType] = useState<string>("shopee");
-  const [openDialog, setOpenDialog] = useState(false);
+  const [searchField, setSearchField] = useState<string>("variantName");
+  const [csvType, setCsvType] = useState<string>("TOKOPEDIA");
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [id, setId] = useState<string>("");
+  const [uploadDialog, setUploadDialog] = useState<boolean>(false);
+  const [csvFile, setCsvFile] = useState<File>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [quantity, setQuantity] = useState<string>("");
   //   const navigate = useNavigate();
 
   //use custom hooks
   const { stockVariant, searchParam, setSearchParam, paginationInfo } =
     useStockVariantData();
+  const { marketPlaceData } = useMarketPlaceData();
 
   const form = useForm<StockVariantSchema>({
     resolver: zodResolver(stockVariantSchema),
     defaultValues: {
-      quantity: 0,
+      quantity: "",
     },
     mode: "onChange",
   });
@@ -52,7 +62,12 @@ const Index: React.FC = () => {
     },
     {
       header: "Last Updated Date",
-      accessor: "date",
+      accessor: "modifiedDate",
+      headerClassName: "text-left font-bold",
+    },
+    {
+      header: "Last Updated By",
+      accessor: "modifiedBy",
       headerClassName: "text-left font-bold",
     },
     {
@@ -61,12 +76,22 @@ const Index: React.FC = () => {
     },
   ];
 
-  const data = stockVariant.map((item: StockVariant) => {
+  const data = stockVariant.map((item: Variant) => {
     return {
       ...item,
+      modifiedDate: `${format(
+        new Date(item.modifiedDate),
+        "dd-MMM-yyyy HH:mm:ss"
+      )}`,
       action: (
         <div className="flex flex-row gap-3">
-          <Button onClick={() => setOpenDialog((prev) => !prev)}>
+          <Button
+            onClick={() => {
+              setId(item.variantId);
+              setQuantity(item.quantity.toString());
+              setOpenDialog((prev) => !prev);
+            }}
+          >
             Manual Adjustment
           </Button>
         </div>
@@ -89,6 +114,10 @@ const Index: React.FC = () => {
     setSearchField(e.target.value);
   };
 
+  const handleChangeCsvType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCsvType(e.target.value);
+  };
+
   const handleSearch = () => {
     setSearchParam({
       ...searchParam,
@@ -97,11 +126,55 @@ const Index: React.FC = () => {
     });
   };
 
-  const onSubmit = async (data: any) => {
-    console.log(data, "data");
+  const onSubmit = async (data: StockVariantSchema) => {
+    try {
+      await postStockAdjustment({ ...data, variantId: id });
+
+      toast.success(`Product has been updated`);
+      setSearchParam({
+        ...searchParam,
+      });
+      form.reset();
+      setOpenDialog((prev) => !prev);
+    } catch (error: any) {
+      console.error(
+        "Error submitting form:",
+        error.response?.data || error.message
+      );
+      toast.error("Failed to save product. Please try again.");
+    }
+  };
+
+  const handleUpload = async () => {
+    if (csvFile) {
+      setLoading((prev) => !prev);
+      try {
+        await postAdjustByCsv(csvFile, csvType);
+
+        toast.success(`Product has been updated`);
+        setSearchParam({
+          ...searchParam,
+        });
+        setLoading((prev) => !prev);
+        setUploadDialog((prev) => !prev);
+      } catch (error: any) {
+        setLoading((prev) => !prev);
+        console.error(
+          "Error submitting form:",
+          error.response?.data || error.message
+        );
+        toast.error("Failed to save product. Please try again.");
+      }
+    }
   };
 
   const { handleSubmit } = form;
+
+  useEffect(() => {
+    if (quantity) {
+      form.setValue("quantity", quantity);
+    }
+  }, [quantity, openDialog, form]);
 
   useEffect(() => {
     document
@@ -111,7 +184,7 @@ const Index: React.FC = () => {
 
   return (
     <div className="flex flex-col" id="stockVariant">
-      <h1 className="text-2xl font-bold">Master Product</h1>
+      <h1 className="text-2xl font-bold">Stock Per-Variant</h1>
       <div className="flex w-full justify-between items-center mt-5">
         <div className="flex gap-x-4 items-center">
           <Input
@@ -124,35 +197,28 @@ const Index: React.FC = () => {
           <DropdownSelect
             placeholder={"Please Select"}
             data={[
-              { label: "Description", value: "description" },
-              { label: "Status", value: "status" },
+              { label: "Variant Name", value: "variantName" },
+              { label: "Variant Code", value: "variantCode" },
             ]}
             onChange={handleChangeSearchField}
             value={searchField}
           />
           <Button onClick={handleSearch}>Search</Button>
         </div>
-        <Button
-          className="bg-primary"
-          //   onClick={() => navigate(`/admin/params?action=1`)}
-        >
-          Add Product
-        </Button>
       </div>
 
       <div className="flex gap-x-4 items-center mt-5">
         <div className="w-64">
           <DropdownSelect
             placeholder={"Please Select"}
-            data={[
-              { label: "Shopee", value: "shopee" },
-              { label: "Tokopedia", value: "tokopedia" },
-            ]}
-            onChange={handleChangeSearchField}
+            data={marketPlaceData}
+            onChange={handleChangeCsvType}
             value={csvType}
           />
         </div>
-        <Button>Upload CSV</Button>
+        <Button onClick={() => setUploadDialog((prev) => !prev)}>
+          Upload CSV
+        </Button>
       </div>
 
       <CustomTable
@@ -197,12 +263,23 @@ const Index: React.FC = () => {
                     placeholder="Please Input"
                     disabled={form.formState.isSubmitting}
                     aria-disabled={form.formState.isSubmitting}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      if (Number(e.target.value) < 0) {
+                        e.target.value = "0";
+                      }
+                      field.onChange(e);
+                    }}
                   />
                 )}
               </CustomFormField>
 
               <div className="flex justify-end gap-5 mt-5">
-                <Button variant="outline">Back</Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setOpenDialog((prev) => !prev)}
+                >
+                  Back
+                </Button>
                 <Button
                   type="submit"
                   disabled={form.formState.isSubmitting}
@@ -213,6 +290,42 @@ const Index: React.FC = () => {
               </div>
             </form>
           </Form>
+        }
+      />
+
+      <CustomDialog
+        open={uploadDialog}
+        onOpenChange={() => {
+          setUploadDialog((prev) => !prev);
+        }}
+        title="CSV Upload"
+        content={
+          <div className="flex flex-col">
+            <Input
+              type="file"
+              accept=".csv"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setCsvFile(e.target.files?.[0]);
+              }}
+            />
+
+            <div className="flex justify-end gap-5 mt-5">
+              <Button
+                variant="outline"
+                onClick={() => setUploadDialog((prev) => !prev)}
+              >
+                Back
+              </Button>
+              <Button
+                type="submit"
+                disabled={loading}
+                aria-disabled={loading}
+                onClick={handleUpload}
+              >
+                {loading ? "Loading..." : "Upload"}
+              </Button>
+            </div>
+          </div>
         }
       />
     </div>

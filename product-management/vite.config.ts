@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
         // Modules to expose
         exposes: {
           "./master-product": "./src/features/master-product",
+          "./stock-per-variant": "./src/features/stock-per-variant",
         },
         remotes: {
           mainApp: `${env.VITE_MAIN_APP_URL}/assets/mainApp.js`,

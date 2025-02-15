@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getStockVariant } from "../../../services";
 
 export const useStockVariantData = () => {
-  const [stockVariant, setStockVariant] = useState<StockVariant[]>([]);
+  const [stockVariant, setStockVariant] = useState<Variant[]>([]);
   const [searchParam, setSearchParam] = useState<SearchParamQuery>({
     page: 1,
     pageSize: 10,
@@ -18,7 +18,7 @@ export const useStockVariantData = () => {
   });
 
   useEffect(() => {
-    const fetchMaster = async () => {
+    const fetchStockVariant = async () => {
       let listParam = [];
       listParam.push(`page=${searchParam.page}`);
       listParam.push(`pageSize=${searchParam.pageSize}`);
@@ -26,25 +26,26 @@ export const useStockVariantData = () => {
         listParam.push(
           `search=${searchParam.searchField}:${searchParam.search}`
         );
-      // const finalQueryParameter = `?${listParam.join("&")}`;
+      const finalQueryParameter = `?${listParam.join("&")}`;
 
       try {
-        const response: any = await getStockVariant();
-        // finalQueryParameter
+        const response: any = await getStockVariant(finalQueryParameter);
 
-        setStockVariant(response.content);
-        setPaginationInfo({
-          page: response.page,
-          pageSize: response.pageSize,
-          totalPages: response.totalPages,
-          totalDataCount: response.totalDataCount,
-        });
+        if (response && response.content) {
+          setStockVariant(response.content);
+          setPaginationInfo({
+            page: response.page,
+            pageSize: response.pageSize,
+            totalPages: response.totalPages,
+            totalDataCount: response.totalDataCount,
+          });
+        }
       } catch (error) {
         console.log("Error getting data : ", error);
       }
     };
 
-    fetchMaster();
+    fetchStockVariant();
   }, [searchParam]);
 
   return { stockVariant, searchParam, setSearchParam, paginationInfo };

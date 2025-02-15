@@ -38,11 +38,29 @@ type MasterDataResponse = {
 };
 
 type MasterData = {
+  productId: string;
   productCode: string;
   productName: string;
-  productDescription: string;
-  content: string;
-  productVariants: any[];
+  description: string;
+  variants: Variant[];
+};
+
+type Variant = {
+  variantId: string;
+  variantCode: string;
+  variantName: string;
+  unitTypeId: string;
+  unitTypeCode: string;
+  unitTypeName: string;
+  quantity: number;
+  modifiedDate: string;
+  modifiedBy: string;
+};
+
+type UnitData = {
+  unitTypeId: string;
+  unitTypeCode: string;
+  unitTypeName: string;
 };
 
 type ProductVariant = {
@@ -55,4 +73,19 @@ type StockVariant = {
   variantCode: string;
   variantName: string;
   quantity: number;
+};
+
+type MarketPlace = {
+  active: boolean;
+  createdBy: string;
+  createdDate: string;
+  modifiedBy: string;
+  modifiedDate: string;
+  code: string;
+  category: string;
+  frontEnd: boolean;
+  paramValue: string;
+  orderNo: string;
+  valueType: string;
+  paramTxt: any[];
 };
