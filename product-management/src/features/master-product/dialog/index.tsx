@@ -6,7 +6,6 @@ import { CustomFormField, Form } from "mainApp/form";
 import { Input } from "mainApp/input";
 import { Button } from "mainApp/button";
 import DropdownSelect from "mainApp/select";
-import { useUnitData } from "../hooks/useUnitData";
 
 const Index: React.FC<{
   append: any;
@@ -15,8 +14,16 @@ const Index: React.FC<{
   closeDialog: () => void;
   detailData: VariantShema | undefined;
   isEdit: boolean;
-}> = ({ append, update, variantIndex, closeDialog, detailData, isEdit }) => {
-  const { unitData } = useUnitData();
+  unitData: { label: string; value: string }[];
+}> = ({
+  append,
+  update,
+  variantIndex,
+  closeDialog,
+  detailData,
+  isEdit,
+  unitData,
+}) => {
   const form = useForm<VariantShema>({
     resolver: zodResolver(variantShema),
     defaultValues: {
@@ -29,7 +36,6 @@ const Index: React.FC<{
 
   const onSubmit = async (data: VariantShema) => {
     // Handle form submission
-    console.log(data);
     if (isEdit) {
       update(variantIndex, data);
     } else {
@@ -43,13 +49,12 @@ const Index: React.FC<{
   const { handleSubmit } = form;
 
   useEffect(() => {
-    if (isEdit) {
+    if (isEdit && unitData) {
       form.reset({
         ...detailData,
       });
     }
-  }, [detailData, isEdit]);
-
+  }, [detailData, isEdit, unitData]);
   return (
     <Form {...form}>
       <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
@@ -91,20 +96,22 @@ const Index: React.FC<{
           label="Unit Type"
         >
           {(field: ControllerRenderProps<VariantShema, "unitTypeId">) => (
-            <DropdownSelect
-              name="unitTypeId"
-              placeholder="Select status"
-              emptyState="No options available"
-              data={unitData}
-              value={
-                unitData.find((option) => option.value === field.value)?.value
-              }
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                field.onChange(e?.target.value);
-              }}
-              disabled={form.formState.isSubmitting}
-              aria-disabled={form.formState.isSubmitting}
-            />
+            <>
+              <DropdownSelect
+                name="unitTypeId"
+                placeholder="Select status"
+                emptyState="No options available"
+                data={unitData}
+                value={
+                  unitData.find((option) => option.value === field.value)?.value
+                }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  field.onChange(e?.target.value);
+                }}
+                disabled={form.formState.isSubmitting}
+                aria-disabled={form.formState.isSubmitting}
+              />
+            </>
           )}
         </CustomFormField>
 

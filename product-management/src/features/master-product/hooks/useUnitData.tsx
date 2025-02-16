@@ -11,10 +11,11 @@ export const useUnitData = () => {
     const fetchUnit = async () => {
       try {
         const response: any = await getUnitData();
+        console.log(response, "ds");
 
         setUnitData(
-          response.map((item: UnitData) => ({
-            label: item.unitTypeName,
+          response.content.map((item: UnitData) => ({
+            label: item.unitName,
             value: item.unitTypeId,
           }))
         );

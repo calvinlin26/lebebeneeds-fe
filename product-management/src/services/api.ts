@@ -18,15 +18,14 @@ export const getMasterData = async (params: string) => {
 
 export const getUnitData = async () => {
   try {
-    // const response = await API.get(
-    //   `${
-    //     (window as any).__RUNTIME_CONFIG__
-    //       .REACT_APP_PRODUCT_MANAGEMENT_ENDPOINT_URL
-    //   }unitType`
-    // );
+    const response = await API.get(
+      `${
+        (window as any).__RUNTIME_CONFIG__
+          .REACT_APP_PRODUCT_MANAGEMENT_ENDPOINT_URL
+      }master/unitTypes`
+    );
 
-    // return response.data.data;
-    return [{ unitTypeId: "test", unitTypeCode: "test", unitTypeName: "test" }];
+    return response.data.data;
   } catch (error) {
     console.error("Error fetching the access token:", error);
   }

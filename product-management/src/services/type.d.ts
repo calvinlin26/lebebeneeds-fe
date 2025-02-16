@@ -59,8 +59,8 @@ type Variant = {
 
 type UnitData = {
   unitTypeId: string;
-  unitTypeCode: string;
-  unitTypeName: string;
+  unitCode: string;
+  unitName: string;
 };
 
 type ProductVariant = {

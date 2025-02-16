@@ -16,16 +16,16 @@ import { postMaterData } from "../../../services";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { useMasterDetail } from "../hooks/useMasterDetail";
+import { useUnitData } from "../hooks/useUnitData";
 
 const Index: React.FC = () => {
+  const { unitData } = useUnitData();
   const navigate = useNavigate();
   const query = useQuery();
   const id = query.get("id") as string;
   const isEdit = id ? true : false;
 
   const masterDetail = useMasterDetail(id);
-
-  console.log(masterDetail, "master detail");
 
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [variantIndex, setVariantIndex] = useState<number>(0);
@@ -98,6 +98,8 @@ const Index: React.FC = () => {
   const fieldsData = fields.map((item, index) => {
     return {
       ...item,
+      unitTypeId: unitData.find((option) => option.value === item.unitTypeId)
+        ?.label,
       action: (
         <div className="flex flex-row gap-3">
           <Button
@@ -251,6 +253,7 @@ const Index: React.FC = () => {
             detailData={fields[variantIndex]}
             closeDialog={closeDialog}
             isEdit={isEditVariant}
+            unitData={unitData}
           />
         }
       />
