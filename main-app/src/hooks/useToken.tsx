@@ -101,7 +101,7 @@ export function TokenProvider({ children }: Readonly<Props>) {
     }
   );
 
-  const idleLogoutTime = 1 * 60 * 1000; // 1 menit
+  const idleLogoutTime = 1 * 60 * 60 * 1000; // 1 hour in milliseconds
   let idleTimeout: ReturnType<typeof setTimeout>;
 
   const resetTimer = () => {

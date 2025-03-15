@@ -10,6 +10,8 @@ import AVM from "../features/avm";
 import ApiList from "../features/api-list";
 import ActivityList from "../features/activity-list";
 import { createBrowserRouter } from "react-router-dom";
+import MasterProduct from "../features/master-product";
+import StockPerVariant from "../features/stock-per-variant";
 
 export const router = createBrowserRouter([
   {
@@ -46,7 +48,7 @@ export const router = createBrowserRouter([
           {
             path: "/notification",
             element: <Notification />,
-          },  
+          },
           {
             path: "/audit/api",
             element: <ApiList />,
@@ -54,7 +56,15 @@ export const router = createBrowserRouter([
           {
             path: "/audit/activity",
             element: <ActivityList />,
-          }, 
+          },
+          {
+            path: "/master-product",
+            element: <MasterProduct />,
+          },
+          {
+            path: "/stock-per-variant",
+            element: <StockPerVariant />,
+          },
         ],
       },
     ],

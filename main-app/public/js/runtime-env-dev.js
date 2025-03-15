@@ -9,13 +9,14 @@ window.__RUNTIME_CONFIG__ = {
   REACT_APP_CODE_CHALLENGE: "ea3rEXbTCcvWGOL2m6J1lT2VWv-sLrnS2i-UeaNENbw",
   REACT_APP_USERNAME: "sample-client",
   REACT_APP_PASSWORD: "client-secret",
-  REACT_APP_USER_MANAGEMENT_URL: "https://lebebeneeds.biz.id/user-management",
+  REACT_APP_USER_MANAGEMENT_URL: "https://lebebeneeds.biz.id/user-mgt",
   REACT_APP_SHOWCASE_URL: "http://localhost:5111",
-  REACT_APP_BUSINESS_PARAM_URL: "https://lebebeneeds.biz.id/business-param",
+  REACT_APP_BUSINESS_PARAM_URL: "https://lebebeneeds.biz.id/param",
   REACT_APP_NOTIFICATION_URL: "http://localhost:5005",
   REACT_APP_GRANT_TYPE: "authorization_code",
   REACT_APP_REDIRECT_URI:
     "https://lebebeneeds.biz.id/login/oauth2/code/oidc-client",
+  // REACT_APP_REDIRECT_URI: "http://localhost:5173/login/oauth2/code/oidc-client",
   REACT_APP_CODE_VERIFIER: "EmJ1jTS245HXMu5dDFc36XlEK02FCfT3BAvbvVfBiXSl",
   REACT_APP_API_KEY: "AIzaSyAYKFmAGtnGIyO78hz7UQapW1uONRJqqGI",
   REACT_APP_AUTH_DOMAIN: "indivara-boilerplate.firebaseapp.com",
@@ -23,11 +24,12 @@ window.__RUNTIME_CONFIG__ = {
   REACT_APP_STORAGE_BUCKET: "indivara-boilerplate.appspot.com",
   REACT_APP_MESSAGING_SENDER_ID: "792843303053",
   REACT_APP_APP_ID: "1:792843303053:web:a5312acf77fb1f3c92cac4",
-  REACT_APP_BUSINESS_PARAM_ENDPOINT_URL:
-    "https://lebebeneeds.biz.id/business-param/",
+  REACT_APP_BUSINESS_PARAM_ENDPOINT_URL: "https://lebebeneeds.biz.id/param/",
   REACT_APP_NOTIFICATION_ENDPOINT_URL: "http://192.168.90.35:8084/",
   REACT_APP_USER_MANAGEMENT_ENDPOINT_URL:
-    "https://lebebeneeds.biz.id/user-management/",
+    "https://lebebeneeds.biz.id/user-mgt/",
   REACT_APP_AVM_ENDPOINT_URL: "http://192.168.90.35:8083/",
-  REACT_APP_AUDIT_TRAIL_ENDPOINT_URL: "http://192.168.90.35:8085/",
+  REACT_APP_AUDIT_TRAIL_ENDPOINT_URL: "https://lebebeneeds.biz.id/security/",
+  REACT_APP_PRODUCT_MANAGEMENT_ENDPOINT_URL:
+    "https://lebebeneeds.biz.id/product/",
 };

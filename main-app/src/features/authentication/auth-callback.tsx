@@ -24,7 +24,8 @@ const OAuth2Callback = () => {
 
         const payload = {
           grant_type: (window as any).__RUNTIME_CONFIG__.REACT_APP_GRANT_TYPE,
-          redirect_uri: "http://localhost:5173/login/oauth2/code/oidc-client",
+          // redirect_uri: "http://localhost:5173/login/oauth2/code/oidc-client",
+          redirect_uri: (window as any).__RUNTIME_CONFIG__.REACT_APP_REDIRECT_URI,
           code,
           code_verifier: localStorage.getItem("codeVerifier") || "",
         };

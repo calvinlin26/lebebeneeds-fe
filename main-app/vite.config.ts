@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => {
           notification: `${env.VITE_NOTIFICATION_URL}/assets/notification.js`,
           avm: `${env.VITE_AVM_SERVICE_URL}/assets/avm.js`,
           auditTrail: `${env.VITE_AUDIT_TRAIL_URL}/assets/auditTrail.js`,
+          productManagement: `${env.VITE_PRODUCT_MANAGEMENT_URL}/assets/productManagement.js`,
         },
         exposes: {
           "./button": "./src/components/button",

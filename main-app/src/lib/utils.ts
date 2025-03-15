@@ -20,8 +20,8 @@ export async function handleOAuthRedirect() {
   const url = (window as any).__RUNTIME_CONFIG__.REACT_APP_BASE_URL;
   const endpoint = (window as any).__RUNTIME_CONFIG__.REACT_APP_ENDPOINT_OAUTH;
   const clientId = (window as any).__RUNTIME_CONFIG__.REACT_APP_CLIENT_ID;
-  const redirectUri = "http://localhost:5173/login/oauth2/code/oidc-client";
-  // (window as any).__RUNTIME_CONFIG__.REACT_APP_REDIRECT_URI;
+  // const redirectUri = "http://localhost:5173/login/oauth2/code/oidc-client";
+  const redirectUri = (window as any).__RUNTIME_CONFIG__.REACT_APP_REDIRECT_URI;
   const responseType = (window as any).__RUNTIME_CONFIG__
     .REACT_APP_RESPONSE_TYPE;
   const scope = (window as any).__RUNTIME_CONFIG__.REACT_APP_SCOPE;

@@ -303,7 +303,7 @@ const Index: React.FC = () => {
           <div className="flex flex-col">
             <Input
               type="file"
-              accept=".csv"
+              accept=".csv, .xlsx, .xls"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setCsvFile(e.target.files?.[0]);
               }}

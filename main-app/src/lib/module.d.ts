@@ -5,3 +5,5 @@ declare module "userManagement/roles-management";
 declare module "notification/notification";
 declare module "auditTrail/api";
 declare module "auditTrail/activity";
+declare module "productManagement/master-product";
+declare module "productManagement/stock-per-variant";

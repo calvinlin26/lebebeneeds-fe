@@ -97,7 +97,7 @@ export const postStockAdjustment = async (payload: StockVariantSchema) => {
       `${
         (window as any).__RUNTIME_CONFIG__
           .REACT_APP_PRODUCT_MANAGEMENT_ENDPOINT_URL
-      }stock/manualAdjust`,
+      }stock/manualAdjustment`,
       payload
     );
 
