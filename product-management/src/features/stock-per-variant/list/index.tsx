@@ -4,6 +4,7 @@ import { StockVariantSchema, stockVariantSchema } from "../../../services/form";
 import { useEffect, useState } from "react";
 
 import { Button } from "mainApp/button";
+import { DatePicker } from "mainApp/datePicker";
 import { CustomDialog } from "mainApp/dialog";
 import CustomPagination from "mainApp/pagination";
 import CustomTable from "mainApp/table";
@@ -22,6 +23,7 @@ const Index: React.FC = () => {
   const [keyword, setKeyword] = useState<string>("");
   const [searchField, setSearchField] = useState<string>("variantName");
   const [csvType, setCsvType] = useState<string>("TOKOPEDIA");
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [id, setId] = useState<string>("");
   const [uploadDialog, setUploadDialog] = useState<boolean>(false);
@@ -149,7 +151,11 @@ const Index: React.FC = () => {
     if (csvFile) {
       setLoading((prev) => !prev);
       try {
-        await postAdjustByCsv(csvFile, csvType);
+        await postAdjustByCsv(
+          csvFile,
+          csvType,
+          format(new Date(selectedDate), "dd-MM-yyyy")
+        );
 
         toast.success(`Product has been updated`);
         setSearchParam({
@@ -216,6 +222,14 @@ const Index: React.FC = () => {
             value={csvType}
           />
         </div>
+        <div className="w-64">
+          <DatePicker
+            value={selectedDate}
+            onChange={setSelectedDate}
+            maxDate={new Date()}
+            placeholder="Select Date"
+          />
+        </div>
         <Button onClick={() => setUploadDialog((prev) => !prev)}>
           Upload CSV
         </Button>
@@ -264,9 +278,6 @@ const Index: React.FC = () => {
                     disabled={form.formState.isSubmitting}
                     aria-disabled={form.formState.isSubmitting}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      if (Number(e.target.value) < 0) {
-                        e.target.value = "0";
-                      }
                       field.onChange(e);
                     }}
                   />

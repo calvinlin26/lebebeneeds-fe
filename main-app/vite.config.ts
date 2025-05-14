@@ -46,6 +46,7 @@ export default defineConfig(({ mode }) => {
           "./footer": "./src/components/footer",
           "./withUserAccess": "./src/services/withUserAccess",
           "./firebase": "./src/firebase",
+          "./datePicker": "./src/components/date-picker",
         },
         shared: ["react", "react-dom", "axios", "react-router-dom"],
       }),

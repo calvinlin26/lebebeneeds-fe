@@ -108,11 +108,16 @@ export const postStockAdjustment = async (payload: StockVariantSchema) => {
   }
 };
 
-export const postAdjustByCsv = async (file: File, loaderType: string) => {
+export const postAdjustByCsv = async (
+  file: File,
+  loaderType: string,
+  date: string
+) => {
   try {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("loaderType", loaderType);
+    formData.append("date", date);
 
     const response = await API.post(
       `${

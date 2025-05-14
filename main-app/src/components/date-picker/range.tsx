@@ -15,6 +15,7 @@ interface DatePickerWithRangeProps {
   placeholder?: string;
   disabled?: boolean;
   name?: string; // Name prop for form handling
+  dateFormat?: string;
   onChange?: (event: {
     target: { value: DateRange | undefined; name: string | undefined };
   }) => void; // Updated onChange prop type
@@ -26,6 +27,7 @@ export default function DatePickerWithRange({
   numberOfMonths = 2, // Default number of months to display
   placeholder = "Pick a date",
   disabled = false,
+  dateFormat = "dd LLL y",
   name,
   onChange,
 }: DatePickerWithRangeProps) {
@@ -56,11 +58,11 @@ export default function DatePickerWithRange({
             {date?.from ? (
               date.to ? (
                 <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
+                  {format(date.from, dateFormat)} -{" "}
+                  {format(date.to, dateFormat)}
                 </>
               ) : (
-                format(date.from, "LLL dd, y")
+                format(date.from, dateFormat)
               )
             ) : (
               <span>{placeholder}</span>

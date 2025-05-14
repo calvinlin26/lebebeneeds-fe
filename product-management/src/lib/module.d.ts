@@ -10,3 +10,4 @@ declare module "mainApp/useQuery";
 declare module "mainApp/withUserAccess";
 declare module "mainApp/pagination";
 declare module "mainApp/dialog";
+declare module "mainApp/datePicker";
